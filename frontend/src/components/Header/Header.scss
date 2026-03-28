@@ -1,0 +1,34 @@
+.header {
+  padding: 15px 50px;
+  display: flex;
+  background-color: #01246F;
+  justify-content: space-between;
+
+  &__logo-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+
+    &-img {
+      width: 120px;
+    }
+  }
+
+  &__user-info {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+
+    &-name {
+      font-size: 22px;
+      color: #FFF;
+    }
+
+    &-img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+  }
+}
