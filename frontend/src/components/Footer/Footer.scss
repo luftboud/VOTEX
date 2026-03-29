@@ -1,0 +1,25 @@
+.footer {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  padding: 25px 50px;
+
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+  &__link {
+    text-decoration: none;
+    font-size: 16px;
+    color: #898989;
+  }
+
+  &__link:hover {
+    text-decoration: none;
+    font-size: 16px;
+    color: #01246F;
+  }
+
+  &__span {
+    font-style: italic;
+    opacity: 10%;
+  }
+}
