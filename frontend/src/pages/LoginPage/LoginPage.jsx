@@ -1,11 +1,9 @@
 import Login from '../../components/Login/Login'
-import Footer from "../../components/Footer/Footer";
 
-function LoginPage() {
+function LoginPage({ onAuthSuccess }) {
     return (
         <div>
-            <Login />
-            <Footer/>
+            <Login onAuthSuccess={onAuthSuccess} />
         </div>
     )
 }

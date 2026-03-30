@@ -1,23 +1,30 @@
+import { useState } from "react";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
-import {Route, Routes} from "react-router-dom";
+import LoginPage from "./pages/LoginPage/LoginPage";
 
 function App() {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
     return (
-        <div>
-            <Header
-                name="Ія"
-                avatar="/images/avatar.svg"
-            />
+        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+            <div style={{ flex: 1 }}>
+                {isAuthenticated && (
+                    <Header
+                        name="Ія"
+                        avatar="/images/avatar.svg"
+                    />
+                )}
 
-            <h1>Hello, World!</h1>
-
-            {/*<Routes>*/}
-            {/*    <Route path="/" element={<Home />} />*/}
-            {/*    <Route path="/login" element={<LoginPage />} />*/}
-            {/*    <Route path="/user-instruction" element={<UserInstruction />} />*/}
-            {/*</Routes>*/}
-
+                {isAuthenticated ? (
+                    <main style={{ textAlign: "center", padding: "24px" }}>
+                        <h1>Ви успішно увійшли</h1>
+                        <p>Перехід після реєстрації виконано (демо-заглушка).</p>
+                    </main>
+                ) : (
+                    <LoginPage onAuthSuccess={() => setIsAuthenticated(true)} />
+                )}
+            </div>
             <Footer />
         </div>
     );
