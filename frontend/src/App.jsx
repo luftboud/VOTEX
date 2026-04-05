@@ -10,39 +10,29 @@ function App() {
 
     return (
         <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-            {isAuthenticated && (
-                <Header
-                    name="Ія"
-                    avatar="/images/avatar.svg"
+            <Routes>
+                <Route
+                    path="/login"
+                    element={
+                        isAuthenticated ? (
+                            <Navigate to="/" replace />
+                        ) : (
+                            <LoginPage onAuthSuccess={() => setIsAuthenticated(true)} />
+                        )
+                    }
                 />
-            )}
 
-            <div style={{ flex: 1 }}>
-                <Routes>
-                    <Route
-                        path="/login"
-                        element={
-                            isAuthenticated ? (
-                                <Navigate to="/" replace />
-                            ) : (
-                                <LoginPage onAuthSuccess={() => setIsAuthenticated(true)} />
-                            )
-                        }
-                    />
-
-                    <Route
-                        path="/"
-                        element={
-                            isAuthenticated ? (
-                                <UserHome />
-                            ) : (
-                                <Navigate to="/login" replace />
-                            )
-                        }
-                    />
-                </Routes>
-            </div>
-
+                <Route
+                    path="/"
+                    element={
+                        isAuthenticated ? (
+                            <UserHome />
+                        ) : (
+                            <Navigate to="/login" replace />
+                        )
+                    }
+                />
+            </Routes>
             <Footer />
         </div>
     );
