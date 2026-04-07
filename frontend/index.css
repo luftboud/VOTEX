@@ -19,7 +19,7 @@
   font-style: normal;
 }
 
-body {
+body, a, button {
   font-family: 'e-Ukraine';
   margin: 0;
 }

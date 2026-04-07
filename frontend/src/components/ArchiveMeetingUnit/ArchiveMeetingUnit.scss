@@ -1,0 +1,18 @@
+.archiveMeetingUnit__card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px;
+  border-radius: 15px;
+  border: 1px solid #E5E7EB;
+
+  &-see-more-btn {
+    background: none;
+    border: none;
+    color: #155DFC;
+  }
+
+  &-see-more-btn:hover {
+    color: #01246F;
+  }
+}
