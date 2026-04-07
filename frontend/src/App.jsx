@@ -41,25 +41,26 @@ function App() {
     return (
         <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
             <Routes>
-                <Route
-                    path="/login"
-                    element={
-                        user ? (
-                            <Navigate to="/" replace />
-                        ) : (
-                            <LoginPage onAuthSuccess={(loggedInUser) => setUser(loggedInUser)} />
-                        )
-                    }
-                />
+                {/*<Route*/}
+                {/*    path="/login"*/}
+                {/*    element={*/}
+                {/*        user ? (*/}
+                {/*            <Navigate to="/" replace />*/}
+                {/*        ) : (*/}
+                {/*            <LoginPage onAuthSuccess={(loggedInUser) => setUser(loggedInUser)} />*/}
+                {/*        )*/}
+                {/*    }*/}
+                {/*/>*/}
+                {/* Закоментовано на час роботи задля зручності */}
 
                 <Route
                     path="/"
                     element={
-                        user ? (
+                        // user ? (
                             <UserHome user={user} />
-                        ) : (
-                            <Navigate to="/login" replace />
-                        )
+                        // ) : (
+                        //     <Navigate to="/login" replace />
+                        // )
                     }
                 />
             </Routes>
