@@ -1,12 +1,42 @@
-import { useState } from "react";
-import Header from "./components/Header/Header";
+import { useEffect, useState } from "react";
 import Footer from "./components/Footer/Footer";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import UserHome from "./pages/UserHome/UserHome";
-import {Navigate, Route, Routes} from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function checkAuth() {
+            try {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/me`, {
+                    method: "GET",
+                    credentials: "include",
+                });
+
+                if (!response.ok) {
+                    setUser(null);
+                    return;
+                }
+
+                const data = await response.json();
+                setUser(data.user);
+            } catch (error) {
+                console.error("Auth check failed:", error);
+                setUser(null);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        checkAuth();
+    }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
@@ -14,10 +44,10 @@ function App() {
                 <Route
                     path="/login"
                     element={
-                        isAuthenticated ? (
+                        user ? (
                             <Navigate to="/" replace />
                         ) : (
-                            <LoginPage onAuthSuccess={() => setIsAuthenticated(true)} />
+                            <LoginPage onAuthSuccess={(loggedInUser) => setUser(loggedInUser)} />
                         )
                     }
                 />
@@ -25,14 +55,15 @@ function App() {
                 <Route
                     path="/"
                     element={
-                        isAuthenticated ? (
-                            <UserHome />
+                        user ? (
+                            <UserHome user={user} />
                         ) : (
                             <Navigate to="/login" replace />
                         )
                     }
                 />
             </Routes>
+
             <Footer />
         </div>
     );

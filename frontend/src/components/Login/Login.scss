@@ -1,0 +1,32 @@
+.Login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &_title {
+    color: #1E2939;
+    text-align: center;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 40px; /* 125% */
+    letter-spacing: 0.369px;
+    margin: 0 0 8px;
+  }
+  &_subtitle {
+    font-weight: 400;
+    color: #4A5565;
+    font-size: 16px;
+    font-style: normal;
+    line-height: 24px; /* 150% */
+    letter-spacing: -0.312px;
+    margin: 0 0 48px;
+  }
+  &_button {
+    padding: 32px;
+    background: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.10), 0 4px 6px -4px rgba(0, 0, 0, 0.10);
+  }
+}
