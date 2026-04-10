@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Footer from "./components/Footer/Footer";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import UserHome from "./pages/UserHome/UserHome";
+import AdminHome from "./pages/AdminHome/AdminHome";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -37,29 +38,46 @@ function App() {
     if (loading) {
         return <div>Loading...</div>;
     }
+    const isAdmin = user?.kernel;
 
     return (
         <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
             <Routes>
-                {/*<Route*/}
-                {/*    path="/login"*/}
-                {/*    element={*/}
-                {/*        user ? (*/}
-                {/*            <Navigate to="/" replace />*/}
-                {/*        ) : (*/}
-                {/*            <LoginPage onAuthSuccess={(loggedInUser) => setUser(loggedInUser)} />*/}
-                {/*        )*/}
-                {/*    }*/}
-                {/*/>*/}
-                {/* Закоментовано на час роботи задля зручності */}
-
+                {/* Логіку шляхів закоментовано на час роботи задля зручності
+                    Тому можете росто в пошуковому полі тикати шляхи які нада
+                */}
+                <Route
+                    path="/login"
+                    element={
+                        // user ? (
+                        //     <Navigate to={isAdmin ? "/admin" : "/"} replace />
+                        // ) : (
+                            <LoginPage onAuthSuccess={(loggedInUser) => setUser(loggedInUser)} />
+                        // )
+                    }
+                />
                 <Route
                     path="/"
                     element={
-                        // user ? (
-                            <UserHome user={user} />
-                        // ) : (
+                        // !user ? (
                         //     <Navigate to="/login" replace />
+                        // ) : isAdmin ? (
+                        //     <Navigate to="/admin" replace />
+                        // ) : (
+                            <UserHome user={user} />
+                        // )
+                    }
+                />
+
+                <Route
+                    path="/admin"
+                    element={
+                        // !user ? (
+                        //     <Navigate to="/login" replace />
+                        // ) : isAdmin ? (
+                            <AdminHome user={user} />
+                        // ) : (
+                        //     <Navigate to="/" replace />
                         // )
                     }
                 />

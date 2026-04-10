@@ -87,7 +87,7 @@ app.post("/api/auth/google", async (req, res) => {
         req.session.user = {
             id: user._id,
             email: user.email,
-            role: user.role,
+            kernel: user.kernel,
             name: user.name || name,
         };
 
