@@ -7,12 +7,14 @@ const client = new MongoClient(process.env.MONGO_URL);
 
 let db;
 let usersCollection;
+let meetingsCollection;
 
 export async function connectDB() {
     try {
         await client.connect();
         db = client.db(process.env.MONGO_DB_NAME);
         usersCollection = db.collection("users");
+        meetingsCollection = db.collection("meetings");
         console.log("Connected to MongoDB");
     } catch (error) {
         console.error("MongoDB connection error:", error);
@@ -32,4 +34,11 @@ export function getUsersCollection() {
         throw new Error("Collection not initialized. Call connectDB() first.");
     }
     return usersCollection;
+}
+
+export function getMeetingsCollection() {
+    if (!meetingsCollection) {
+        throw new Error("Collection not initialized. Call connectDB() first.");
+    }
+    return meetingsCollection;
 }

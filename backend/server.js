@@ -3,7 +3,7 @@ import cors from "cors";
 import session from "express-session";
 import dotenv from "dotenv";
 import { OAuth2Client } from "google-auth-library";
-import { connectDB, getUsersCollection } from "./db.js";
+import {connectDB, getMeetingsCollection, getUsersCollection} from "./db.js";
 
 dotenv.config();
 
@@ -118,6 +118,15 @@ app.post("/api/logout", (req, res) => {
         res.clearCookie("connect.sid");
         return res.status(200).json({ message: "Logged out" });
     });
+});
+
+app.get("/api/meetings", (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    const meetings = getMeetingsCollection();
+    return res.status(200).json({ meetings: meetings });
 });
 
 async function startServer() {
