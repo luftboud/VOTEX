@@ -1,0 +1,286 @@
+.adminMain {
+	padding: 48px 16px 56px;
+	background: #f3f4f6;
+
+	&__quick-actions {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 24px;
+		margin-bottom: 32px;
+	}
+
+	&__action-card {
+		padding: 30px 24px 24px;
+		min-height: 200px;
+		border: 2px solid #e5e7eb;
+		border-radius: 14px;
+		background-image: linear-gradient(149deg, #ffffff 0%, #f9fafb 100%);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		cursor: pointer;
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+		&:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 10px 18px rgba(15, 23, 42, 0.08);
+		}
+
+		&--highlighted {
+			border-color: #bedbff;
+			background-image: linear-gradient(149deg, #ffffff 0%, #eff6ff 100%);
+		}
+	}
+
+	&__action-icon {
+		width: 64px;
+		height: 64px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 16px;
+		color: #ffffff;
+
+		svg {
+			width: 32px;
+			height: 32px;
+			fill: none;
+			stroke: currentColor;
+			stroke-width: 2;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+		}
+
+		&--blue {
+			background: #01246f;
+		}
+
+		&--slate {
+			background: #4a5565;
+		}
+
+		&--gold {
+			background: #e8c476;
+		}
+	}
+
+	&__action-title {
+		margin: 0 0 8px;
+		color: #1e2939;
+		font-size: 20px;
+		font-weight: 500;
+		line-height: 1.4;
+	}
+
+	&__action-description {
+		margin: 0;
+		color: #4a5565;
+		font-size: 14px;
+		font-weight: 300;
+		line-height: 1.7;
+	}
+
+	&__panels {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 24px;
+	}
+
+	&__panel {
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		border-radius: 14px;
+		background: #ffffff;
+		min-height: 345px;
+		overflow: hidden;
+	}
+
+	&__panel-header {
+		padding: 24px;
+		border-bottom: 1px solid #e5e7eb;
+		background: #f9fafb;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+	}
+
+	&__panel-title {
+		margin: 0;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		color: #0a0a0a;
+		font-size: 16px;
+		font-weight: 500;
+		line-height: 1.15;
+
+		svg {
+			width: 20px;
+			height: 20px;
+			fill: none;
+			stroke: #01246f;
+			stroke-width: 1.8;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+			flex-shrink: 0;
+		}
+	}
+
+	&__panel-link {
+		border: 0;
+		border-radius: 8px;
+		padding: 6px 10px;
+		background: transparent;
+		color: #01246f;
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 1.4;
+		cursor: pointer;
+		transition: background-color 0.2s ease;
+
+		&:hover {
+			background-color: rgba(1, 36, 111, 0.08);
+		}
+	}
+
+	&__meeting-list {
+		padding: 24px;
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	&__meeting-card {
+		border-radius: 10px;
+		background: #f9fafb;
+		padding: 16px;
+	}
+
+	&__meeting-title {
+		margin: 0 0 8px;
+		color: #1e2939;
+		font-size: 16px;
+		font-weight: 500;
+		line-height: 1.5;
+	}
+
+	&__meeting-meta {
+		margin: 0;
+		color: #4a5565;
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		font-size: 14px;
+		line-height: 1.5;
+	}
+
+	&__meeting-divider {
+		font-family: sans-serif;
+	}
+
+	&__settings-list {
+		padding: 24px;
+		display: flex;
+		flex-direction: column;
+		gap: 26px;
+	}
+
+	&__settings-card {
+		width: 100%;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		border-radius: 8px;
+		background: #ffffff;
+		padding: 14px 12px;
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		text-align: left;
+		cursor: pointer;
+		transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+		&:hover {
+			border-color: #bedbff;
+			box-shadow: 0 6px 14px rgba(15, 23, 42, 0.06);
+		}
+
+		svg {
+			width: 16px;
+			height: 16px;
+			fill: none;
+			stroke: #01246f;
+			stroke-width: 1.7;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+			flex-shrink: 0;
+		}
+	}
+
+	&__settings-title {
+		margin: 0 0 2px;
+		color: #0a0a0a;
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 1.45;
+	}
+
+	&__settings-description {
+		margin: 0;
+		color: #4a5565;
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 1.45;
+	}
+}
+
+@media (max-width: 1120px) {
+	.adminMain {
+		&__quick-actions {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		&__action-card:last-child {
+			grid-column: span 2;
+		}
+
+		&__panels {
+			grid-template-columns: 1fr;
+		}
+	}
+}
+
+@media (max-width: 760px) {
+	.adminMain {
+		padding: 32px 12px 42px;
+
+		&__quick-actions {
+			grid-template-columns: 1fr;
+			gap: 16px;
+			margin-bottom: 20px;
+		}
+
+		&__action-card {
+			min-height: 176px;
+			padding: 24px 18px 20px;
+
+			&:last-child {
+				grid-column: auto;
+			}
+		}
+
+		&__panel-header {
+			flex-wrap: wrap;
+		}
+
+		&__panel-link {
+			padding-left: 0;
+			padding-right: 0;
+		}
+
+		&__meeting-list,
+		&__settings-list {
+			padding: 16px;
+		}
+	}
+}
