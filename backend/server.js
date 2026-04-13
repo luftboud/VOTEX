@@ -120,13 +120,11 @@ app.post("/api/logout", (req, res) => {
     });
 });
 
-app.get("/api/meetings", (req, res) => {
-    if (!req.session.user) {
-        return res.status(401).json({ message: "Not authenticated" });
-    }
+app.get("/api/meetings", async (req, res) => {
+    const raw_meetings = getMeetingsCollection();
+    const meetings = await raw_meetings.find({}).toArray();
 
-    const meetings = getMeetingsCollection();
-    return res.status(200).json({ meetings: meetings });
+    return res.status(200).json({ meetings });
 });
 
 async function startServer() {
