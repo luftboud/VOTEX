@@ -3,6 +3,8 @@ import Footer from "./components/Footer/Footer";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import UserHome from "./pages/UserHome/UserHome";
 import AdminHome from "./pages/AdminHome/AdminHome";
+import ArchivePage from "./pages/ArchivePage/ArchivePage";
+import MeetingResultsPage from "./pages/MeetingResultsPage/MeetingResultsPage";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -80,6 +82,16 @@ function App() {
                         //     <Navigate to="/" replace />
                         // )
                     }
+                />
+
+                <Route
+                    path="/archive"
+                    element={<ArchivePage />}
+                />
+
+                <Route
+                    path="/archive/:meetingId"
+                    element={<MeetingResultsPage />}
                 />
             </Routes>
 
