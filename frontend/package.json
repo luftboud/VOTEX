@@ -11,6 +11,6 @@
     "preview": "node_modules/.bin/vite preview"
   },
   "devDependencies": {
-    "vite": "^8.0.3"
+    "vite": "^8.0.5"
   }
 }
