@@ -1,29 +1,5 @@
 import "./AdminMain.scss";
-
-const quickActions = [
-	{
-		id: "create-meeting",
-		title: "Створити засідання",
-		description: "Відкрити низку голосувань",
-		theme: "blue",
-		highlighted: true,
-		icon: PlusIcon,
-	},
-	{
-		id: "meeting-archive",
-		title: "Архів засідань",
-		description: "Перегляньте результати засідань",
-		theme: "slate",
-		icon: ArchiveIcon,
-	},
-	{
-		id: "new-convocation",
-		title: "Нове скликання",
-		description: "Оновіть склад РС УКУ",
-		theme: "gold",
-		icon: UsersIcon,
-	},
-];
+import { useNavigate } from "react-router-dom";
 
 const recentMeetings = [
 	{
@@ -56,26 +32,41 @@ const settingsActions = [
 ];
 
 function AdminMain() {
+	const navigate = useNavigate();
 	return (
 		<main className="adminMain">
 			<section className="adminMain__quick-actions">
-				{quickActions.map((action) => {
-					const ActionIcon = action.icon;
-
-					return (
-						<button
-							key={action.id}
-							className={`adminMain__action-card ${action.highlighted ? "adminMain__action-card--highlighted" : ""}`}
-							type="button"
-						>
-							<div className={`adminMain__action-icon adminMain__action-icon--${action.theme}`}>
-								<ActionIcon />
-							</div>
-							<h2 className="adminMain__action-title">{action.title}</h2>
-							<p className="adminMain__action-description">{action.description}</p>
-						</button>
-					);
-				})}
+				<button
+					className="adminMain__action-card"
+					type="button"
+				>
+					<div className={`adminMain__action-icon adminMain__action-icon--blue`}>
+						<PlusIcon />
+					</div>
+					<h2 className="adminMain__action-title">Створити засідання</h2>
+					<p className="adminMain__action-description">Відкрити низку голосувань</p>
+				</button>
+				<button
+					className="adminMain__action-card"
+					type="button"
+					onClick={() => navigate('/archive')}
+				>
+					<div className={`adminMain__action-icon adminMain__action-icon--slate`}>
+						<ArchiveIcon />
+					</div>
+					<h2 className="adminMain__action-title">Архів засідань</h2>
+					<p className="adminMain__action-description">Перегляньте результати засідань</p>
+				</button>
+				<button
+					className="adminMain__action-card"
+					type="button"
+				>
+					<div className={`adminMain__action-icon adminMain__action-icon--gold`}>
+						<UsersIcon />
+					</div>
+					<h2 className="adminMain__action-title">Нове скликання</h2>
+					<p className="adminMain__action-description">Оновіть склад РС УКУ</p>
+				</button>
 			</section>
 
 			<section className="adminMain__panels">
@@ -85,7 +76,6 @@ function AdminMain() {
 							<CalendarIcon />
 							Крайні засідання
 						</h3>
-						<button className="adminMain__panel-link" type="button">Показати всі</button>
 					</header>
 
 					<div className="adminMain__meeting-list">
