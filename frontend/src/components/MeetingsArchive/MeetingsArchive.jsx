@@ -112,6 +112,7 @@ function MeetingsArchive() {
 
 			<div className="meetingsArchive__list">
 				{filteredMeetings
+					.sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
 					.map((meeting) => (
 						<ArchiveMeetingUnit
 							id={meeting._id}

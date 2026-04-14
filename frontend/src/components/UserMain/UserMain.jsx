@@ -46,6 +46,7 @@ function userMain() {
                 <div className="userMain__container-meeting-archive-cardholder">
                     {meetings
                         .filter(meeting => meeting.status === "Closed")
+                        .sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
                         .slice(0, 3)
                         .map(meeting => (
                         <ArchiveMeetingUnit

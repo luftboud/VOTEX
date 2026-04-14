@@ -1,6 +1,8 @@
 import "./MeetingResults.scss";
 
 function MeetingResults({ meeting }) {
+    const first_meet = meeting.agenda[0];
+    const all_participants = first_meet.yes.length + first_meet.no.length + first_meet.abstained.length;
     return (
         <main className="meetingResults">
             <section className="meetingResults__header">
@@ -14,8 +16,8 @@ function MeetingResults({ meeting }) {
                     <p className="meetingResults__summary-value">{meeting.datetime.split("T")[0]}</p>
                 </article>
                 <article className="meetingResults__summary-card">
-                    <p className="meetingResults__summary-label">Статус</p>
-                    <p className="meetingResults__summary-value">{meeting.status}</p>
+                    <p className="meetingResults__summary-label">Явка</p>
+                    <p className="meetingResults__summary-value">{all_participants}</p>
                 </article>
                 <article className="meetingResults__summary-card">
                     <p className="meetingResults__summary-label">Питання</p>
@@ -40,7 +42,7 @@ function MeetingResults({ meeting }) {
                         <div className="meetingResults__answers">
                             <div key="Yes" className="meetingResults__answer">
                                 <div className="meetingResults__answer-top">
-                                    <span>Yes</span>
+                                    <span>За</span>
                                     <span>{yes_percent}%</span>
                                 </div>
                                 <div className="meetingResults__bar">
@@ -58,7 +60,7 @@ function MeetingResults({ meeting }) {
                         <div className="meetingResults__answers">
                             <div key="No" className="meetingResults__answer">
                                 <div className="meetingResults__answer-top">
-                                    <span>No</span>
+                                    <span>Проти</span>
                                     <span>{no_percent}%</span>
                                 </div>
                                 <div className="meetingResults__bar">
@@ -76,7 +78,7 @@ function MeetingResults({ meeting }) {
                         <div className="meetingResults__answers">
                             <div key="Abstained" className="meetingResults__answer">
                                 <div className="meetingResults__answer-top">
-                                    <span>Abstained</span>
+                                    <span>Утримались</span>
                                     <span>{abstained_percent}%</span>
                                 </div>
                                 <div className="meetingResults__bar">
