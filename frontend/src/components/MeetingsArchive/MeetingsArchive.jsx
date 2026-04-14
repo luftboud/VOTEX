@@ -3,14 +3,52 @@ import { useNavigate } from "react-router-dom";
 import { testArchiveMeetings } from "../../data/testMeetings";
 import "./MeetingsArchive.scss";
 
+function normalizeSearchValue(value) {
+	return value
+		.toLowerCase()
+		.normalize("NFD")
+		.replace(/[\u0300-\u036f]/g, "")
+		.replace(/[^a-z0-9а-яіїєґ]+/gi, " ")
+		.trim();
+}
+
+function getDateParts(dateValue) {
+	return dateValue
+		.split(/\D+/)
+		.filter(Boolean)
+		.map((part) => part.replace(/^0+/, "") || "0");
+}
+
+function matchesSearch(meeting, query) {
+	if (!query) {
+		return true;
+	}
+
+	const normalizedQueryTokens = normalizeSearchValue(query).split(/\s+/).filter(Boolean);
+	const searchableTitle = normalizeSearchValue(meeting.title);
+	const [dayPart, monthPart, yearPart] = getDateParts(meeting.date);
+
+	return normalizedQueryTokens.every((token) => {
+		if (/^\d+$/.test(token)) {
+			const normalizedToken = token.replace(/^0+/, "") || "0";
+
+			if (token.length === 4) {
+				return yearPart === normalizedToken;
+			}
+
+			return [dayPart, monthPart].some((part) => part === normalizedToken);
+		}
+
+		return searchableTitle.includes(token);
+	});
+}
+
 function MeetingsArchive() {
 	const [search, setSearch] = useState("");
 	const navigate = useNavigate();
 
 	const filteredMeetings = useMemo(() => {
-		return testArchiveMeetings.filter((meeting) =>
-			meeting.title.toLowerCase().includes(search.toLowerCase().trim())
-		);
+		return testArchiveMeetings.filter((meeting) => matchesSearch(meeting, search));
 	}, [search]);
 
 	return (
