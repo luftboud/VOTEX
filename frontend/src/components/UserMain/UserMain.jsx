@@ -1,7 +1,26 @@
 import "./UserMain.scss";
 import ArchiveMeetingUnit from "../ArchiveMeetingUnit/ArchiveMeetingUnit";
-
+import { useEffect, useState } from "react";
 function userMain() {
+
+    let [meetings, setMeetings] = useState([]);
+
+    useEffect(() => {
+        async function fetchMeetings() {
+            try {
+                let response = await fetch(`${import.meta.env.VITE_API_URL}/api/meetings`);
+                let data = await response.json();
+                setMeetings(data.meetings);
+            } catch (error) {
+                console.log(error);
+                setMeetings([]);
+            }
+        }
+
+        fetchMeetings();
+    }, [])
+
+    console.log(meetings);
     return (
         <div className="userMain__container">
             <div className="userMain__container-join-meeting-card">
@@ -19,18 +38,15 @@ function userMain() {
                     <button className="userMain__container-meeting-archive-header-btn">Показати всі</button>
                 </div>
                 <div className="userMain__container-meeting-archive-cardholder">
-                    <ArchiveMeetingUnit
-                            name="Archive Meeting"
-                            date="12.12.12"
-                    />
-                    <ArchiveMeetingUnit
-                            name="Archive Meeting 2"
-                            date="12.12.12"
-                    />
-                    <ArchiveMeetingUnit
-                        name="Archive Meeting 3"
-                        date="12.12.12"
-                    />
+                    {meetings
+                        .filter(meeting => meeting.status === "Closed")
+                        .map(meeting => (
+                        <ArchiveMeetingUnit
+                            id={meeting._id}
+                            name={meeting.name}
+                            date={meeting.datetime.split("T")[0]}
+                        />
+                    ))}
                 </div>
             </div>
         </div>
