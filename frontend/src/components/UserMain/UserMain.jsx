@@ -2,8 +2,8 @@ import "./UserMain.scss";
 import ArchiveMeetingUnit from "../ArchiveMeetingUnit/ArchiveMeetingUnit";
 import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
-function userMain() {
 
+function userMain() {
     let [meetings, setMeetings] = useState([]);
 
     useEffect(() => {
@@ -23,7 +23,6 @@ function userMain() {
 
     const navigate = useNavigate();
 
-    // console.log(meetings);
     return (
         <div className="userMain__container">
             <div className="userMain__container-join-meeting-card">
@@ -47,6 +46,7 @@ function userMain() {
                 <div className="userMain__container-meeting-archive-cardholder">
                     {meetings
                         .filter(meeting => meeting.status === "Closed")
+                        .slice(0, 3)
                         .map(meeting => (
                         <ArchiveMeetingUnit
                             id={meeting._id}

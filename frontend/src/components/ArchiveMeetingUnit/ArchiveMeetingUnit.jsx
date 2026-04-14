@@ -1,3 +1,4 @@
+import {Link} from "react-router-dom";
 import "./ArchiveMeetingUnit.scss";
 
 function archiveMeetingUnit({id, name, date}) {
@@ -7,7 +8,7 @@ function archiveMeetingUnit({id, name, date}) {
                 <h3 className="archiveMeetingUnit__card-info-name">{name}</h3>
                 <p className="archiveMeetingUnit__card-info-date">{date}</p>
             </div>
-            <a className="archiveMeetingUnit__card-see-more-btn" href="">Детальна інформація</a>
+            <Link className="archiveMeetingUnit__card-see-more-btn" to={`/archive/${id}`}>Детальна інформація</Link>
         </div>
     );
 }
