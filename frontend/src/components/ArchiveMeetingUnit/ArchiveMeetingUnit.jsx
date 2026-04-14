@@ -1,13 +1,13 @@
 import "./ArchiveMeetingUnit.scss";
 
-function archiveMeetingUnit({name, date}) {
+function archiveMeetingUnit({id, name, date}) {
     return (
         <div className="archiveMeetingUnit__card">
             <div className="archiveMeetingUnit__card-info">
                 <h3 className="archiveMeetingUnit__card-info-name">{name}</h3>
                 <p className="archiveMeetingUnit__card-info-date">{date}</p>
             </div>
-            <button className="archiveMeetingUnit__card-see-more-btn">Детальна інформація</button>
+            <a className="archiveMeetingUnit__card-see-more-btn" href="">Детальна інформація</a>
         </div>
     );
 }
