@@ -1,5 +1,5 @@
 .meetingsArchive {
-	padding: 12px 14px 50px;
+	padding: 32px 32px 50px;
 	background: #F3F4F6;
 	min-height: calc(100vh - 188px);
 
@@ -106,9 +106,9 @@
 		}
 
 		&-button {
-			border: 1px solid #3B82F6;
+			border: 1px solid #01246F;
 			background: #FFFFFF;
-			color: #2563EB;
+			color: #01246F;
 			border-radius: 10px;
 			padding: 10px 18px;
 			white-space: nowrap;
@@ -119,9 +119,9 @@
 		}
 
 		&-button:hover {
-			background: #2563EB;
+			background: #01246F;
 			color: #FFFFFF;
-			border-color: #2563EB;
+			border-color: #01246F;
 		}
 	}
 }
