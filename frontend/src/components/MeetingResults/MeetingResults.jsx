@@ -36,7 +36,7 @@ function MeetingResults({ meeting }) {
                     return (
                     <article key={question.item_id} className="meetingResults__question">
                         <h2 className="meetingResults__question-title">
-                            {question.item_id + 1}. {question.item_name}
+                            {question.item_id}. {question.item_name}
                         </h2>
 
                         <div className="meetingResults__answers">
