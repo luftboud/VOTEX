@@ -1,0 +1,78 @@
+.meeting-creation {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+  padding: 48px 104px;
+
+  &-title {
+    &__head {
+      font-size: 30px;
+      margin: 0;
+    }
+
+    &__descr {
+      color: #4A5565;
+      font-size: 16px;
+    }
+  }
+
+  &-question-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+
+    &__title {
+      font-size: 16px;
+      width: 100%;
+      margin: 0;
+    }
+
+    &__add-question {
+      width: 100%;
+      display: flex;
+      gap: 12px;
+      flex-direction: column;
+      align-items: center;
+      padding: 25px 50px;
+      border: 2px dashed #E5E5E5;
+      border-radius: 8px;
+      background: transparent;
+    }
+
+    &__icon {
+      margin: 0;
+    }
+
+    &__title {
+      font-size: 18px;
+      color: #4A5565;
+    }
+  }
+
+  &-btn-holder {
+    width: 100%;
+    display: flex;
+    gap: 16px;
+    justify-content: right;
+
+    &__cancel {
+      padding: 8px 32px;
+      font-size: 14px;
+      color: #000;
+      background: #FFF;
+      border: 1px solid #E5E5E5;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    &__submit {
+      padding: 8px 32px;
+      font-size: 14px;
+      color: #FFF;
+      background: #01246f;
+      border: none;
+      border-radius: 8px;
+    }
+  }
+}
