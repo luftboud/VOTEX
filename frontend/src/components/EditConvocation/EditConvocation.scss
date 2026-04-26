@@ -1,0 +1,450 @@
+.editConvocation {
+	background: #f9fafb;
+	padding: 48px 16px 56px;
+	min-height: calc(100vh - 188px);
+
+	&__container {
+		max-width: 1040px;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: 32px;
+	}
+
+	&__heading {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	&__title {
+		margin: 0;
+		color: #1e2939;
+		font-size: 30px;
+		font-weight: 700;
+		line-height: 36px;
+		letter-spacing: 0.4px;
+	}
+
+	&__subtitle {
+		margin: 0;
+		color: #4a5565;
+		font-size: 16px;
+		font-weight: 400;
+		line-height: 24px;
+	}
+
+	&__convocationHeader {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		gap: 24px;
+		flex-wrap: wrap;
+	}
+
+	&__convocationName {
+		margin: 0 0 4px;
+		color: #1e2939;
+		font-size: 24px;
+		font-weight: 700;
+		line-height: 32px;
+	}
+
+	&__convocationYear {
+		margin: 0;
+		color: #4a5565;
+		font-size: 14px;
+		line-height: 20px;
+	}
+
+	&__addCard {
+		background: #ffffff;
+		border: 1px solid #bedbff;
+		border-radius: 16px;
+		overflow: hidden;
+	}
+
+	&__addCardHeader {
+		background: linear-gradient(90deg, #eff6ff 0%, #dbeafe 100%);
+		border-bottom: 1px solid #bedbff;
+		padding: 24px 28px;
+		display: flex;
+		align-items: center;
+		gap: 12px;
+
+		svg {
+			width: 22px;
+			height: 22px;
+			color: #1c398e;
+			fill: none;
+			stroke: currentColor;
+			stroke-width: 2;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+		}
+	}
+
+	&__addCardTitle {
+		margin: 0;
+		color: #1c398e;
+		font-size: 18px;
+		font-weight: 500;
+		line-height: 1.2;
+	}
+
+	&__addForm {
+		padding: 24px 28px 28px;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 18px 24px;
+	}
+
+	&__field {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	&__fieldLabel {
+		color: #0a0a0a;
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 16px;
+	}
+
+	&__input,
+	&__select {
+		width: 100%;
+		box-sizing: border-box;
+		background: #f3f3f5;
+		border: 1px solid transparent;
+		border-radius: 9px;
+		padding: 12px 14px;
+		font-family: inherit;
+		font-size: 15px;
+		color: #0a0a0a;
+		outline: none;
+		transition: border-color 0.2s ease, background-color 0.2s ease;
+
+		&::placeholder {
+			color: #717182;
+		}
+
+		&:focus {
+			border-color: #01246f;
+			background-color: #ffffff;
+		}
+	}
+
+	&__select {
+		appearance: none;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%230a0a0a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: right 14px center;
+		padding-right: 40px;
+		cursor: pointer;
+	}
+
+	&__addRow {
+		grid-column: 1 / -1;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		gap: 16px;
+		flex-wrap: wrap;
+	}
+
+	&__addError {
+		flex: 1;
+		color: #e7000b;
+		font-size: 14px;
+		margin: 0;
+	}
+
+	&__addButton {
+		background: #01246f;
+		color: #ffffff;
+		border: none;
+		border-radius: 9px;
+		padding: 12px 24px;
+		font-family: inherit;
+		font-size: 15px;
+		font-weight: 500;
+		cursor: pointer;
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		transition: background-color 0.2s ease, opacity 0.2s ease;
+
+		svg {
+			width: 18px;
+			height: 18px;
+			fill: none;
+			stroke: currentColor;
+			stroke-width: 2.5;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+		}
+
+		&:hover:not(:disabled) {
+			background: #021c54;
+		}
+
+		&:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
+		}
+	}
+
+	&__sections {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+	}
+
+	&__section {
+		border: 2px solid var(--faculty-border, #e5e7eb);
+		border-radius: 14px;
+		overflow: hidden;
+		background: #ffffff;
+	}
+
+	&__sectionHeader {
+		background: var(--faculty-background, #f3f4f6);
+		border-bottom: 2px solid var(--faculty-border, #e5e7eb);
+		padding: 20px 24px;
+	}
+
+	&__sectionTitle {
+		margin: 0 0 4px;
+		color: var(--faculty-heading, #1e2939);
+		font-size: 22px;
+		font-weight: 700;
+		line-height: 32px;
+	}
+
+	&__sectionMeta {
+		margin: 0;
+		color: #4a5565;
+		font-size: 14px;
+		line-height: 20px;
+	}
+
+	&__sectionBody {
+		padding: 24px;
+		display: flex;
+		flex-direction: column;
+		gap: 32px;
+	}
+
+	&__degreeGroup {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	&__degreeTitle {
+		margin: 0;
+		color: #364153;
+		font-size: 18px;
+		font-weight: 600;
+		line-height: 28px;
+		letter-spacing: -0.4px;
+	}
+
+	&__cardsGrid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+		gap: 16px;
+	}
+
+	&__representative {
+		position: relative;
+		background: #ffffff;
+		border: 2px solid #e5e7eb;
+		border-radius: 10px;
+		padding: 14px 12px 16px;
+		min-height: 140px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 4px;
+		text-align: center;
+	}
+
+	&__representativeName {
+		margin: 0;
+		color: #1e2939;
+		font-size: 14px;
+		font-weight: 600;
+		line-height: 20px;
+	}
+
+	&__representativeMeta {
+		margin: 0;
+		color: #4a5565;
+		font-size: 12px;
+		line-height: 16px;
+	}
+
+	&__representativeMajor {
+		margin: 0;
+		color: #6a7282;
+		font-size: 12px;
+		line-height: 16px;
+	}
+
+	&__remove {
+		position: absolute;
+		top: -8px;
+		right: -8px;
+		width: 24px;
+		height: 24px;
+		border: none;
+		border-radius: 50%;
+		background: #fb2c36;
+		color: #ffffff;
+		cursor: pointer;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+		transition: background-color 0.2s ease;
+
+		svg {
+			width: 14px;
+			height: 14px;
+			fill: none;
+			stroke: currentColor;
+			stroke-width: 2.5;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+		}
+
+		&:hover {
+			background: #c91020;
+		}
+	}
+
+	&__empty {
+		margin: 0;
+		color: #6a7282;
+		font-size: 14px;
+		font-style: italic;
+		line-height: 20px;
+	}
+
+	&__loading,
+	&__notFound {
+		max-width: 1040px;
+		margin: 0 auto;
+		padding: 48px 16px;
+		color: #4a5565;
+		font-size: 16px;
+	}
+
+	&__overlay {
+		position: fixed;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.5);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 1000;
+		padding: 16px;
+	}
+
+	&__dialog {
+		background: #ffffff;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		border-radius: 10px;
+		padding: 24px;
+		max-width: 512px;
+		width: 100%;
+		box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.1);
+	}
+
+	&__dialogTitle {
+		margin: 0 0 8px;
+		color: #0a0a0a;
+		font-size: 16px;
+		font-weight: 500;
+		line-height: 28px;
+	}
+
+	&__dialogText {
+		margin: 0 0 24px;
+		color: #717182;
+		font-size: 13px;
+		line-height: 20px;
+	}
+
+	&__dialogActions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 8px;
+	}
+
+	&__dialogButton {
+		border-radius: 8px;
+		padding: 9px 20px;
+		font-family: inherit;
+		font-size: 14px;
+		font-weight: 500;
+		cursor: pointer;
+		transition: background-color 0.2s ease;
+
+		&--secondary {
+			background: #ffffff;
+			border: 1px solid rgba(0, 0, 0, 0.1);
+			color: #0a0a0a;
+
+			&:hover {
+				background: #f3f4f6;
+			}
+		}
+
+		&--danger {
+			background: #e7000b;
+			border: 1px solid #e7000b;
+			color: #ffffff;
+
+			&:hover {
+				background: #b80008;
+			}
+		}
+	}
+}
+
+@media (max-width: 760px) {
+	.editConvocation {
+		padding: 24px 12px 40px;
+
+		&__title {
+			font-size: 22px;
+			line-height: 28px;
+		}
+
+		&__addForm {
+			grid-template-columns: 1fr;
+			padding: 18px;
+		}
+
+		&__addCardHeader {
+			padding: 18px;
+		}
+
+		&__sectionHeader {
+			padding: 16px 18px;
+		}
+
+		&__sectionBody {
+			padding: 18px;
+		}
+
+		&__cardsGrid {
+			grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+		}
+	}
+}

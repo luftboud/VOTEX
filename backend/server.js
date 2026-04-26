@@ -3,7 +3,8 @@ import cors from "cors";
 import session from "express-session";
 import dotenv from "dotenv";
 import { OAuth2Client } from "google-auth-library";
-import {connectDB, getMeetingsCollection, getUsersCollection} from "./db.js";
+import { ObjectId } from "mongodb";
+import {connectDB, getConvocationsCollection, getMeetingsCollection, getUsersCollection} from "./db.js";
 
 dotenv.config();
 
@@ -125,6 +126,134 @@ app.get("/api/meetings", async (req, res) => {
     const meetings = await raw_meetings.find({}).toArray();
 
     return res.status(200).json({ meetings });
+});
+
+app.post("/api/convocations", async (req, res) => {
+    try {
+        const { name, year } = req.body;
+
+        if (!name || !year) {
+            return res.status(400).json({ message: "Name and year are required" });
+        }
+
+        const usersCollection = getUsersCollection();
+        await usersCollection.deleteMany({ kerner: { $ne: true } });
+
+        const convocationsCollection = getConvocationsCollection();
+        const result = await convocationsCollection.insertOne({
+            name,
+            year,
+            descr: null,
+            meetings: [],
+        });
+
+        return res.status(201).json({ convocation: { _id: result.insertedId, name, year, descr: null, meetings: [] } });
+    } catch (error) {
+        console.error("Create convocation error:", error);
+        return res.status(500).json({ message: "Failed to create convocation" });
+    }
+});
+
+app.get("/api/convocations/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid convocation id" });
+        }
+
+        const convocationsCollection = getConvocationsCollection();
+        const convocation = await convocationsCollection.findOne({ _id: new ObjectId(id) });
+
+        if (!convocation) {
+            return res.status(404).json({ message: "Convocation not found" });
+        }
+
+        return res.status(200).json({ convocation });
+    } catch (error) {
+        console.error("Get convocation error:", error);
+        return res.status(500).json({ message: "Failed to fetch convocation" });
+    }
+});
+
+app.get("/api/representatives", async (req, res) => {
+    try {
+        const usersCollection = getUsersCollection();
+        const representatives = await usersCollection
+            .find({ kerner: { $ne: true } })
+            .toArray();
+
+        return res.status(200).json({ representatives });
+    } catch (error) {
+        console.error("List representatives error:", error);
+        return res.status(500).json({ message: "Failed to fetch representatives" });
+    }
+});
+
+app.post("/api/representatives", async (req, res) => {
+    try {
+        const { name, email, avatar, faculty, major, year } = req.body;
+
+        if (!name || !email || !faculty || !major || !year) {
+            return res.status(400).json({ message: "Missing required fields" });
+        }
+
+        const usersCollection = getUsersCollection();
+
+        const conflict = await usersCollection.findOne({
+            kerner: { $ne: true },
+            major,
+            year: String(year),
+        });
+
+        if (conflict) {
+            return res.status(409).json({ message: "Цей слот (програма + курс) вже зайнятий" });
+        }
+
+        const newRep = {
+            name,
+            avatar: avatar || "",
+            kerner: false,
+            email,
+            token: "",
+            google_sub: "",
+            faculty,
+            major,
+            year: String(year),
+        };
+
+        const result = await usersCollection.insertOne(newRep);
+
+        return res.status(201).json({ representative: { _id: result.insertedId, ...newRep } });
+    } catch (error) {
+        console.error("Add representative error:", error);
+        return res.status(500).json({ message: "Failed to add representative" });
+    }
+});
+
+app.delete("/api/representatives/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid representative id" });
+        }
+
+        const usersCollection = getUsersCollection();
+        const result = await usersCollection.deleteOne({
+            _id: new ObjectId(id),
+            kerner: { $ne: true },
+        });
+
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: "Representative not found" });
+        }
+
+        return res.status(200).json({ message: "Representative removed" });
+    } catch (error) {
+        console.error("Remove representative error:", error);
+        return res.status(500).json({ message: "Failed to remove representative" });
+    }
 });
 
 async function startServer() {

@@ -60,6 +60,7 @@ function AdminMain() {
 				<button
 					className="adminMain__action-card"
 					type="button"
+					onClick={() => navigate('/admin/convocations/new')}
 				>
 					<div className={`adminMain__action-icon adminMain__action-icon--gold`}>
 						<UsersIcon />

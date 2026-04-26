@@ -5,6 +5,8 @@ import UserHome from "./pages/UserHome/UserHome";
 import AdminHome from "./pages/AdminHome/AdminHome";
 import ArchivePage from "./pages/ArchivePage/ArchivePage";
 import MeetingResultsPage from "./pages/MeetingResultsPage/MeetingResultsPage";
+import CreateConvocationPage from "./pages/CreateConvocation/CreateConvocation";
+import EditConvocationPage from "./pages/EditConvocation/EditConvocation";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -92,6 +94,16 @@ function App() {
                 <Route
                     path="/archive/:meetingId"
                     element={<MeetingResultsPage />}
+                />
+
+                <Route
+                    path="/admin/convocations/new"
+                    element={<CreateConvocationPage user={user} />}
+                />
+
+                <Route
+                    path="/admin/convocations/:convocationId"
+                    element={<EditConvocationPage user={user} />}
                 />
             </Routes>
 
