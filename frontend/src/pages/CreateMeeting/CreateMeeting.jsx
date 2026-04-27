@@ -15,7 +15,7 @@ function CreateMeeting({ user }) {
                 .filter(Boolean),
         }
 
-        await fetch(`${import.meta.env.VITE_API_URL}/api/createMeeting`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/createMeeting`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -23,7 +23,9 @@ function CreateMeeting({ user }) {
             body: JSON.stringify(meeting)
         });
 
-        setPage("waiting");
+        if (response.status === 201) {
+            setPage("waiting");
+        }
     }
 
     const [meetingInfo, setMeetingInfo] = useState({
