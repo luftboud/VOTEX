@@ -1,10 +1,38 @@
 import MeetingFormItem from "./MeetingFormItem/MeetingFormItem";
 import "./CreateMeetingForm.scss";
-import {useState} from "react";
 import {Link} from "react-router-dom";
 
-function CreateMeetingForm() {
-    const [questions_amount, setQuestionAmount] = useState(0);
+
+function CreateMeetingForm({meetingInfo, setMeetingInfo, questions, setQuestions}) {
+    function addQuestion() {
+        setQuestions(prev => [
+            ...prev,
+            { id: crypto.randomUUID(), content: "" }
+        ]);
+    }
+
+    function updateQuestion(id, value) {
+        setQuestions(prev =>
+            prev.map(question =>
+                question.id === id
+                    ? { ...question, content: value }
+                    : question
+            )
+        );
+    }
+
+    function deleteQuestion(id) {
+        setQuestions(prev =>
+            prev.filter(question => question.id !== id)
+        );
+    }
+
+    function updateMeetingInfo(field, value) {
+        setMeetingInfo(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    }
 
     return (
         <div className="meeting-creation">
@@ -13,16 +41,34 @@ function CreateMeetingForm() {
                 <p className="meeting-creation-title__descr">Налаштуйте своє засідання та питання до нього.</p>
             </div>
 
-            <MeetingFormItem questions={["Назва засідання", "Посилання на протокол"]} />
+            <MeetingFormItem
+                fields={[{
+                        label: "Назва засідання",
+                        value: meetingInfo.title,
+                        onChange: (value) => updateMeetingInfo("title", value)
+                    }, {
+                        label: "Посилання",
+                        value: meetingInfo.protocolLink,
+                        onChange: (value) => updateMeetingInfo("protocolLink", value)
+                }]}
+            />
 
             <div className="meeting-creation-question-block">
                 <h2 className="meeting-creation-question-block__title">Питання</h2>
-                {Array.from({ length: questions_amount }).map((_, index) => (
-                    <MeetingFormItem questions={["Зміст питання"]} />
+                {questions.map((question) => (
+                    <MeetingFormItem
+                        key={question.id}
+                        fields={[
+                            {
+                                label: "Зміст питання",
+                                value: question.content,
+                                onChange: (value) => updateQuestion(question.id, value)
+                            }
+                        ]}
+                        onDelete={() => deleteQuestion(question.id)}
+                    />
                 ))}
-                <button type="button" className="meeting-creation-question-block__add-question" onClick={
-                    () => setQuestionAmount(prev => prev + 1) }
-                >
+                <button type="button" className="meeting-creation-question-block__add-question" onClick={addQuestion}>
                     <div className={`meeting-creation-question-block__icon adminMain__action-icon adminMain__action-icon--blue`}>
                         <PlusIcon />
                     </div>

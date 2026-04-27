@@ -1,12 +1,22 @@
 import "./MeetingFormItem.scss";
 
-function MeetingFormItem({ questions }) {
+function MeetingFormItem({ fields, onDelete }) {
     return (
         <div className="meeting-creation-question">
-            {questions.map((question) => (
+            {fields.map((field) => (
                 <div className="meeting-creation-question__item">
-                    <p className="meeting-creation-question__item-input-name">{question}</p>
-                    <input type="text" className="meeting-creation-question__item-input" />
+                    <div className={"meeting-creation-question__item-header"}>
+                        <p className="meeting-creation-question__item-header-name">{field.label}</p>
+                        {onDelete && (
+                            <button type="button" className="meeting-creation-question__item-header-delete" onClick={onDelete}>Видалити</button>
+                        )}
+                    </div>
+                    <input
+                        type="text"
+                        className="meeting-creation-question__item-input"
+                        value={field.value}
+                        onChange={(e) => field.onChange(e.target.value)}
+                    />
                 </div>
             ))}
         </div>
