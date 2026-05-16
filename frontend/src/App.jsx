@@ -5,12 +5,14 @@ import UserHome from "./pages/UserHome/UserHome";
 import AdminHome from "./pages/AdminHome/AdminHome";
 import ArchivePage from "./pages/ArchivePage/ArchivePage";
 import MeetingResultsPage from "./pages/MeetingResultsPage/MeetingResultsPage";
+import MeetingLivePage from "./pages/MeetingLivePage/MeetingLivePage";
 import MeetingNotFound from "./components/VotingPages/MeetingNotFound";
 import WaitingForReps from "./components/VotingPages/WaitingForReps";
 import VotingPage from "./components/VotingPages/VotingPage";
 import VoteRecorded from "./components/VotingPages/VoteRecorded";
 import MeetingFinished from "./components/VotingPages/MeetingFinished";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { API_BASE_URL } from "./config/api";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -19,7 +21,7 @@ function App() {
     useEffect(() => {
         async function checkAuth() {
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/me`, {
+                const response = await fetch(`${API_BASE_URL}/api/me`, {
                     method: "GET",
                     credentials: "include",
                 });
@@ -99,6 +101,11 @@ function App() {
                     element={<MeetingResultsPage />}
                 />
 
+                <Route
+                    path="/meeting/:meetingCode"
+                    element={<MeetingLivePage />}
+                />
+
                 {/* Test routes for voting pages */}
                 <Route
                     path="/test/voting/not-found"
@@ -112,7 +119,7 @@ function App() {
                     path="/test/voting/vote"
                     element={<VotingPage 
                         meetingId="123"
-                        initialQuestion={{ id: 1, text: "Чи погоджуєтесь ви з пропозицією?" }}
+                        initialQuestion={{ id: 1, text: "Ваша відповідь" }}
                         onVote={(choice) => console.log("Vote:", choice)}
                     />}
                 />

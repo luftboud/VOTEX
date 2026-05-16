@@ -2,14 +2,16 @@ import "./UserMain.scss";
 import ArchiveMeetingUnit from "../ArchiveMeetingUnit/ArchiveMeetingUnit";
 import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
+import { API_BASE_URL } from "../../config/api";
 
 function userMain() {
     let [meetings, setMeetings] = useState([]);
+    let [meetingCode, setMeetingCode] = useState("");
 
     useEffect(() => {
         async function fetchMeetings() {
             try {
-                let response = await fetch(`${import.meta.env.VITE_API_URL}/api/meetings`);
+                let response = await fetch(`${API_BASE_URL}/api/meetings`);
                 let data = await response.json();
                 setMeetings(data.meetings);
             } catch (error) {
@@ -23,14 +25,32 @@ function userMain() {
 
     const navigate = useNavigate();
 
+    function handleJoinMeeting(event) {
+        event.preventDefault();
+
+        const trimmedCode = meetingCode.trim();
+
+        if (!trimmedCode) {
+            return;
+        }
+
+        navigate(`/meeting/${encodeURIComponent(trimmedCode)}`);
+    }
+
     return (
         <div className="userMain__container">
             <div className="userMain__container-join-meeting-card">
                 <div className="userMain__container-join-meeting-card-header">
                     <h2>Приєднатись до засідання</h2>
                 </div>
-                <form action="/" method="POST" className="userMain__container-join-meeting-card-form">
-                    <input type="text" placeholder="Введіть код засідання" className="userMain__container-join-meeting-card-form-input" />
+                <form onSubmit={handleJoinMeeting} className="userMain__container-join-meeting-card-form">
+                    <input
+                        type="text"
+                        placeholder="Введіть код засідання"
+                        className="userMain__container-join-meeting-card-form-input"
+                        value={meetingCode}
+                        onChange={(event) => setMeetingCode(event.target.value)}
+                    />
                     <button type="submit" className="userMain__container-join-meeting-card-form-submit">Приєднатись</button>
                 </form>
             </div>
