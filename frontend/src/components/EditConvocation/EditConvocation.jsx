@@ -272,7 +272,7 @@ function EditConvocation() {
 								required
 								value={form.name}
 								onChange={(event) => updateForm({ name: event.target.value })}
-								placeholder="Напр.: Валєра Фабʼяновський"
+								placeholder="Напр.: Борис Гудзяк"
 							/>
 						</div>
 

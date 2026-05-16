@@ -137,7 +137,7 @@ app.post("/api/convocations", async (req, res) => {
         }
 
         const usersCollection = getUsersCollection();
-        await usersCollection.deleteMany({ kerner: { $ne: true } });
+        await usersCollection.deleteMany({ kernel: { $ne: true } });
 
         const convocationsCollection = getConvocationsCollection();
         const result = await convocationsCollection.insertOne({
@@ -180,7 +180,7 @@ app.get("/api/representatives", async (req, res) => {
     try {
         const usersCollection = getUsersCollection();
         const representatives = await usersCollection
-            .find({ kerner: { $ne: true } })
+            .find({ kernel: { $ne: true } })
             .toArray();
 
         return res.status(200).json({ representatives });
@@ -201,7 +201,7 @@ app.post("/api/representatives", async (req, res) => {
         const usersCollection = getUsersCollection();
 
         const conflict = await usersCollection.findOne({
-            kerner: { $ne: true },
+            kernel: { $ne: true },
             major,
             year: String(year),
         });
@@ -213,7 +213,7 @@ app.post("/api/representatives", async (req, res) => {
         const newRep = {
             name,
             avatar: avatar || "",
-            kerner: false,
+            kernel: false,
             email,
             token: "",
             google_sub: "",
@@ -242,7 +242,7 @@ app.delete("/api/representatives/:id", async (req, res) => {
         const usersCollection = getUsersCollection();
         const result = await usersCollection.deleteOne({
             _id: new ObjectId(id),
-            kerner: { $ne: true },
+            kernel: { $ne: true },
         });
 
         if (result.deletedCount === 0) {
