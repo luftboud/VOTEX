@@ -5,6 +5,11 @@ import UserHome from "./pages/UserHome/UserHome";
 import AdminHome from "./pages/AdminHome/AdminHome";
 import ArchivePage from "./pages/ArchivePage/ArchivePage";
 import MeetingResultsPage from "./pages/MeetingResultsPage/MeetingResultsPage";
+import MeetingNotFound from "./components/VotingPages/MeetingNotFound";
+import WaitingForReps from "./components/VotingPages/WaitingForReps";
+import VotingPage from "./components/VotingPages/VotingPage";
+import VoteRecorded from "./components/VotingPages/VoteRecorded";
+import MeetingFinished from "./components/VotingPages/MeetingFinished";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -92,6 +97,35 @@ function App() {
                 <Route
                     path="/archive/:meetingId"
                     element={<MeetingResultsPage />}
+                />
+
+                {/* Test routes for voting pages */}
+                <Route
+                    path="/test/voting/not-found"
+                    element={<MeetingNotFound onBack={() => window.history.back()} />}
+                />
+                <Route
+                    path="/test/voting/waiting"
+                    element={<WaitingForReps message="Очікуємо на представників!" detail="Засідання скоро почнеться" />}
+                />
+                <Route
+                    path="/test/voting/vote"
+                    element={<VotingPage 
+                        meetingId="123"
+                        initialQuestion={{ id: 1, text: "Чи погоджуєтесь ви з пропозицією?" }}
+                        onVote={(choice) => console.log("Vote:", choice)}
+                    />}
+                />
+                <Route
+                    path="/test/voting/recorded"
+                    element={<VoteRecorded onContinue={() => window.history.back()} />}
+                />
+                <Route
+                    path="/test/voting/finished"
+                    element={<MeetingFinished 
+                        onArchive={() => window.location.href = "/archive"}
+                        onHome={() => window.location.href = "/"}
+                    />}
                 />
             </Routes>
 
