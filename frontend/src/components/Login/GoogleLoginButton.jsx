@@ -1,5 +1,6 @@
 import "./Login.scss"
 import { useEffect, useRef } from "react";
+import { API_BASE_URL } from "../../config/api";
 
 let googleInitialized = false;
 
@@ -31,7 +32,7 @@ function GoogleLoginButton({ onLoginSuccess }) {
 
     async function handleCredentialResponse(response) {
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/google`, {
+            const res = await fetch(`${API_BASE_URL}/api/auth/google`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
