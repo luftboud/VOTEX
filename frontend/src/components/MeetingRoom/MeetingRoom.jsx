@@ -1,102 +1,55 @@
 import "./MeetingRoom.scss";
 
-function MeetingRoom() {
-    const meeting_cell = function (i, j, color) { return (
-        <div style={{
-                gridColumn: `${i}`,
-                gridRow: `${j}`,
-                border: `1px solid #000`,
-                borderRadius: `5px`,
-                background: color
-            }}
-        />
-    )};
+function MeetingRoom({ meeting_code, members }) {
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        const request = await fetch(`${import.meta.env.VITE_API_URL}/api/activateMeeting`);
+
+        if (!request.ok) {
+            const json = await request.json();
+            console.log(json.message);
+        }
+
+        // navigate()
+    }
 
     return (
         <div className="system-layout">
-            <h1>Система Ради УКУ</h1>
-            <div className="system-layout__grid">
-                {[1, 2, 3, 4].map((i) => (
-                    [1, 2, 3].map((j) => (
-                        meeting_cell(i, j, "#ff2c2c")
-                ))))}
-
-                {[1, 2].map((i) =>
-                    meeting_cell(i, 5, "#ff2c2c")
-                )}
-
-                {[1, 2, 3, 4].map((i) => (
-                    meeting_cell(i, 7, "#C21807")
-                ))}
-
-                {[1, 2].map((i) => (
-                    meeting_cell(i, 9, "#C21807")
-                ))}
-
-                {[3, 4].map((i) => (
-                    meeting_cell(i, 10, "#C21807")
-                ))}
-
-                {[6, 7, 8, 9].map((i) => (
-                    [1, 2].map((j) => (
-                        meeting_cell(i, j, "#8bca84")
-                ))))}
-
-                {[6, 7].map((i) => (
-                    meeting_cell(i, 4, "#8bca84")
-                ))}
-
-                {[8, 9].map((i) => (
-                    meeting_cell(i, 5, "#8bca84")
-                ))}
-
-                {[6, 7].map((i) => (
-                    meeting_cell(i, 6, "#8bca84")
-                ))}
-
-                {[8, 9].map((i) => (
-                    meeting_cell(i, 7, "#8bca84")
-                ))}
-
-                {[11, 12, 13, 14].map((i) => (
-                    [1, 2].map((j) => (
-                        meeting_cell(i, j, "#0077B6")
-                ))))}
-
-                {[11, 12].map((i) => (
-                    meeting_cell(i, 4, "#0077B6")
-                ))}
-
-                {[13, 14].map((i) => (
-                    meeting_cell(i, 5, "#0077B6")
-                ))}
-
-                {[11, 12].map((i) => (
-                    meeting_cell(i, 6, "#0077B6")
-                ))}
-
-                {[13, 14].map((i) => (
-                    meeting_cell(i, 7, "#0077B6")
-                ))}
-
-                {[16, 17, 18, 19].map((i) => (
-                    [1, 2, 3].map((j) => (
-                        meeting_cell(i, j, "#6f2da8")
-                    ))))}
-
-                {[16, 17].map((i) =>
-                    meeting_cell(i, 5, "#6f2da8")
-                )}
-
-                {[16, 17, 18, 19].map((i) => (
-                    meeting_cell(i, 8, "#C21807")
-                ))}
-
-                {[18, 19].map((i) => (
-                    meeting_cell(i, 10, "#C21807")
-                ))}
-
+            <div className="system-layout__container">
+                <p className="system-layout__container-title">Код приєднання</p>
+                <p className="system-layout__container-code">{meeting_code}</p>
             </div>
+
+            <div className="system-layout__member-container">
+                <p className="system-layout__member-container-title">Під'єдналось учасників: {members.length}</p>
+                {members.length !== 0 && (
+                    <table className="system-layout__member-container-table">
+                        <thead>
+                        <tr>
+                            <th>Імʼя</th>
+                            <th>Спеціальність</th>
+                            <th>Рік</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {members.map((member) => (
+                            <tr>
+                                <td>{member.name}</td>
+                                <td>{member.major}</td>
+                                <td>{member.year}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                )}
+            </div>
+
+            <form className="system-layout__form" onSubmit={handleSubmit}>
+                <button type="submit" className="system-layout__form-btn">Почати засідання</button>
+                <p>Почніть засідання, коли всі присутні доєднаються</p>
+            </form>
         </div>
     );
 }
