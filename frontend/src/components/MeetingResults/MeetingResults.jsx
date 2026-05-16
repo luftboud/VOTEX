@@ -1,5 +1,24 @@
 import "./MeetingResults.scss";
 
+function getVotesWord(count) {
+    const lastDigit = count % 10;
+    const lastTwoDigits = count % 100;
+
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
+        return "голосів";
+    }
+
+    if (lastDigit === 1) {
+        return "голос";
+    }
+
+    if (lastDigit >= 2 && lastDigit <= 4) {
+        return "голоси";
+    }
+
+    return "голосів";
+}
+
 function MeetingResults({ meeting }) {
     const first_meet = meeting.agenda[0];
     const all_participants = first_meet.yes.length + first_meet.no.length + first_meet.abstained.length;
@@ -52,7 +71,7 @@ function MeetingResults({ meeting }) {
                                     />
                                 </div>
                                 <p className="meetingResults__answer-votes">
-                                    {question.yes.length} голосів
+                                    {question.yes.length} {getVotesWord(question.yes.length)}
                                 </p>
                             </div>
                         </div>
@@ -70,7 +89,7 @@ function MeetingResults({ meeting }) {
                                     />
                                 </div>
                                 <p className="meetingResults__answer-votes">
-                                    {question.no.length} голосів
+                                    {question.no.length} {getVotesWord(question.no.length)}
                                 </p>
                             </div>
                         </div>
@@ -88,7 +107,7 @@ function MeetingResults({ meeting }) {
                                     />
                                 </div>
                                 <p className="meetingResults__answer-votes">
-                                    {question.abstained.length} голосів
+                                    {question.abstained.length} {getVotesWord(question.abstained.length)}
                                 </p>
                             </div>
                         </div>
