@@ -39,11 +39,11 @@ function CreateMeeting({ user }) {
     ]);
 
     const [page, setPage] = useState("form");
-
+    const userName = user?.name
     return (
         <div>
             <Header
-                name={user}
+                name={userName}
                 avatar="/images/avatar.svg"
             />
             {page === "form" ? (
