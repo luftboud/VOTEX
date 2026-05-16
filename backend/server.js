@@ -168,8 +168,24 @@ function isScheduledMeeting(meeting) {
 }
 
 function normalizeQuestion(question) {
-    if (!question) {
+    if (!question && question !== 0) {
         return null;
+    }
+
+    // If the question is a primitive (string/number), treat it as the title text.
+    if (typeof question === "string" || typeof question === "number") {
+        const text = String(question);
+        return {
+            id: null,
+            title: text || "Поточне питання",
+            text: "",
+            item_id: null,
+            item_name: text || "",
+            yes: [],
+            no: [],
+            abstained: [],
+            raw: question,
+        };
     }
 
     return {
@@ -186,7 +202,12 @@ function normalizeQuestion(question) {
 }
 
 function extractCurrentQuestion(meeting) {
-    const directQuestion = meeting?.currentQuestion ?? meeting?.current_question ?? meeting?.activeQuestion ?? meeting?.active_question;
+    const directQuestion = meeting?.current ?? meeting?.currentQuestion ?? meeting?.current_question ?? meeting?.activeQuestion ?? meeting?.active_question;
+
+    // If directQuestion is an object with a primitive `raw` field, treat that raw value as the question.
+    if (directQuestion && typeof directQuestion === "object" && (typeof directQuestion.raw === "string" || typeof directQuestion.raw === "number")) {
+        return normalizeQuestion(directQuestion.raw);
+    }
 
     if (directQuestion) {
         return normalizeQuestion(directQuestion);
@@ -206,6 +227,28 @@ function extractCurrentQuestion(meeting) {
     }
 
     return null;
+}
+
+// Ensure a primitive/object current or agenda item is converted to a normalized shape
+function normalizeForWrite(item) {
+    if (item === null || item === undefined) {
+        return { title: "Поточне питання", text: "", yes: [], no: [], abstained: [], raw: null };
+    }
+
+    if (typeof item === "string" || typeof item === "number") {
+        const title = String(item);
+        return { title, text: "", yes: [], no: [], abstained: [], raw: item };
+    }
+
+    // item is object
+    const raw = item.raw ?? item;
+    const title = (item.title ?? item.item_name ?? (typeof item.raw === "string" ? item.raw : null) ?? item.name) || "Поточне питання";
+    const text = item.text ?? item.description ?? "";
+    const yes = Array.isArray(item.yes) ? Array.from(new Set(item.yes.map(String))) : (Array.isArray(item.raw?.yes) ? Array.from(new Set(item.raw.yes.map(String))) : []);
+    const no = Array.isArray(item.no) ? Array.from(new Set(item.no.map(String))) : (Array.isArray(item.raw?.no) ? Array.from(new Set(item.raw.no.map(String))) : []);
+    const abstained = Array.isArray(item.abstained) ? Array.from(new Set(item.abstained.map(String))) : (Array.isArray(item.raw?.abstained) ? Array.from(new Set(item.raw.abstained.map(String))) : []);
+
+    return { title, text, yes, no, abstained, raw };
 }
 
 function getMeetingState(meeting) {
@@ -281,8 +324,10 @@ app.post("/api/meetings/code/:meetingCode/vote", async (req, res) => {
     try {
         const meetingCode = String(req.params.meetingCode || "").trim();
         const { questionId, choice } = req.body || {};
+        console.log('Vote payload received:', req.body);
 
-        if (!meetingCode || !questionId || !choice) {
+        if (!meetingCode || !choice) {
+            console.warn('Missing vote payload check failed:', { meetingCode, choice });
             return res.status(400).json({ message: "Missing vote payload" });
         }
 
@@ -294,41 +339,121 @@ app.post("/api/meetings/code/:meetingCode/vote", async (req, res) => {
         }
 
         const agenda = Array.isArray(meeting.agenda) ? meeting.agenda : [];
-        const questionIndex = agenda.findIndex((question) => String(question.item_id ?? question.id ?? question.questionId ?? question._id) === String(questionId));
+        let questionIndex = -1;
+        let question = null;
 
-        if (questionIndex === -1) {
-            return res.status(404).json({ message: "Question not found" });
+        // If questionId provided, try to find it in agenda.
+        if (questionId) {
+            questionIndex = agenda.findIndex((q) => String(q?.item_id ?? q?.id ?? q?.questionId ?? q?._id) === String(questionId));
+            if (questionIndex !== -1) {
+                question = agenda[questionIndex];
+            } else {
+                return res.status(404).json({ message: "Question not found" });
+            }
+        } else {
+            // No questionId provided: use the current question detected by extractCurrentQuestion
+            const current = extractCurrentQuestion(meeting);
+            if (!current) {
+                return res.status(404).json({ message: "Question not found" });
+            }
+
+            // If current has an id, try to locate it in agenda
+            if (current.id) {
+                questionIndex = agenda.findIndex((q) => String(q?.item_id ?? q?.id ?? q?.questionId ?? q?._id) === String(current.id));
+                if (questionIndex !== -1) {
+                    question = agenda[questionIndex];
+                }
+            }
+
+            // If we didn't find an agenda item, but meeting.current exists, we'll write votes into meeting.current
+            // Otherwise, try to match primitive/raw agenda entries
+            if (!question) {
+                // Find primitive or raw matches in agenda
+                const activeIndex = agenda.findIndex((q) => {
+                    if (q == null) return false;
+                    if (typeof q === "string" || typeof q === "number") {
+                        return String(q) === String(current.raw ?? current.title ?? "");
+                    }
+                    if (typeof q === "object") {
+                        if (q.raw && (typeof q.raw === "string" || typeof q.raw === "number")) {
+                            return String(q.raw) === String(current.raw ?? current.title ?? "");
+                        }
+                        return Boolean(q.isActive || q.active || q.current);
+                    }
+                    return false;
+                });
+
+                if (activeIndex !== -1) {
+                    questionIndex = activeIndex;
+                    question = agenda[questionIndex];
+                }
+            }
         }
 
         const selectedField = choice === "yes" ? "yes" : choice === "no" ? "no" : "abstained";
         const userId = req.session.user?.id ? String(req.session.user.id) : `guest:${Date.now()}`;
-        const question = agenda[questionIndex];
-        const nextVotes = Array.isArray(question[selectedField]) ? [...question[selectedField]] : [];
 
-        if (!nextVotes.includes(userId)) {
-            nextVotes.push(userId);
+        if (question) {
+            // Normalize the agenda item for writing
+            const metaFields = (typeof question === "object") ? { item_id: question.item_id, id: question.id, questionId: question.questionId, _id: question._id } : {};
+            const norm = normalizeForWrite(question);
+            const currentVotes = Array.isArray(norm[selectedField]) ? [...norm[selectedField]] : [];
+            if (!currentVotes.includes(userId)) currentVotes.push(userId);
+
+            const updatedAgenda = [...agenda];
+            updatedAgenda[questionIndex] = {
+                ...metaFields,
+                title: norm.title,
+                text: norm.text,
+                yes: norm.yes,
+                no: norm.no,
+                abstained: norm.abstained,
+                raw: norm.raw,
+                [selectedField]: currentVotes,
+            };
+
+            await rawMeetings.updateOne(
+                { _id: meeting._id },
+                {
+                    $set: {
+                        agenda: updatedAgenda,
+                    },
+                }
+            );
+
+            return res.status(200).json({ message: "Vote recorded", questionId: metaFields.item_id ?? metaFields.id ?? null, choice: selectedField });
         }
 
-        const updatedAgenda = [...agenda];
-        updatedAgenda[questionIndex] = {
-            ...question,
-            [selectedField]: nextVotes,
-        };
+        // If no agenda item matched, try to store votes in meeting.current
+        if (meeting.current !== undefined) {
+            let updatedCurrent = meeting.current;
+            const norm = normalizeForWrite(updatedCurrent);
+            const currentVotes = Array.isArray(norm[selectedField]) ? [...norm[selectedField]] : [];
+            if (!currentVotes.includes(userId)) currentVotes.push(userId);
 
-        await rawMeetings.updateOne(
-            { _id: meeting._id },
-            {
-                $set: {
-                    agenda: updatedAgenda,
-                },
-            }
-        );
+            const toWrite = {
+                title: norm.title,
+                text: norm.text,
+                yes: norm.yes,
+                no: norm.no,
+                abstained: norm.abstained,
+                raw: norm.raw,
+            };
+            toWrite[selectedField] = currentVotes;
 
-        return res.status(200).json({
-            message: "Vote recorded",
-            questionId,
-            choice: selectedField,
-        });
+            await rawMeetings.updateOne(
+                { _id: meeting._id },
+                {
+                    $set: {
+                        current: toWrite,
+                    },
+                }
+            );
+
+            return res.status(200).json({ message: "Vote recorded", questionId: null, choice: selectedField });
+        }
+
+        return res.status(404).json({ message: "Question not found" });
     } catch (error) {
         console.error("Failed to record vote:", error);
         return res.status(500).json({ message: "Failed to record vote" });
@@ -337,6 +462,11 @@ app.post("/api/meetings/code/:meetingCode/vote", async (req, res) => {
 
 async function startServer() {
     try {
+        if (!process.env.MONGO_URL) {
+            console.error("MONGO_URL is not set. The server requires a MongoDB connection to run.");
+            process.exit(1);
+        }
+
         await connectDB();
 
         app.listen(PORT, () => {
@@ -344,6 +474,7 @@ async function startServer() {
         });
     } catch (error) {
         console.error("Failed to start server:", error);
+        process.exit(1);
     }
 }
 

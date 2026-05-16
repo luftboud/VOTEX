@@ -107,7 +107,16 @@ function MeetingLivePage() {
     }
 
     if (voteReceipt && liveState.currentQuestion && String(voteReceipt.questionId) === String(liveState.currentQuestion.id)) {
-        return <VoteRecorded nextText="Чекайте на наступне питання" onContinue={() => setVoteReceipt(null)} />;
+        return (
+            <VoteRecorded
+                nextText="Чекайте на наступне питання"
+                onContinue={() => {
+                    setVoteReceipt(null);
+                    // Temporarily show waiting state until server updates
+                    setLiveState((s) => ({ ...s, state: "waiting", currentQuestion: null }));
+                }}
+            />
+        );
     }
 
     return (
