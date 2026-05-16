@@ -1,9 +1,9 @@
 import MeetingFormItem from "./MeetingFormItem/MeetingFormItem";
 import "./CreateMeetingForm.scss";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 
-
-function CreateMeetingForm({meetingInfo, setMeetingInfo, questions, setQuestions}) {
+function CreateMeetingForm({ meetingInfo, setMeetingInfo, questions, setQuestions }) {
     function addQuestion() {
         setQuestions(prev => [
             ...prev,
@@ -37,48 +37,101 @@ function CreateMeetingForm({meetingInfo, setMeetingInfo, questions, setQuestions
     return (
         <div className="meeting-creation">
             <div className="meeting-creation-title">
-                <h1 className="meeting-creation-title__head">Створити нове засідання</h1>
-                <p className="meeting-creation-title__descr">Налаштуйте своє засідання та питання до нього.</p>
+                <h1 className="meeting-creation-title__head">
+                    Створити нове засідання
+                </h1>
+                <p className="meeting-creation-title__descr">
+                    Налаштуйте своє засідання та питання до нього.
+                </p>
             </div>
 
             <MeetingFormItem
-                fields={[{
+                fields={[
+                    {
                         label: "Назва засідання",
                         value: meetingInfo.title,
                         onChange: (value) => updateMeetingInfo("title", value)
-                    }, {
+                    },
+                    {
                         label: "Посилання",
                         value: meetingInfo.protocolLink,
                         onChange: (value) => updateMeetingInfo("protocolLink", value)
-                }]}
+                    }
+                ]}
             />
 
             <div className="meeting-creation-question-block">
-                <h2 className="meeting-creation-question-block__title">Питання</h2>
-                {questions.map((question) => (
-                    <MeetingFormItem
-                        key={question.id}
-                        fields={[
-                            {
-                                label: "Зміст питання",
-                                value: question.content,
-                                onChange: (value) => updateQuestion(question.id, value)
-                            }
-                        ]}
-                        onDelete={() => deleteQuestion(question.id)}
-                    />
-                ))}
-                <button type="button" className="meeting-creation-question-block__add-question" onClick={addQuestion}>
-                    <div className={`meeting-creation-question-block__icon adminMain__action-icon adminMain__action-icon--blue`}>
+                <h2 className="meeting-creation-question-block__title">
+                    Питання
+                </h2>
+
+                <AnimatePresence>
+                    {questions.map((question) => (
+                        <motion.div
+                            className="meeting-creation-question-block__animated-item"
+                            key={question.id}
+                            layout
+                            initial={{
+                                opacity: 0,
+                                y: -12,
+                                scale: 0.97
+                            }}
+                            animate={{
+                                opacity: 1,
+                                y: 0,
+                                scale: 1
+                            }}
+                            exit={{
+                                opacity: 0,
+                                y: -12,
+                                scale: 0.97
+                            }}
+                            transition={{
+                                duration: 0.2,
+                                layout: {
+                                    duration: 0.2
+                                }
+                            }}
+                        >
+                            <MeetingFormItem
+                                fields={[
+                                    {
+                                        label: "Зміст питання",
+                                        value: question.content,
+                                        onChange: (value) =>
+                                            updateQuestion(question.id, value)
+                                    }
+                                ]}
+                                onDelete={() => deleteQuestion(question.id)}
+                            />
+                        </motion.div>
+                    ))}
+                </AnimatePresence>
+
+                <button
+                    type="button"
+                    className="meeting-creation-question-block__add-question"
+                    onClick={addQuestion}
+                >
+                    <div className="meeting-creation-question-block__icon adminMain__action-icon adminMain__action-icon--blue">
                         <PlusIcon />
                     </div>
-                    <p className="meeting-creation-question-block__title">Додати запитання</p>
+                    <p className="meeting-creation-question-block__title">
+                        Додати запитання
+                    </p>
                 </button>
             </div>
 
             <div className="meeting-creation-btn-holder">
-                <Link to="/admin" className="meeting-creation-btn-holder__cancel">Скасувати</Link>
-                <button type="submit" className="meeting-creation-btn-holder__submit">Почати засідання</button>
+                <Link to="/admin" className="meeting-creation-btn-holder__cancel">
+                    Скасувати
+                </Link>
+                <button
+                    type="submit"
+                    className="meeting-creation-btn-holder__submit"
+                >
+                    Почати засідання
+                </button>
             </div>
         </div>
     );
