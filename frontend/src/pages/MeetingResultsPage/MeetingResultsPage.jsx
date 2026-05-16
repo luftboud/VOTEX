@@ -43,10 +43,7 @@ function MeetingResultsPage() {
 
     return (
         <div>
-            {/*<Header*/}
-            {/*    name="Ія"*/}
-            {/*    avatar="/images/avatar.svg"*/}
-            {/*/>*/}
+            <Header/>
             <MeetingResults meeting={meeting} />
         </div>
     );

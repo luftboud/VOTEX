@@ -1,11 +1,12 @@
 import UserMain from "../../components/UserMain/UserMain";
 import Header from "../../components/Header/Header";
 
-function userHome() {
+function userHome({user}) {
+
     return (
         <div>
             <Header
-                name="Ія"
+                name={user?.name}
                 avatar="/images/avatar.svg"
             />
             <UserMain />

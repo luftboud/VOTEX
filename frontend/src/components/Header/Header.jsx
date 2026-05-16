@@ -18,8 +18,15 @@ function Header({ name, avatar }) {
                 </a>
             </div>
             <div className="header__user-info">
-                <p className="header__user-info-name">Ласкаво просимо, {name}</p>
-                <img className="header__user-info-img" src={avatar} alt="Avatar" />
+                {name && (
+                    <p className="header__user-info-name">
+                        Ласкаво просимо, {name}
+                    </p>
+                )}
+
+                {avatar && (
+                    <img className="header__user-info-img" src={avatar} alt="Avatar" />
+                )}
             </div>
         </header>
     );
