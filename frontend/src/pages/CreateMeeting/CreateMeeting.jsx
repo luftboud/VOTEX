@@ -1,5 +1,6 @@
 import CreateMeetingForm from "../../components/CreateMeetingForm/CreateMeetingForm";
 import Header from "../../components/Header/Header";
+import MeetingRoom from "../../components/MeetingRoom/MeetingRoom";
 import {useState} from "react";
 
 function CreateMeeting({ user }) {
@@ -45,7 +46,7 @@ function CreateMeeting({ user }) {
                 name={user}
                 avatar="/images/avatar.svg"
             />
-            {page === "form"? (
+            {page === "form" ? (
                 <form method="POST" onSubmit={handleSubmit}>
                     <CreateMeetingForm
                         meetingInfo={meetingInfo}
@@ -55,7 +56,7 @@ function CreateMeeting({ user }) {
                     />
                 </form>
             ) : (
-                <h1>Waiting</h1>
+                <MeetingRoom />
             )}
         </div>
     );
