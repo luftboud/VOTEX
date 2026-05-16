@@ -19,6 +19,7 @@ const API = import.meta.env.VITE_API_URL;
 const DEFAULT_FACULTY = FACULTY_ORDER[0];
 const DEFAULT_PROGRAM = FACULTIES[DEFAULT_FACULTY].programs[0].key;
 const DEFAULT_YEAR = "1";
+const UCU_EMAIL_RE = /^[^\s@]+@ucu\.edu\.ua$/i;
 
 function EditConvocation() {
 	const navigate = useNavigate();
@@ -28,6 +29,7 @@ function EditConvocation() {
 	const [representatives, setRepresentatives] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [notFound, setNotFound] = useState(false);
+	const [archived, setArchived] = useState(false);
 
 	const [form, setForm] = useState({
 		name: "",
@@ -66,6 +68,11 @@ function EditConvocation() {
 
 				const convData = await convRes.json();
 				const repsData = await repsRes.json();
+
+				if (!convData.convocation?.isActive) {
+					setArchived(true);
+					return;
+				}
 
 				setConvocation(convData.convocation);
 				setRepresentatives(repsData.representatives ?? []);
@@ -137,10 +144,16 @@ function EditConvocation() {
 	const isDuplicate = representatives.some(
 		(r) => r.major === form.major && String(r.year) === String(form.year),
 	);
+	const isEmailValid = UCU_EMAIL_RE.test(form.email.trim());
 
 	async function handleAdd(event) {
 		event.preventDefault();
 		if (submitting) return;
+
+		if (!isEmailValid) {
+			setFormError("Електронна пошта має закінчуватися на @ucu.edu.ua");
+			return;
+		}
 
 		if (isDuplicate) {
 			setFormError(`На ${form.year} курсі програми «${getProgramName(form.major)}» вже є представник.`);
@@ -210,6 +223,17 @@ function EditConvocation() {
 
 	if (notFound) {
 		return <div className="editConvocation__notFound">Скликання не знайдено.</div>;
+	}
+
+	if (archived) {
+		return (
+			<div className="editConvocation__notFound">
+				<p>Це скликання архівне. Редагувати можна лише поточне скликання.</p>
+				<button type="button" onClick={() => navigate("/admin")}>
+					Повернутися
+				</button>
+			</div>
+		);
 	}
 
 	const facultyPrograms = FACULTIES[form.faculty]?.programs ?? [];
@@ -339,7 +363,7 @@ function EditConvocation() {
 							<button
 								type="submit"
 								className="editConvocation__addButton"
-								disabled={submitting || isDuplicate}
+								disabled={submitting || isDuplicate || !isEmailValid}
 							>
 								<PlusIcon />
 								{submitting ? "Додавання..." : "Додати"}

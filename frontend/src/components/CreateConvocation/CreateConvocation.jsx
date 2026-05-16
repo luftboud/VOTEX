@@ -2,6 +2,16 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CreateConvocation.scss";
 
+function isValidYearRange(value) {
+	const m = value.trim().match(/^(\d{4})-(\d{4})$/);
+	if (!m) return false;
+	const y1 = Number(m[1]);
+	const y2 = Number(m[2]);
+	if (y2 !== y1 + 1) return false;
+	const currentYear = new Date().getFullYear();
+	return y1 >= 2000 && y1 <= currentYear + 5;
+}
+
 function CreateConvocation() {
 	const navigate = useNavigate();
 
@@ -11,7 +21,8 @@ function CreateConvocation() {
 	const [submitting, setSubmitting] = useState(false);
 	const [error, setError] = useState("");
 
-	const isValid = name.trim() !== "" && year.trim() !== "";
+	const yearInvalid = year.trim() !== "" && !isValidYearRange(year);
+	const isValid = name.trim() !== "" && isValidYearRange(year);
 
 	async function handleSubmit(event) {
 		event.preventDefault();
@@ -82,6 +93,11 @@ function CreateConvocation() {
 							placeholder="Напр.: 2025-2026"
 							required
 						/>
+						{yearInvalid && (
+							<p className="createConvocation__error">
+								Введіть рік у форматі YYYY-YYYY з послідовними роками (напр.: 2026-2027).
+							</p>
+						)}
 					</div>
 
 					<div className="createConvocation__field">

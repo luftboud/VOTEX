@@ -13,6 +13,19 @@ const PORT = process.env.PORT || 5000;
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
+const UCU_EMAIL_RE = /^[^\s@]+@ucu\.edu\.ua$/i;
+
+function validateYearRange(value) {
+    if (typeof value !== "string") return false;
+    const m = value.match(/^(\d{4})-(\d{4})$/);
+    if (!m) return false;
+    const y1 = Number(m[1]);
+    const y2 = Number(m[2]);
+    if (y2 !== y1 + 1) return false;
+    const currentYear = new Date().getFullYear();
+    return y1 >= 2000 && y1 <= currentYear + 5;
+}
+
 app.use(cors({
     origin: process.env.FRONTEND_URL,
     credentials: true,
@@ -136,21 +149,45 @@ app.post("/api/convocations", async (req, res) => {
             return res.status(400).json({ message: "Name and year are required" });
         }
 
+        if (!validateYearRange(year)) {
+            return res.status(400).json({ message: "Year must be in the form YYYY-YYYY with consecutive years (e.g. 2026-2027)" });
+        }
+
         const usersCollection = getUsersCollection();
         await usersCollection.deleteMany({ kernel: { $ne: true } });
 
         const convocationsCollection = getConvocationsCollection();
-        const result = await convocationsCollection.insertOne({
+        await convocationsCollection.updateMany({ isActive: true }, { $set: { isActive: false } });
+
+        const doc = {
             name,
             year,
             descr: null,
             meetings: [],
-        });
+            isActive: true,
+        };
+        const result = await convocationsCollection.insertOne(doc);
 
-        return res.status(201).json({ convocation: { _id: result.insertedId, name, year, descr: null, meetings: [] } });
+        return res.status(201).json({ convocation: { _id: result.insertedId, ...doc } });
     } catch (error) {
         console.error("Create convocation error:", error);
         return res.status(500).json({ message: "Failed to create convocation" });
+    }
+});
+
+app.get("/api/convocations/current", async (req, res) => {
+    try {
+        const convocationsCollection = getConvocationsCollection();
+        const current = await convocationsCollection.findOne({ isActive: true });
+
+        if (!current) {
+            return res.status(404).json({ message: "No current convocation" });
+        }
+
+        return res.status(200).json({ convocation: current });
+    } catch (error) {
+        console.error("Get current convocation error:", error);
+        return res.status(500).json({ message: "Failed to fetch current convocation" });
     }
 });
 
@@ -198,6 +235,11 @@ app.post("/api/representatives", async (req, res) => {
             return res.status(400).json({ message: "Missing required fields" });
         }
 
+        const trimmedEmail = String(email).trim();
+        if (!UCU_EMAIL_RE.test(trimmedEmail)) {
+            return res.status(400).json({ message: "Електронна пошта має закінчуватися на @ucu.edu.ua" });
+        }
+
         const usersCollection = getUsersCollection();
 
         const conflict = await usersCollection.findOne({
@@ -214,7 +256,7 @@ app.post("/api/representatives", async (req, res) => {
             name,
             avatar: avatar || "",
             kernel: false,
-            email,
+            email: trimmedEmail,
             token: "",
             google_sub: "",
             faculty,
@@ -256,9 +298,22 @@ app.delete("/api/representatives/:id", async (req, res) => {
     }
 });
 
+async function backfillActiveConvocation() {
+    const convocationsCollection = getConvocationsCollection();
+    const anyActive = await convocationsCollection.findOne({ isActive: true });
+    if (anyActive) return;
+
+    const newest = await convocationsCollection.find({}).sort({ _id: -1 }).limit(1).next();
+    if (newest) {
+        await convocationsCollection.updateOne({ _id: newest._id }, { $set: { isActive: true } });
+        console.log(`Backfilled isActive=true on convocation ${newest._id}`);
+    }
+}
+
 async function startServer() {
     try {
         await connectDB();
+        await backfillActiveConvocation();
 
         app.listen(PORT, () => {
             console.log(`Server running on http://localhost:${PORT}`);
