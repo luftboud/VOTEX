@@ -7,6 +7,8 @@ import ArchivePage from "./pages/ArchivePage/ArchivePage";
 import MeetingResultsPage from "./pages/MeetingResultsPage/MeetingResultsPage";
 import CreateConvocationPage from "./pages/CreateConvocation/CreateConvocation";
 import EditConvocationPage from "./pages/EditConvocation/EditConvocation";
+import UserInstructionPage from "./pages/UserInstructionPage/UserInstructionPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage/PrivacyPolicyPage";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -104,6 +106,16 @@ function App() {
                 <Route
                     path="/admin/convocations/:convocationId"
                     element={<EditConvocationPage user={user} />}
+                />
+
+                <Route
+                    path="/user-instruction"
+                    element={<UserInstructionPage user={user} />}
+                />
+
+                <Route
+                    path="/privacy-policy"
+                    element={<PrivacyPolicyPage user={user} />}
                 />
             </Routes>
 

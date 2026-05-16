@@ -1,0 +1,332 @@
+.infoDocsPage {
+    background: #f9fafb;
+    min-height: calc(100vh - 69px);
+
+    &__content {
+        max-width: 896px;
+        margin: 0 auto;
+        padding: 48px 16px 56px;
+    }
+
+    &__heading {
+        margin-bottom: 32px;
+    }
+
+    &__title {
+        margin: 0;
+        color: #1e2939;
+        font-size: 30px;
+        line-height: 36px;
+        font-weight: 700;
+    }
+
+    &__subtitle {
+        margin: 8px 0 0;
+        color: #4a5565;
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    &__cards {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    &--privacy {
+        .infoDocsPage__content {
+            max-width: 864px;
+        }
+    }
+}
+
+.infoDocsCard {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 14px;
+    overflow: hidden;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 24px;
+        border-bottom: 1px solid;
+    }
+
+    &__icon {
+        width: 24px;
+        height: 24px;
+        color: currentColor;
+
+        svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+    }
+
+    &__header-title {
+        margin: 0;
+        font-size: 16px;
+        line-height: 20px;
+        font-weight: 500;
+    }
+
+    &__body {
+        padding: 24px;
+    }
+
+    &--blue {
+        .infoDocsCard__header {
+            background: #eff6ff;
+            border-color: #bedbff;
+            color: #1c398e;
+        }
+    }
+
+    &--green {
+        .infoDocsCard__header {
+            background: #f0fdf4;
+            border-color: #b9f8cf;
+            color: #0d542b;
+        }
+    }
+
+    &--purple {
+        .infoDocsCard__header {
+            background: #faf5ff;
+            border-color: #e9d4ff;
+            color: #59168b;
+        }
+    }
+
+    &--orange {
+        .infoDocsCard__header {
+            background: #fff7ed;
+            border-color: #ffd6a8;
+            color: #7e2a0c;
+        }
+    }
+
+    &--red {
+        .infoDocsCard__header {
+            background: #fef2f2;
+            border-color: #ffc9c9;
+            color: #82181a;
+        }
+    }
+
+    &--slate {
+        .infoDocsCard__header {
+            background: #f9fafb;
+            border-color: #e5e7eb;
+            color: #0a0a0a;
+        }
+    }
+}
+
+.infoDocsBlock {
+    & + & {
+        margin-top: 16px;
+    }
+
+    &__title {
+        margin: 0;
+        color: #1e2939;
+        font-size: 18px;
+        line-height: 27px;
+        font-weight: 700;
+    }
+
+    &__text {
+        margin: 8px 0 0;
+        color: #4a5565;
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+
+.infoDocsList {
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    li {
+        position: relative;
+        padding-left: 16px;
+        color: #4a5565;
+        font-size: 16px;
+        line-height: 24px;
+
+        &::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #155dfc;
+        }
+    }
+
+    &--plain {
+        li {
+            padding-left: 0;
+
+            &::before {
+                display: none;
+            }
+        }
+    }
+
+    &--check {
+        li::before {
+            content: "✓";
+        }
+    }
+}
+
+.votingOption {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &__icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        line-height: 1;
+        flex-shrink: 0;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    &__title {
+        margin: 0;
+        color: #1e2939;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 700;
+    }
+
+    &__text {
+        margin: 0;
+        color: #4a5565;
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    &--for .votingOption__icon {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+    &--against .votingOption__icon {
+        background: #ffe2e2;
+        color: #dc2626;
+    }
+
+    &--abstain .votingOption__icon {
+        background: #f3f4f6;
+        color: #4b5563;
+    }
+}
+
+.infoDocsFaq {
+    & + & {
+        margin-top: 16px;
+    }
+
+    &__question {
+        margin: 0;
+        color: #1e2939;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 700;
+    }
+
+    &__answer {
+        margin: 4px 0 0;
+        color: #4a5565;
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+
+.infoDocsContact {
+    margin: 0;
+    color: #364153;
+    font-size: 16px;
+    line-height: 26px;
+
+    a {
+        color: #155dfc;
+        text-decoration: none;
+    }
+}
+
+@media (max-width: 760px) {
+    .infoDocsPage {
+        &__content {
+            padding: 26px 10px 34px;
+        }
+
+        &__title {
+            font-size: 24px;
+            line-height: 32px;
+        }
+
+        &__subtitle {
+            font-size: 14px;
+            line-height: 20px;
+        }
+    }
+
+    .infoDocsCard {
+        &__header,
+        &__body {
+            padding: 14px;
+        }
+    }
+
+    .infoDocsBlock {
+        &__title {
+            font-size: 16px;
+            line-height: 24px;
+        }
+
+        &__text {
+            font-size: 14px;
+            line-height: 21px;
+        }
+    }
+
+    .infoDocsList li,
+    .votingOption__text,
+    .votingOption__title,
+    .infoDocsFaq__question,
+    .infoDocsFaq__answer,
+    .infoDocsContact {
+        font-size: 14px;
+        line-height: 21px;
+    }
+}

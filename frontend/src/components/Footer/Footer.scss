@@ -1,6 +1,6 @@
 .footer {
   display: flex;
-  gap: 20px;
+  gap: 32px;
   justify-content: center;
   padding: 25px 50px;
 
@@ -8,13 +8,13 @@
 
   &__link {
     text-decoration: none;
-    font-size: 16px;
-    color: #898989;
+    font-size: 14px;
+    color: #4a5565;
   }
 
   &__link:hover {
     text-decoration: none;
-    font-size: 16px;
+    font-size: 14px;
     color: #01246F;
   }
 

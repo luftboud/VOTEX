@@ -4,11 +4,11 @@ import "./Footer.scss";
 function Footer() {
     return (
         <footer className="footer">
-            <Link className="footer__link" to="/user-instruction">Інструкція користувача</Link>
+            <Link className="footer__link" to="/user-instruction">User Instruction</Link>
             <span className="footer__span">|</span>
-            <Link className="footer__link" to="#">Політика конфідеційності</Link>
+            <Link className="footer__link" to="/privacy-policy">Privacy Policy</Link>
             <span className="footer__span">|</span>
-            <Link className="footer__link" to="#">Служба підтримки</Link>
+            <Link className="footer__link" to="#">Support</Link>
         </footer>
     );
 }
