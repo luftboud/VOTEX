@@ -1,8 +1,9 @@
 import "./UserMain.scss";
 import ArchiveMeetingUnit from "../ArchiveMeetingUnit/ArchiveMeetingUnit";
 import { useEffect, useState } from "react";
-function userMain() {
+import {useNavigate} from "react-router-dom";
 
+function userMain() {
     let [meetings, setMeetings] = useState([]);
 
     useEffect(() => {
@@ -20,7 +21,8 @@ function userMain() {
         fetchMeetings();
     }, [])
 
-    console.log(meetings);
+    const navigate = useNavigate();
+
     return (
         <div className="userMain__container">
             <div className="userMain__container-join-meeting-card">
@@ -35,11 +37,17 @@ function userMain() {
             <div className="userMain__container-meeting-archive">
                 <div className="userMain__container-meeting-archive-header">
                     <h2 className="userMain__container-meeting-archive-header-text">Архів засіднань</h2>
-                    <button className="userMain__container-meeting-archive-header-btn">Показати всі</button>
+                    <button
+                        className="userMain__container-meeting-archive-header-btn"
+                        type="button"
+                        onClick={() => navigate('/archive')}
+                    >Показати всі</button>
                 </div>
                 <div className="userMain__container-meeting-archive-cardholder">
                     {meetings
                         .filter(meeting => meeting.status === "Closed")
+                        .sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
+                        .slice(0, 3)
                         .map(meeting => (
                         <ArchiveMeetingUnit
                             id={meeting._id}

@@ -1,13 +1,16 @@
 import Header from "../../components/Header/Header";
+import AdminMain from "../../components/AdminMain/AdminMain";
 
-function adminHome() {
+function adminHome({ user }) {
+    const userName = user?.name || user?.firstName || "Ія";
+
     return (
         <div>
             <Header
-                name="Ія"
+                name={userName}
                 avatar="/images/avatar.svg"
             />
-            Hello, it's admin (like a boss)
+            <AdminMain />
         </div>
     )
 }

@@ -1,11 +1,13 @@
 import UserMain from "../../components/UserMain/UserMain";
 import Header from "../../components/Header/Header";
 
-function userHome() {
+function userHome({user}) {
+    const userName = user?.name || "Анонім";
+
     return (
         <div>
             <Header
-                name="Ія"
+                name={userName}
                 avatar="/images/avatar.svg"
             />
             <UserMain />
