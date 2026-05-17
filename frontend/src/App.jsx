@@ -14,6 +14,7 @@ import MeetingLivePage from "./pages/MeetingLivePage/MeetingLivePage";
 import CreateMeeting from "./pages/CreateMeeting/CreateMeeting";
 import ActiveMeetingPage from "./pages/ActiveMeetingPage/ActiveMeetingPage";
 import Header from "./components/Header/Header";
+import Contacts from "./pages/Contacts/Contacts";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -139,6 +140,11 @@ function App() {
                 <Route
                     path="/privacy-policy"
                     element={<PrivacyPolicyPage user={user} />}
+                />
+
+                <Route
+                    path="/contacts"
+                    element={<Contacts user={user}/>}
                 />
             </Routes>
             </main>
