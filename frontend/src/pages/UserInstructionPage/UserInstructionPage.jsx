@@ -2,6 +2,13 @@ import Header from "../../components/Header/Header";
 import "../InformationPages/InformationPages.scss";
 
 function HeaderIcon({ type }) {
+    const voteIcon = (
+        <>
+            <path d="M18.1675 8.33333C18.5481 10.2011 18.2768 12.1429 17.399 13.8348C16.5212 15.5268 15.0899 16.8667 13.3438 17.6311C11.5976 18.3955 9.64219 18.5382 7.80358 18.0353C5.96498 17.5325 4.35433 16.4145 3.24023 14.8679C2.12613 13.3212 1.57594 11.4394 1.68139 9.53616C1.78684 7.63295 2.54157 5.82341 3.81971 4.40931C5.09785 2.99521 6.82215 2.06203 8.70505 1.76538C10.588 1.46873 12.5157 1.82655 14.1667 2.77917" />
+            <path d="M7.5 9.16667L10 11.6667L18.3333 3.33333" />
+        </>
+    );
+
     const icons = {
         book: (
             <>
@@ -24,19 +31,10 @@ function HeaderIcon({ type }) {
                 <path d="M22 19H2" />
             </>
         ),
-        vote: (
-            <>
-                <g clip-path="url(#clip0_1_1279)">
-                    <path d="M18.1675 8.33357C18.5481 10.2013 18.2769 12.1431 17.399 13.8351C16.5212 15.527 15.0899 16.8669 13.3438 17.6313C11.5976 18.3957 9.6422 18.5384 7.80359 18.0355C5.96498 17.5327 4.35433 16.4147 3.24024 14.8681C2.12614 13.3214 1.57594 11.4396 1.68139 9.53639C1.78684 7.63318 2.54157 5.82364 3.81972 4.40954C5.09786 2.99545 6.82216 2.06226 8.70506 1.76561C10.588 1.46897 12.5157 1.82679 14.1667 2.7794"/>
-                    <path d="M7.5 9.16683L10 11.6668L18.3333 3.3335"/>
-                </g>
-                <defs>
-                    <clipPath id="clip0_1_1279">
-                        <rect width="20" height="20" fill="white"/>
-                    </clipPath>
-                </defs>
-            </>
-        ),
+        vote: voteIcon,
+        vote_for: voteIcon,
+        vote_against: voteIcon,
+        vote_abstain: voteIcon,
         faq: (
             <>
                 <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" />
@@ -46,11 +44,9 @@ function HeaderIcon({ type }) {
         ),
     };
 
-    return (
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-            {icons[type]}
-        </svg>
-    );
+    const viewBox = type?.startsWith("vote") ? "0 0 20 20" : "0 0 24 24";
+
+    return <svg viewBox={viewBox} fill="none" aria-hidden="true">{icons[type]}</svg>;
 }
 
 function UserInstructionPage({ user }) {
@@ -198,7 +194,9 @@ function UserInstructionPage({ user }) {
                             </div>
 
                             <div className="votingOption votingOption--abstain">
-                                <span className="votingOption__icon">•</span>
+                                <span className="votingOption__icon">
+                                    <HeaderIcon type="vote_abstain" />
+                                </span>
                                 <div className="votingOption__content">
                                     <h3 className="votingOption__title">Abstain</h3>
                                     <p className="votingOption__text">
