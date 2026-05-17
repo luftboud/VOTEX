@@ -1,30 +1,47 @@
-import HelpCenterHeader from "../../components/HelpCenterHeader/HelpCenterHeader";
+import Header from "../../components/Header/Header";
 import "../InformationPages/InformationPages.scss";
 
 function HeaderIcon({ type }) {
     const icons = {
         book: (
-            <path d="M5 6.5A2.5 2.5 0 0 1 7.5 4H19v14H7.5A2.5 2.5 0 0 0 5 20.5V6.5ZM5 6.5V20.5M9 8h6M9 11h6" />
+            <>
+                <path d="M12 7V21" />
+                <path d="M3 18C2.73478 18 2.48043 17.8946 2.29289 17.7071C2.10536 17.5196 2 17.2652 2 17V4C2 3.73478 2.10536 3.48043 2.29289 3.29289C2.48043 3.10536 2.73478 3 3 3H8C9.06087 3 10.0783 3.42143 10.8284 4.17157C11.5786 4.92172 12 5.93913 12 7C12 5.93913 12.4214 4.92172 13.1716 4.17157C13.9217 3.42143 14.9391 3 16 3H21C21.2652 3 21.5196 3.10536 21.7071 3.29289C21.8946 3.48043 22 3.73478 22 4V17C22 17.2652 21.8946 17.5196 21.7071 17.7071C21.5196 17.8946 21.2652 18 21 18H15C14.2044 18 13.4413 18.3161 12.8787 18.8787C12.3161 19.4413 12 20.2044 12 21C12 20.2044 11.6839 19.4413 11.1213 18.8787C10.5587 18.3161 9.79565 18 9 18H3Z" />
+            </>
         ),
         users: (
             <>
-                <path d="M9 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm7 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-                <path d="M3.5 19c0-2.2 2.2-4 5-4s5 1.8 5 4M14 19c0-1.8 1.7-3.2 3.8-3.2S21.5 17.2 21.5 19" />
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" />
+                <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" />
+                <path d="M7 20.662V19C7 18.4696 7.21071 17.9609 7.58579 17.5858C7.96086 17.2107 8.46957 17 9 17H15C15.5304 17 16.0391 17.2107 16.4142 17.5858C16.7893 17.9609 17 18.4696 17 19V20.662" />
             </>
         ),
-        shield: <path d="M12 3.5 6 6v5.8c0 4 2.6 7.5 6 8.7 3.4-1.2 6-4.7 6-8.7V6l-6-2.5Z" />,
+        shield: <path d="M20 13C20 18 16.5 20.5 12.34 21.95C12.1222 22.0238 11.8855 22.0202 11.67 21.94C7.5 20.5 4 18 4 13V5.99996C4 5.73474 4.10536 5.48039 4.29289 5.29285C4.48043 5.10532 4.73478 4.99996 5 4.99996C7 4.99996 9.5 3.79996 11.24 2.27996C11.4519 2.09896 11.7214 1.99951 12 1.99951C12.2786 1.99951 12.5481 2.09896 12.76 2.27996C14.51 3.80996 17 4.99996 19 4.99996C19.2652 4.99996 19.5196 5.10532 19.7071 5.29285C19.8946 5.48039 20 5.73474 20 5.99996V13Z" />,
         ballot: (
             <>
-                <path d="M6.5 8h11v11h-11z" />
-                <path d="M9 11.5h6M9 14.5h4" />
-                <path d="M10 6h4" />
+                <path d="M9 12L11 14L15 10" />
+                <path d="M5 7C5 5.9 5.9 5 7 5H17C17.5304 5 18.0391 5.21071 18.4142 5.58579C18.7893 5.96086 19 6.46957 19 7V19H5V7Z" />
+                <path d="M22 19H2" />
+            </>
+        ),
+        vote: (
+            <>
+                <g clip-path="url(#clip0_1_1279)">
+                    <path d="M18.1675 8.33357C18.5481 10.2013 18.2769 12.1431 17.399 13.8351C16.5212 15.527 15.0899 16.8669 13.3438 17.6313C11.5976 18.3957 9.6422 18.5384 7.80359 18.0355C5.96498 17.5327 4.35433 16.4147 3.24024 14.8681C2.12614 13.3214 1.57594 11.4396 1.68139 9.53639C1.78684 7.63318 2.54157 5.82364 3.81972 4.40954C5.09786 2.99545 6.82216 2.06226 8.70506 1.76561C10.588 1.46897 12.5157 1.82679 14.1667 2.7794"/>
+                    <path d="M7.5 9.16683L10 11.6668L18.3333 3.3335"/>
+                </g>
+                <defs>
+                    <clipPath id="clip0_1_1279">
+                        <rect width="20" height="20" fill="white"/>
+                    </clipPath>
+                </defs>
             </>
         ),
         faq: (
             <>
-                <circle cx="12" cy="12" r="9" />
-                <path d="M9.7 9.8a2.3 2.3 0 1 1 4 1.6c-.9.8-1.7 1.2-1.7 2.4" />
-                <path d="M12 17h.01" />
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" />
+                <path d="M9.09 9.00008C9.3251 8.33175 9.78915 7.76819 10.4 7.40921C11.0108 7.05024 11.7289 6.91902 12.4272 7.03879C13.1255 7.15857 13.7588 7.52161 14.2151 8.06361C14.6713 8.60561 14.9211 9.2916 14.92 10.0001C14.92 12.0001 11.92 13.0001 11.92 13.0001" />
+                <path d="M12 17H12.01" />
             </>
         ),
     };
@@ -41,7 +58,7 @@ function UserInstructionPage({ user }) {
 
     return (
         <main className="infoDocsPage">
-            <HelpCenterHeader userName={userName} />
+            <Header name={userName} avatar="/images/avatar.svg"/>
 
             <section className="infoDocsPage__content">
                 <header className="infoDocsPage__heading">
@@ -161,7 +178,9 @@ function UserInstructionPage({ user }) {
                         </div>
                         <div className="infoDocsCard__body">
                             <div className="votingOption votingOption--for">
-                                <span className="votingOption__icon">✓</span>
+                                <span className="votingOption__icon">
+                                    <HeaderIcon type="vote_for" />
+                                </span>
                                 <div className="votingOption__content">
                                     <h3 className="votingOption__title">For</h3>
                                     <p className="votingOption__text">Vote &quot;For&quot; if you support the proposal or motion</p>
@@ -169,7 +188,9 @@ function UserInstructionPage({ user }) {
                             </div>
 
                             <div className="votingOption votingOption--against">
-                                <span className="votingOption__icon">✕</span>
+                                <span className="votingOption__icon">
+                                    <HeaderIcon type="vote_against" />
+                                </span>
                                 <div className="votingOption__content">
                                     <h3 className="votingOption__title">Against</h3>
                                     <p className="votingOption__text">Vote &quot;Against&quot; if you oppose the proposal or motion</p>
