@@ -52,6 +52,7 @@ function App() {
 
     return (
         <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+            <main className="main">
             <Routes>
                 {/*
                 логіку шляхів -- треба розкоментувати потім
@@ -140,7 +141,7 @@ function App() {
                     element={<PrivacyPolicyPage user={user} />}
                 />
             </Routes>
-
+            </main>
             <Footer />
         </div>
     );
