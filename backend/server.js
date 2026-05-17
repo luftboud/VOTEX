@@ -4,6 +4,7 @@ import session from "express-session";
 import dotenv from "dotenv";
 import { OAuth2Client } from "google-auth-library";
 import {connectDB, getMeetingsCollection, getUsersCollection} from "./db.js";
+import {ObjectId} from "mongodb";
 
 dotenv.config();
 
@@ -126,6 +127,105 @@ app.get("/api/meetings", async (req, res) => {
 
     return res.status(200).json({ meetings });
 });
+
+app.get("/api/isScheduledMeetings", async (req, res) => {
+    // if (!req.session.user) {
+    //     return res.status(401).json({ message: "Not authenticated" });
+    // }
+
+    const raw_meetings = getMeetingsCollection();
+    const meeting = await raw_meetings.findOne({ status: "Scheduled" });
+
+    if (!meeting) {
+        return res.status(404).json({ message: "Active meeting not found" });
+    }
+
+    return res.status(200).json({ meeting });
+})
+
+app.get("/api/activateMeeting", async (req, res) => {
+    // if (!req.session.user) {
+    //     return res.status(401).json({ message: "Not authenticated" });
+    // }
+
+    const raw_meetings = getMeetingsCollection();
+    const result = await raw_meetings.updateOne(
+        { status: "Scheduled" },
+        {
+            $set: {
+                status: "Active",
+                code: null
+            }
+        }
+    );
+
+    if (result.matchedCount === 0) {
+        return res.status(404).json({ message: "Scheduled meeting not found" });
+    }
+
+    return res.status(200);
+})
+
+app.get("api/getMeeting", async (req, res) => {
+    // if (!req.session.user) {
+    //     return res.status(401).json({ message: "Not authenticated" });
+    // }
+
+    const raw_meetings = getMeetingsCollection();
+    const meeting = await raw_meetings.findOne({ _id: req.body._id });
+
+    if (!meeting) {
+        return res.status(404).json({ message: "Meeting not found" });
+    }
+
+    return res.status(200).json({ meeting });
+})
+
+app.post("/api/createMeeting", async (req, res) => {
+    // if (!req.session.user) {
+    //     return res.status(401).json({ message: "Not authenticated" });
+    // }
+
+    const collection = getMeetingsCollection();
+
+    if (await collection.findOne({ status: "Scheduled" })) {
+        return res.status(409).json({ message: "There already a scheduled meeting" });
+    }
+
+    const { title, protocolLink, questions } = req.body;
+
+    if (!title || !Array.isArray(questions) || questions.length === 0) {
+        return res.status(400).json({ message: "Invalid meeting data" });
+    }
+
+    const meeting = {
+        _id: new ObjectId(),
+        name: title.trim(),
+        term_id: new ObjectId(),
+        datetime: new Date(),
+        status: "Scheduled",
+        code: Math.floor(Math.random() * 900000) + 100000,
+        present: [],
+        agenda: questions.map((text, idx) => ({
+                "item_id": idx + 1,
+                "item_name": text,
+                "yes": [],
+                "no": [],
+                "abstained": []
+        })),
+        current: 0,
+        protocol_link: protocolLink.trim(),
+    };
+
+    const result = await collection.insertOne(meeting);
+
+    return res.status(201).json({
+        message: "Meeting created",
+        _id: meeting._id,
+        code: meeting.code,
+        present: meeting.present
+    })
+})
 
 async function startServer() {
     try {

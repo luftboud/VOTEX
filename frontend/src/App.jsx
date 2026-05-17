@@ -6,6 +6,7 @@ import AdminHome from "./pages/AdminHome/AdminHome";
 import ArchivePage from "./pages/ArchivePage/ArchivePage";
 import MeetingResultsPage from "./pages/MeetingResultsPage/MeetingResultsPage";
 import { Navigate, Route, Routes } from "react-router-dom";
+import CreateMeeting from "./pages/CreateMeeting/CreateMeeting";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -87,6 +88,17 @@ function App() {
                 <Route
                     path="/archive"
                     element={<ArchivePage />}
+                />
+
+                <Route
+                    path="/create-meeting"
+                    element={// isAdmin ?
+                    (
+                        <CreateMeeting user={user} />
+                    ) //: (
+                    //    <Navigate to="/" replace />
+                    //)
+                    }
                 />
 
                 <Route
