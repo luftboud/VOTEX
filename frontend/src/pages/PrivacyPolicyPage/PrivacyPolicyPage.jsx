@@ -192,8 +192,8 @@ function PrivacyPolicyPage({ user }) {
                                 <h3 className="infoDocsBlock__title">Зв’язатися з нами</h3>
                                 <p className="infoDocsContact">
                                     Якщо у вас є запитання або занепокоєння щодо цієї Політики конфіденційності або того, як ми обробляємо ваші дані,
-                                    будь ласка, зверніться до адміністрації Ради студентів за адресою{" "}
-                                    <a href="mailto:council@university.edu">council@university.edu</a>
+                                    будь ласка, зверніться до розробників за адресою{" "}
+                                    <a href="mailto:ijamaharyta@gmail.com">ijamaharyta@gmail.com</a>
                                 </p>
                             </div>
                         </div>
