@@ -109,13 +109,6 @@ function AdminMain() {
 					</header>
 
 					<div className="adminMain__settings-list">
-						<button key="student-council" className="adminMain__settings-card" type="button">
-							<UsersOutlineIcon />
-							<div>
-								<h4 className="adminMain__settings-title">Рада студентів</h4>
-								<p className="adminMain__settings-description">Переглянути представників</p>
-							</div>
-						</button>
 						<button key="change-convocation" className="adminMain__settings-card" type="button" onClick={RedirectConvocationSettings}>
 							<CogIcon />
 							<div>
@@ -123,6 +116,14 @@ function AdminMain() {
 								<p className="adminMain__settings-description">Відредагувати склад Ради</p>
 							</div>
 						</button>
+						<a key="student-council" className="adminMain__settings-card" type="button"
+								href="https://elect-rep-ucu.netlify.app">
+							<UsersOutlineIcon />
+							<div>
+								<h4 className="adminMain__settings-title">Вибори в Раду студентів</h4>
+								<p className="adminMain__settings-description">Переглянути результати виборів</p>
+							</div>
+						</a>
 					</div>
 				</article>
 			</section>
