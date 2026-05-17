@@ -1,8 +1,8 @@
 import "./Login.scss"
 import { useEffect, useRef } from "react";
-import { API_BASE_URL } from "../../config/api";
 
 let googleInitialized = false;
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 function GoogleLoginButton({ onLoginSuccess }) {
     const buttonRef = useRef(null);

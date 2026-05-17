@@ -5,31 +5,54 @@ import WaitingForReps from "../../components/VotingPages/WaitingForReps";
 import VotingPage from "../../components/VotingPages/VotingPage";
 import VoteRecorded from "../../components/VotingPages/VoteRecorded";
 import MeetingFinished from "../../components/VotingPages/MeetingFinished";
-import { API_BASE_URL } from "../../config/api";
 
 function MeetingLivePage() {
-    const { meetingCode } = useParams();
+    const { meetingId } = useParams();
     const navigate = useNavigate();
-    const [liveState, setLiveState] = useState({ loading: true, state: "waiting", meeting: null, currentQuestion: null });
+
+    const [liveState, setLiveState] = useState({
+        loading: true,
+        state: "waiting",
+        meeting: null,
+        currentQuestion: null,
+    });
+
     const [voteReceipt, setVoteReceipt] = useState(null);
+
+    const API_BASE_URL = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         let mounted = true;
 
         async function pollMeetingState() {
             try {
-                const response = await fetch(`${API_BASE_URL}/api/meetings/code/${encodeURIComponent(meetingCode)}`);
+                const response = await fetch(
+                    `${API_BASE_URL}/api/meetings/${encodeURIComponent(meetingId)}/live`,
+                    {
+                        credentials: "include",
+                    }
+                );
 
                 if (!mounted) {
                     return;
                 }
 
-                if (response.status === 404) {
-                    setLiveState({ loading: false, state: "not_found", meeting: null, currentQuestion: null });
+                if (response.status === 404 || response.status === 403) {
+                    setLiveState({
+                        loading: false,
+                        state: "not_found",
+                        meeting: null,
+                        currentQuestion: null,
+                    });
                     return;
                 }
 
                 const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || "Failed to load meeting state");
+                }
+
                 setLiveState({
                     loading: false,
                     state: data.state,
@@ -38,20 +61,27 @@ function MeetingLivePage() {
                 });
             } catch (error) {
                 console.error("Failed to load meeting state:", error);
+
                 if (mounted) {
-                    setLiveState({ loading: false, state: "not_found", meeting: null, currentQuestion: null });
+                    setLiveState({
+                        loading: false,
+                        state: "not_found",
+                        meeting: null,
+                        currentQuestion: null,
+                    });
                 }
             }
         }
 
         pollMeetingState();
+
         const intervalId = window.setInterval(pollMeetingState, 2000);
 
         return () => {
             mounted = false;
             window.clearInterval(intervalId);
         };
-    }, [meetingCode]);
+    }, [API_BASE_URL, meetingId]);
 
     useEffect(() => {
         if (!voteReceipt || !liveState.currentQuestion) {
@@ -64,17 +94,22 @@ function MeetingLivePage() {
     }, [liveState.currentQuestion, voteReceipt]);
 
     async function handleVote(payload) {
-        const response = await fetch(`${API_BASE_URL}/api/meetings/code/${encodeURIComponent(meetingCode)}/vote`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            credentials: "include",
-            body: JSON.stringify(payload),
-        });
+        const response = await fetch(
+            `${API_BASE_URL}/api/meetings/${encodeURIComponent(meetingId)}/vote`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify(payload),
+            }
+        );
+
+        const data = await response.json();
 
         if (!response.ok) {
-            throw new Error("Failed to record vote");
+            throw new Error(data.message || "Failed to record vote");
         }
 
         setVoteReceipt(payload);
@@ -91,37 +126,41 @@ function MeetingLivePage() {
     if (liveState.state === "finished") {
         return (
             <MeetingFinished
-                onArchive={() => navigate("/archive")}
+                onArchive={() => navigate(`/archive/${meetingId}`)}
                 onHome={() => navigate("/")}
             />
+        );
+    }
+
+    if (
+        liveState.state === "vote_recorded" ||
+        (
+            voteReceipt &&
+            liveState.currentQuestion &&
+            String(voteReceipt.questionId) === String(liveState.currentQuestion.id)
+        )
+    ) {
+        return (
+            <VoteRecorded nextText="Чекайте на наступне питання" />
         );
     }
 
     if (liveState.state !== "voting") {
         return (
             <WaitingForReps
-                message={liveState.meeting?.name ? `Засідання «${liveState.meeting.name}»` : "Очікуємо на представників!"}
-                detail="Щойно буде додано голосування, воно автоматично з’явиться тут."
-            />
-        );
-    }
-
-    if (voteReceipt && liveState.currentQuestion && String(voteReceipt.questionId) === String(liveState.currentQuestion.id)) {
-        return (
-            <VoteRecorded
-                nextText="Чекайте на наступне питання"
-                onContinue={() => {
-                    setVoteReceipt(null);
-                    // Temporarily show waiting state until server updates
-                    setLiveState((s) => ({ ...s, state: "waiting", currentQuestion: null }));
-                }}
+                message={
+                    liveState.meeting?.name
+                        ? `${liveState.meeting.name}`
+                        : "Очікуємо на початок засідання!"
+                }
+                detail="Коли голосування почнеться, питання автоматично з’явиться тут."
             />
         );
     }
 
     return (
         <VotingPage
-            meetingId={meetingCode}
+            meetingId={meetingId}
             initialQuestion={liveState.currentQuestion}
             onVote={handleVote}
         />

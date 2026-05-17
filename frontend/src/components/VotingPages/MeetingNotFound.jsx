@@ -12,7 +12,7 @@ function MeetingNotFound({ onBack }) {
                     </svg>
                 </div>
                 <h2 className="vcard__title">Засідання не знайдено</h2>
-                <p className="vcard__text">Засідання не існує, або воно вже розпочалось</p>
+                <p className="vcard__text">Засідання з таким кодом не існує або до нього вже не можна приєднатись.</p>
                 <button className="vcard__button" onClick={onBack}>Повернутися на головну</button>
             </div>
         </div>
