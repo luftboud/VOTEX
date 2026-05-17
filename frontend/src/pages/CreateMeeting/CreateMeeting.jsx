@@ -54,40 +54,42 @@ function CreateMeeting({ user }) {
     const [scheduledMeeting, setScheduled] = useState(null);
     const [page, setPage] = useState("form");
 
-    if (page !== "form") {
-        useEffect(() => {
-            async function fetchMeetings() {
-                const request = await fetch(`${import.meta.env.VITE_API_URL}/api/isScheduledMeetings`, {
-                    credentials: "include",
-                });
-                if (request.status === 404) {
-                    setScheduled(null);
-                    return;
-                }
-
-                const data = await request.json();
-                console.log(data);
-                setScheduled(data.meeting);
+    useEffect(() => {
+        async function fetchMeetings() {
+            const request = await fetch(`${import.meta.env.VITE_API_URL}/api/isScheduledMeetings`, {
+                credentials: "include",
+            });
+            if (request.status === 404) {
+                setScheduled(null);
+                return;
             }
 
+            const data = await request.json();
+            console.log(data);
+            setScheduled(data.meeting);
+        }
+
+        fetchMeetings();
+
+        if (page === "form") {
+            return;
+        }
+
+        const intervalId = setInterval(() => {
             fetchMeetings();
+        }, 2500);
 
-            const intervalId = setInterval(() => {
-                fetchMeetings();
-            }, 2500);
+        return () => clearInterval(intervalId);
 
-            return () => clearInterval(intervalId);
-        }, [])
-    }
+    }, [page])
 
     const userName = user?.name
     return (
         <div>
             <Header
                 name={userName}
-                avatar="/images/avatar.svg"
             />
-            {page === "form" && scheduledMeeting === null ? (
+            {scheduledMeeting === null ? (
                 <form method="POST" onSubmit={handleSubmit}>
                     <CreateMeetingForm
                         meetingInfo={meetingInfo}
@@ -96,17 +98,11 @@ function CreateMeeting({ user }) {
                         setQuestions={setQuestions}
                     />
                 </form>
-            ) : scheduledMeeting !== null ? (
+            ) : (
                 <MeetingRoom
                     meeting_id={scheduledMeeting._id}
                     meeting_code={scheduledMeeting.code}
                     members={scheduledMeeting.present}
-                />
-            ) : (
-                <MeetingRoom
-                    meeting_id={meetingInfo.meeting_id}
-                    meeting_code={meetingInfo.meeting_code}
-                    members={meetingInfo.present}
                 />
             )}
         </div>
