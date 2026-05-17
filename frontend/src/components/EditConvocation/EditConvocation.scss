@@ -344,6 +344,21 @@
 		font-size: 16px;
 	}
 
+	&__notFound-button {
+		border-radius: 8px;
+		background: #01246F;
+		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.10), 0 4px 6px -4px rgba(0, 0, 0, 0.10);
+		padding: 14px 24px 14px 24px;
+		color: #FFF;
+		text-align: center;
+		font-size: 16px;
+		font-style: normal;
+		font-weight: 500;
+		line-height: 20px;
+		letter-spacing: -0.439px;
+		border-color: transparent;
+	}
+
 	&__overlay {
 		position: fixed;
 		inset: 0;

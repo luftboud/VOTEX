@@ -229,7 +229,7 @@ function EditConvocation() {
 		return (
 			<div className="editConvocation__notFound">
 				<p>Це скликання архівне. Редагувати можна лише поточне скликання.</p>
-				<button type="button" onClick={() => navigate("/admin")}>
+				<button type="button"  className="editConvocation__notFound-button" onClick={() => navigate("/admin")}>
 					Повернутися
 				</button>
 			</div>
