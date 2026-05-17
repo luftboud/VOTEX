@@ -16,23 +16,25 @@ const recentMeetings = [
 	},
 ];
 
-const settingsActions = [
-	{
-		id: "student-council",
-		title: "Рада студентів",
-		description: "Переглянути представників",
-		icon: UsersOutlineIcon,
-	},
-	{
-		id: "change-convocation",
-		title: "Змінити скликання",
-		description: "Відредагувати склад Ради",
-		icon: CogIcon,
-	},
-];
-
 function AdminMain() {
 	const navigate = useNavigate();
+	async function RedirectConvocationSettings(event) {
+		event.preventDefault();
+		const response = await fetch(`${import.meta.env.VITE_API_URL}/api/convocations/current`, {
+			credentials: "include",
+		});
+		if (!response.ok) {
+			const data = await response.json().catch(() => ({}));
+			throw new Error(data.message || "Failed to create convocation");
+		}
+
+		if (response.status === 404) {
+			console.log("No current convocation");
+			return null;
+		}
+		const data = await response.json();
+		navigate(`/admin/convocations/${data.convocation._id}`);
+	}
 	return (
 		<main className="adminMain">
 			<section className="adminMain__quick-actions">
@@ -102,19 +104,20 @@ function AdminMain() {
 					</header>
 
 					<div className="adminMain__settings-list">
-						{settingsActions.map((action) => {
-							const ActionIcon = action.icon;
-
-							return (
-								<button key={action.id} className="adminMain__settings-card" type="button">
-									<ActionIcon />
-									<div>
-										<h4 className="adminMain__settings-title">{action.title}</h4>
-										<p className="adminMain__settings-description">{action.description}</p>
-									</div>
-								</button>
-							);
-						})}
+						<button key="student-council" className="adminMain__settings-card" type="button">
+							<UsersOutlineIcon />
+							<div>
+								<h4 className="adminMain__settings-title">Рада студентів</h4>
+								<p className="adminMain__settings-description">Переглянути представників</p>
+							</div>
+						</button>
+						<button key="change-convocation" className="adminMain__settings-card" type="button" onClick={RedirectConvocationSettings}>
+							<CogIcon />
+							<div>
+								<h4 className="adminMain__settings-title">Змінити скликання</h4>
+								<p className="adminMain__settings-description">Відредагувати склад Ради</p>
+							</div>
+						</button>
 					</div>
 				</article>
 			</section>
