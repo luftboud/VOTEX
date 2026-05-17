@@ -48,42 +48,43 @@ function App() {
     return (
         <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
             <Routes>
-                {/* Логіку шляхів закоментовано на час роботи задля зручності
-                    Тому можете росто в пошуковому полі тикати шляхи які нада
+                {/*
+                логіку шляхів -- треба розкоментувати потім
                 */}
                 <Route
                     path="/login"
                     element={
-                        // user ? (
-                        //     <Navigate to={isAdmin ? "/admin" : "/"} replace />
-                        // ) : (
+                        user ? (
+                            <Navigate to={isAdmin ? "/admin" : "/"} replace />
+                        ) : (
                             <LoginPage onAuthSuccess={(loggedInUser) => setUser(loggedInUser)} />
-                        // )
+                        )
                     }
                 />
                 <Route
                     path="/"
                     element={
-                        // !user ? (
-                        //     <Navigate to="/login" replace />
-                        // ) : isAdmin ? (
-                        //     <Navigate to="/admin" replace />
-                        // ) : (
+                        !user ? (
+                            <Navigate to="/login" replace />
+                        ) : //isAdmin ? (
+                            //<Navigate to="/admin" replace />
+                        //) :
+                            (
                             <UserHome user={user} />
-                        // )
+                        )
                     }
                 />
 
                 <Route
                     path="/admin"
                     element={
-                        // !user ? (
-                        //     <Navigate to="/login" replace />
-                        // ) : isAdmin ? (
+                        !user ? (
+                            <Navigate to="/login" replace />
+                        ) : isAdmin ? (
                             <AdminHome user={user} />
-                        // ) : (
-                        //     <Navigate to="/" replace />
-                        // )
+                        ) : (
+                            <Navigate to="/" replace />
+                        )
                     }
                 />
 
@@ -94,22 +95,18 @@ function App() {
 
                 <Route
                     path="/meeting"
-                    element={// isAdmin ?
+                    element={ isAdmin ?
                     (
                         <CreateMeeting user={user} />
-                    ) //: (
-                    //    <Navigate to="/" replace />
-                    //)
+                    ) : (
+                       <Navigate to="/" replace />
+                    )
                     }
                 />
 
                 <Route
                     path="/archive/:meetingId"
                     element={<MeetingResultsPage />}
-                />
-                <Route
-                    path="/test"
-                    element={<ActiveMeetingPage />}
                 />
             </Routes>
 
