@@ -1,0 +1,68 @@
+.meeting-finished {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 69px);
+
+  &__card {
+    border-radius: 14px;
+    border: 2px solid #BEDBFF;
+    background: #FFF;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.10), 0 8px 10px -6px rgba(0, 0, 0, 0.10);
+    padding: 48px 48px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  &__icon {
+    display: flex;
+    width: 80px;
+    height: 80px;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: 100%;
+    background: #E4ECFF;
+  }
+
+  &__title {
+    color: #1E2939;
+    text-align: center;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 34px;
+    letter-spacing: 0.396px;
+    margin: 24px 0 0;
+  }
+
+  &__description {
+    color: #4A5565;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: -0.312px;
+    margin: 18px 0 18px;
+    max-width: 80%;
+  }
+
+  &__button {
+    border-radius: 8px;
+    background: #01246F;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.10), 0 4px 6px -4px rgba(0, 0, 0, 0.10);
+    padding: 14px 24px 14px 24px;
+    color: #FFF;
+    text-align: center;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.439px;
+    border-color: transparent;
+  }
+}

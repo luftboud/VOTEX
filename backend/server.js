@@ -15,6 +15,7 @@ const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 app.use(cors({
     origin: process.env.FRONTEND_URL,
+    methods: ["GET", "POST", "PATCH", "DELETE"],
     credentials: true,
 }));
 
@@ -110,6 +111,18 @@ app.get("/api/me", (req, res) => {
     return res.status(200).json({ user: req.session.user });
 });
 
+function requireAdmin(req, res, next) {
+    if (!req.session.user) {
+        return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    if (!req.session.user.kernel) {
+        return res.status(403).json({ message: "Admin access required" });
+    }
+
+    next();
+}
+
 app.post("/api/logout", (req, res) => {
     req.session.destroy((err) => {
         if (err) {
@@ -128,63 +141,161 @@ app.get("/api/meetings", async (req, res) => {
     return res.status(200).json({ meetings });
 });
 
-app.get("/api/isScheduledMeetings", async (req, res) => {
-    // if (!req.session.user) {
-    //     return res.status(401).json({ message: "Not authenticated" });
-    // }
+app.get("/api/meetings/active", async (req, res) => {
+    try {
+        const raw_meetings = getMeetingsCollection();
 
-    const raw_meetings = getMeetingsCollection();
-    const meeting = await raw_meetings.findOne({ status: "Scheduled" });
+        const meeting = await raw_meetings.findOne({ status: "Active" });
 
-    if (!meeting) {
-        return res.status(404).json({ message: "Active meeting not found" });
-    }
-
-    return res.status(200).json({ meeting });
-})
-
-app.get("/api/activateMeeting", async (req, res) => {
-    // if (!req.session.user) {
-    //     return res.status(401).json({ message: "Not authenticated" });
-    // }
-
-    const raw_meetings = getMeetingsCollection();
-    const result = await raw_meetings.updateOne(
-        { status: "Scheduled" },
-        {
-            $set: {
-                status: "Active",
-                code: null
-            }
+        if (!meeting) {
+            return res.status(404).json({ message: "Active meeting not found" });
         }
-    );
 
-    if (result.matchedCount === 0) {
-        return res.status(404).json({ message: "Scheduled meeting not found" });
+        return res.status(200).json({ meeting });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Failed to fetch active meeting" });
     }
+});
 
-    return res.status(200);
-})
+app.patch("/api/meetings/:id/current", requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { current } = req.body;
 
-app.get("api/getMeeting", async (req, res) => {
-    // if (!req.session.user) {
-    //     return res.status(401).json({ message: "Not authenticated" });
-    // }
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid meeting id" });
+        }
 
-    const raw_meetings = getMeetingsCollection();
-    const meeting = await raw_meetings.findOne({ _id: req.body._id });
+        if (current !== null && typeof current !== "number") {
+            return res.status(400).json({ message: "Invalid current value" });
+        }
 
-    if (!meeting) {
-        return res.status(404).json({ message: "Meeting not found" });
+        const raw_meetings = getMeetingsCollection();
+
+        const meeting = await raw_meetings.findOne({
+            _id: new ObjectId(id)
+        });
+
+        if (!meeting) {
+            return res.status(404).json({ message: "Meeting not found" });
+        }
+
+        if (meeting.status !== "Active") {
+            return res.status(400).json({
+                message: "Only active meetings can be updated"
+            });
+        }
+
+        const agenda = meeting.agenda || [];
+        const oldProgress = meeting.progress ?? 0;
+
+        let update = {};
+
+        if (current === null) {
+            if (meeting.current === null) {
+                return res.status(400).json({
+                    message: "No active voting to finish"
+                });
+            }
+
+            update.current = null;
+        } else {
+            const questionIndex = agenda.findIndex(
+                question => question.item_id === current
+            );
+
+            if (questionIndex === -1) {
+                return res.status(400).json({
+                    message: "Question with this item_id does not exist"
+                });
+            }
+
+            const expectedNextQuestionIndex = oldProgress;
+
+            if (questionIndex !== expectedNextQuestionIndex) {
+                return res.status(400).json({
+                    message: "You cannot skip or return to another question"
+                });
+            }
+
+            update.current = current;
+            update.progress = oldProgress + 1;
+        }
+
+        await raw_meetings.updateOne(
+            { _id: new ObjectId(id) },
+            { $set: update }
+        );
+
+        const updatedMeeting = await raw_meetings.findOne({
+            _id: new ObjectId(id)
+        });
+
+        return res.status(200).json({ meeting: updatedMeeting });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: "Failed to update current question"
+        });
     }
+});
 
-    return res.status(200).json({ meeting });
-})
+app.patch("/api/meetings/:id/close", requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
 
-app.post("/api/createMeeting", async (req, res) => {
-    // if (!req.session.user) {
-    //     return res.status(401).json({ message: "Not authenticated" });
-    // }
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid meeting id" });
+        }
+
+        const raw_meetings = getMeetingsCollection();
+
+        const meeting = await raw_meetings.findOne({
+            _id: new ObjectId(id)
+        });
+
+        if (!meeting) {
+            return res.status(404).json({ message: "Meeting not found" });
+        }
+
+        if (meeting.status !== "Active") {
+            return res.status(400).json({
+                message: "Only active meetings can be closed"
+            });
+        }
+
+        const totalQuestions = meeting.agenda?.length ?? 0;
+        const progress = meeting.progress ?? 0;
+
+        if (progress < totalQuestions || meeting.current !== null) {
+            return res.status(400).json({
+                message: "Cannot close meeting before all voting is completed"
+            });
+        }
+
+        await raw_meetings.updateOne(
+            { _id: new ObjectId(id) },
+            {
+                $set: {
+                    status: "Closed",
+                    current: null
+                }
+            }
+        );
+
+        const updatedMeeting = await raw_meetings.findOne({
+            _id: new ObjectId(id)
+        });
+
+        return res.status(200).json({ meeting: updatedMeeting });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Failed to close meeting" });
+    }
+});
+
+app.post("/api/createMeeting", requireAdmin, async (req, res) => {
 
     const collection = getMeetingsCollection();
 
@@ -198,6 +309,14 @@ app.post("/api/createMeeting", async (req, res) => {
         return res.status(400).json({ message: "Invalid meeting data" });
     }
 
+    const normalizedQuestions = questions
+        .map(question => question.content?.trim() || question.item_name?.trim() || String(question).trim())
+        .filter(Boolean);
+
+    if (normalizedQuestions.length === 0) {
+        return res.status(400).json({ message: "Questions cannot be empty" });
+    }
+
     const meeting = {
         _id: new ObjectId(),
         name: title.trim(),
@@ -206,14 +325,15 @@ app.post("/api/createMeeting", async (req, res) => {
         status: "Scheduled",
         code: Math.floor(Math.random() * 900000) + 100000,
         present: [],
-        agenda: questions.map((text, idx) => ({
-                "item_id": idx + 1,
-                "item_name": text,
-                "yes": [],
-                "no": [],
-                "abstained": []
+        agenda: normalizedQuestions.map((text, index) => ({
+            item_id: index + 1,
+            item_name: text,
+            yes: [],
+            no: [],
+            abstained: []
         })),
-        current: 0,
+        current: null,
+        progress: 0,
         protocol_link: protocolLink.trim(),
     };
 
@@ -226,6 +346,7 @@ app.post("/api/createMeeting", async (req, res) => {
         present: meeting.present
     })
 })
+
 
 async function startServer() {
     try {
