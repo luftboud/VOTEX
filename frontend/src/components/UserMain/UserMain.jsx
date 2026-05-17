@@ -30,7 +30,7 @@ function userMain() {
                     <h2>Приєднатись до засідання</h2>
                 </div>
                 <form action="/" method="POST" className="userMain__container-join-meeting-card-form">
-                    <input type="text" placeholder="Введіть код засідання" className="userMain__container-join-meeting-card-form-input" />
+                    <input type="text" className="userMain__container-join-meeting-card-form-input" maxLength="6"/>
                     <button type="submit" className="userMain__container-join-meeting-card-form-submit">Приєднатись</button>
                 </form>
             </div>
