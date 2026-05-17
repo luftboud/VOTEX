@@ -156,8 +156,11 @@ app.post("/api/convocations", async (req, res) => {
         const usersCollection = getUsersCollection();
         await usersCollection.deleteMany({ kernel: { $ne: true } });
 
+        const meetingsCollection = getMeetingsCollection();
+        await meetingsCollection.deleteMany({});
+
         const convocationsCollection = getConvocationsCollection();
-        await convocationsCollection.updateMany({ isActive: true }, { $set: { isActive: false } });
+        await convocationsCollection.deleteMany({});
 
         const doc = {
             name,
