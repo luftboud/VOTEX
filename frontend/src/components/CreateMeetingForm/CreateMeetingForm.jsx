@@ -129,6 +129,7 @@ function CreateMeetingForm({ meetingInfo, setMeetingInfo, questions, setQuestion
                 <button
                     type="submit"
                     className="meeting-creation-btn-holder__submit"
+                    disabled={questions.length === 0}
                 >
                     Почати засідання
                 </button>
