@@ -58,8 +58,8 @@ function UserInstructionPage({ user }) {
 
             <section className="infoDocsPage__content">
                 <header className="infoDocsPage__heading">
-                    <h1 className="infoDocsPage__title">User Instructions</h1>
-                    <p className="infoDocsPage__subtitle">Learn how to use the Student Council Voting Platform</p>
+                    <h1 className="infoDocsPage__title">Інструкція користувача</h1>
+                    <p className="infoDocsPage__subtitle">Дізнайтеся, як користуватися платформою голосування Ради студентів</p>
                 </header>
 
                 <div className="infoDocsPage__cards">
@@ -68,21 +68,21 @@ function UserInstructionPage({ user }) {
                             <span className="infoDocsCard__icon">
                                 <HeaderIcon type="book" />
                             </span>
-                            <h2 className="infoDocsCard__header-title">Getting Started</h2>
+                            <h2 className="infoDocsCard__header-title">Початок роботи</h2>
                         </div>
                         <div className="infoDocsCard__body">
                             <div className="infoDocsBlock">
-                                <h3 className="infoDocsBlock__title">1. Sign In</h3>
+                                <h3 className="infoDocsBlock__title">1. Увійдіть</h3>
                                 <p className="infoDocsBlock__text">
-                                    Use your university Google account to sign in to the platform. Only authorized Student Council
-                                    members can access the voting system.
+                                    Використайте свій університетський Google-акаунт, щоб увійти на платформу. Лише авторизовані члени Ради студентів
+                                    можуть отримати доступ до системи голосування.
                                 </p>
                             </div>
                             <div className="infoDocsBlock">
-                                <h3 className="infoDocsBlock__title">2. Access Your Dashboard</h3>
+                                <h3 className="infoDocsBlock__title">2. Перейдіть до своєї панелі</h3>
                                 <p className="infoDocsBlock__text">
-                                    After signing in, you&apos;ll be directed to your dashboard where you can join meetings or view
-                                    past meetings.
+                                    Після входу вас буде спрямовано до вашої панелі, де ви можете приєднатися до засідань або переглянути
+                                    минулі засідання.
                                 </p>
                             </div>
                         </div>
@@ -93,33 +93,33 @@ function UserInstructionPage({ user }) {
                             <span className="infoDocsCard__icon">
                                 <HeaderIcon type="users" />
                             </span>
-                            <h2 className="infoDocsCard__header-title">For Representatives</h2>
+                            <h2 className="infoDocsCard__header-title">Для представників</h2>
                         </div>
                         <div className="infoDocsCard__body">
                             <div className="infoDocsBlock">
-                                <h3 className="infoDocsBlock__title">Joining a Meeting</h3>
+                                <h3 className="infoDocsBlock__title">Приєднання до засідання</h3>
                                 <ul className="infoDocsList infoDocsList--plain">
-                                    <li>Enter the meeting code provided by your administrator</li>
-                                    <li>Click the &quot;Join&quot; button to enter the meeting</li>
-                                    <li>Wait for the voting session to begin</li>
+                                    <li>Введіть код засідання, наданий вашим адміністратором</li>
+                                    <li>Натисніть кнопку &quot;Приєднатися&quot;, щоб увійти до засідання</li>
+                                    <li>Очікуйте початку сесії голосування</li>
                                 </ul>
                             </div>
 
                             <div className="infoDocsBlock">
-                                <h3 className="infoDocsBlock__title">Voting Process</h3>
+                                <h3 className="infoDocsBlock__title">Процес голосування</h3>
                                 <ul className="infoDocsList infoDocsList--plain">
-                                    <li>Read each question carefully</li>
-                                    <li>Choose one of three options: For, Against, or Abstain</li>
-                                    <li>Confirm your vote when prompted</li>
-                                    <li>Wait for the next question after submitting your vote</li>
+                                    <li>Уважно прочитайте кожне питання</li>
+                                    <li>Оберіть один із трьох варіантів: За, Проти або Утриматися</li>
+                                    <li>Підтвердьте свій голос, коли з’явиться запит</li>
+                                    <li>Очікуйте наступного питання після подання голосу</li>
                                 </ul>
                             </div>
 
                             <div className="infoDocsBlock">
-                                <h3 className="infoDocsBlock__title">Viewing Archive</h3>
+                                <h3 className="infoDocsBlock__title">Перегляд архіву</h3>
                                 <p className="infoDocsBlock__text">
-                                    Access the Meetings Archive section to view all past meetings and their results, even if you
-                                    didn&apos;t participate.
+                                    Перейдіть до розділу Архів засідань, щоб переглянути всі минулі засідання та їхні результати, навіть якщо ви
+                                    не брали участі.
                                 </p>
                             </div>
                         </div>
@@ -130,36 +130,36 @@ function UserInstructionPage({ user }) {
                             <span className="infoDocsCard__icon">
                                 <HeaderIcon type="shield" />
                             </span>
-                            <h2 className="infoDocsCard__header-title">For Administrators</h2>
+                            <h2 className="infoDocsCard__header-title">Для адміністраторів</h2>
                         </div>
                         <div className="infoDocsCard__body">
                             <div className="infoDocsBlock">
-                                <h3 className="infoDocsBlock__title">Creating a Meeting</h3>
+                                <h3 className="infoDocsBlock__title">Створення засідання</h3>
                                 <ul className="infoDocsList infoDocsList--plain">
-                                    <li>Click &quot;Create New Meeting&quot; from your admin dashboard</li>
-                                    <li>Enter meeting title and protocol link (optional)</li>
-                                    <li>Add questions using the &quot;+&quot; button</li>
-                                    <li>Click &quot;Start Meeting&quot; to begin the session</li>
+                                    <li>Натисніть &quot;Створити нове засідання&quot; на своїй адміністративній панелі</li>
+                                    <li>Введіть назву засідання та посилання на протокол, за бажанням</li>
+                                    <li>Додайте питання за допомогою кнопки &quot;+&quot;</li>
+                                    <li>Натисніть &quot;Почати засідання&quot;, щоб розпочати сесію</li>
                                 </ul>
                             </div>
 
                             <div className="infoDocsBlock">
-                                <h3 className="infoDocsBlock__title">Managing Voting</h3>
+                                <h3 className="infoDocsBlock__title">Керування голосуванням</h3>
                                 <ul className="infoDocsList infoDocsList--plain">
-                                    <li>Share the meeting code with participants</li>
-                                    <li>Click &quot;Start Voting&quot; for each question</li>
-                                    <li>View real-time results after voting ends</li>
-                                    <li>Proceed to the next question when ready</li>
+                                    <li>Поділіться кодом засідання з учасниками</li>
+                                    <li>Натисніть &quot;Почати голосування&quot; для кожного питання</li>
+                                    <li>Переглядайте результати в реальному часі після завершення голосування</li>
+                                    <li>Переходьте до наступного питання, коли будете готові</li>
                                 </ul>
                             </div>
 
                             <div className="infoDocsBlock">
-                                <h3 className="infoDocsBlock__title">Managing Members</h3>
+                                <h3 className="infoDocsBlock__title">Керування членами</h3>
                                 <ul className="infoDocsList infoDocsList--plain">
-                                    <li>Create a new convocation for each academic year</li>
-                                    <li>Add members by email address</li>
-                                    <li>Assign roles (President, Secretary, etc.)</li>
-                                    <li>Remove or update members as needed</li>
+                                    <li>Створюйте нове скликання для кожного академічного року</li>
+                                    <li>Додавайте членів за електронною поштою</li>
+                                    <li>Призначайте ролі: Президент, Секретар тощо</li>
+                                    <li>Видаляйте або оновлюйте членів за потреби</li>
                                 </ul>
                             </div>
                         </div>
@@ -170,7 +170,7 @@ function UserInstructionPage({ user }) {
                             <span className="infoDocsCard__icon">
                                 <HeaderIcon type="ballot" />
                             </span>
-                            <h2 className="infoDocsCard__header-title">Understanding Voting Options</h2>
+                            <h2 className="infoDocsCard__header-title">Розуміння варіантів голосування</h2>
                         </div>
                         <div className="infoDocsCard__body">
                             <div className="votingOption votingOption--for">
@@ -178,8 +178,8 @@ function UserInstructionPage({ user }) {
                                     <HeaderIcon type="vote_for" />
                                 </span>
                                 <div className="votingOption__content">
-                                    <h3 className="votingOption__title">For</h3>
-                                    <p className="votingOption__text">Vote &quot;For&quot; if you support the proposal or motion</p>
+                                    <h3 className="votingOption__title">За</h3>
+                                    <p className="votingOption__text">Голосуйте &quot;За&quot;, якщо ви підтримуєте пропозицію або рішення</p>
                                 </div>
                             </div>
 
@@ -188,8 +188,8 @@ function UserInstructionPage({ user }) {
                                     <HeaderIcon type="vote_against" />
                                 </span>
                                 <div className="votingOption__content">
-                                    <h3 className="votingOption__title">Against</h3>
-                                    <p className="votingOption__text">Vote &quot;Against&quot; if you oppose the proposal or motion</p>
+                                    <h3 className="votingOption__title">Проти</h3>
+                                    <p className="votingOption__text">Голосуйте &quot;Проти&quot;, якщо ви не підтримуєте пропозицію або рішення</p>
                                 </div>
                             </div>
 
@@ -198,9 +198,9 @@ function UserInstructionPage({ user }) {
                                     <HeaderIcon type="vote_abstain" />
                                 </span>
                                 <div className="votingOption__content">
-                                    <h3 className="votingOption__title">Abstain</h3>
+                                    <h3 className="votingOption__title">Утриматися</h3>
                                     <p className="votingOption__text">
-                                        Vote &quot;Abstain&quot; if you prefer not to take a position or have a conflict of interest
+                                        Голосуйте &quot;Утриматися&quot;, якщо ви не хочете займати позицію або маєте конфлікт інтересів
                                     </p>
                                 </div>
                             </div>
@@ -212,28 +212,28 @@ function UserInstructionPage({ user }) {
                             <span className="infoDocsCard__icon">
                                 <HeaderIcon type="faq" />
                             </span>
-                            <h2 className="infoDocsCard__header-title">Frequently Asked Questions</h2>
+                            <h2 className="infoDocsCard__header-title">Поширені запитання</h2>
                         </div>
                         <div className="infoDocsCard__body">
                             <div className="infoDocsFaq">
-                                <h3 className="infoDocsFaq__question">Can I change my vote?</h3>
+                                <h3 className="infoDocsFaq__question">Чи можу я змінити свій голос?</h3>
                                 <p className="infoDocsFaq__answer">
-                                    No, votes are final once submitted. Please review your choice carefully before confirming.
+                                    Ні, голоси є остаточними після подання. Будь ласка, уважно перевірте свій вибір перед підтвердженням.
                                 </p>
                             </div>
 
                             <div className="infoDocsFaq">
-                                <h3 className="infoDocsFaq__question">What if I miss a meeting?</h3>
+                                <h3 className="infoDocsFaq__question">Що робити, якщо я пропущу засідання?</h3>
                                 <p className="infoDocsFaq__answer">
-                                    You can view the results and details of past meetings in the Meetings Archive section.
+                                    Ви можете переглянути результати та деталі минулих засідань у розділі Архів засідань.
                                 </p>
                             </div>
 
                             <div className="infoDocsFaq">
-                                <h3 className="infoDocsFaq__question">Is my vote anonymous?</h3>
+                                <h3 className="infoDocsFaq__question">Чи є мій голос анонімним?</h3>
                                 <p className="infoDocsFaq__answer">
-                                    The system records that you voted, but your specific choice is kept private and only aggregate
-                                    results are displayed.
+                                    Система фіксує, що ви проголосували, але ваш конкретний вибір залишається приватним, і відображаються лише узагальнені
+                                    результати.
                                 </p>
                             </div>
                         </div>

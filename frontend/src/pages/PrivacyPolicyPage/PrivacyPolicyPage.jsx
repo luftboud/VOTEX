@@ -55,8 +55,8 @@ function PrivacyPolicyPage({ user }) {
 
             <section className="infoDocsPage__content">
                 <header className="infoDocsPage__heading">
-                    <h1 className="infoDocsPage__title">Privacy Policy</h1>
-                    <p className="infoDocsPage__subtitle">Last updated: March 29, 2026</p>
+                    <h1 className="infoDocsPage__title">Політика конфіденційності</h1>
+                    <p className="infoDocsPage__subtitle">Востаннє оновлено: 29 березня 2026</p>
                 </header>
 
                 <div className="infoDocsPage__cards">
@@ -65,12 +65,12 @@ function PrivacyPolicyPage({ user }) {
                             <span className="infoDocsCard__icon">
                                 <HeaderIcon type="overview" />
                             </span>
-                            <h2 className="infoDocsCard__header-title">Overview</h2>
+                            <h2 className="infoDocsCard__header-title">Огляд</h2>
                         </div>
                         <div className="infoDocsCard__body">
                             <p className="infoDocsBlock__text">
-                                The Student Council Voting Platform is committed to protecting your privacy. This policy outlines how
-                                we collect, use, and protect your personal information when you use our voting platform.
+                                Платформа голосування Ради студентів зобов’язується захищати вашу конфіденційність. Ця політика описує, як
+                                ми збираємо, використовуємо та захищаємо вашу особисту інформацію під час користування нашою платформою голосування.
                             </p>
                         </div>
                     </article>
@@ -80,31 +80,31 @@ function PrivacyPolicyPage({ user }) {
                             <span className="infoDocsCard__icon">
                                 <HeaderIcon type="document" />
                             </span>
-                            <h2 className="infoDocsCard__header-title">Information We Collect</h2>
+                            <h2 className="infoDocsCard__header-title">Інформація, яку ми збираємо</h2>
                         </div>
                         <div className="infoDocsCard__body">
                             <div className="infoDocsBlock">
-                                <h3 className="infoDocsBlock__title">Personal Information</h3>
+                                <h3 className="infoDocsBlock__title">Особиста інформація</h3>
                                 <ul className="infoDocsList infoDocsList--plain">
-                                    <li>Name and email address (via Google authentication)</li>
-                                    <li>University affiliation</li>
-                                    <li>Student Council role and department</li>
+                                    <li>Ім’я та електронна пошта через Google-автентифікацію</li>
+                                    <li>Належність до університету</li>
+                                    <li>Роль у Раді студентів та факультет</li>
                                 </ul>
                             </div>
                             <div className="infoDocsBlock">
-                                <h3 className="infoDocsBlock__title">Voting Data</h3>
+                                <h3 className="infoDocsBlock__title">Дані голосування</h3>
                                 <ul className="infoDocsList infoDocsList--plain">
-                                    <li>Meeting attendance records</li>
-                                    <li>Vote submissions (anonymized)</li>
-                                    <li>Timestamp of voting activities</li>
+                                    <li>Записи відвідуваності засідань</li>
+                                    <li>Подані голоси, анонімізовані</li>
+                                    <li>Часові позначки дій голосування</li>
                                 </ul>
                             </div>
                             <div className="infoDocsBlock">
-                                <h3 className="infoDocsBlock__title">Technical Information</h3>
+                                <h3 className="infoDocsBlock__title">Технічна інформація</h3>
                                 <ul className="infoDocsList infoDocsList--plain">
-                                    <li>IP address and device information</li>
-                                    <li>Browser type and version</li>
-                                    <li>Access timestamps</li>
+                                    <li>IP-адреса та інформація про пристрій</li>
+                                    <li>Тип і версія браузера</li>
+                                    <li>Часові позначки доступу</li>
                                 </ul>
                             </div>
                         </div>
@@ -115,15 +115,15 @@ function PrivacyPolicyPage({ user }) {
                             <span className="infoDocsCard__icon">
                                 <HeaderIcon type="eye" />
                             </span>
-                            <h2 className="infoDocsCard__header-title">How We Use Your Information</h2>
+                            <h2 className="infoDocsCard__header-title">Як ми використовуємо вашу інформацію</h2>
                         </div>
                         <div className="infoDocsCard__body">
                             <ul className="infoDocsList">
-                                <li>To authenticate and verify your identity as a Student Council member</li>
-                                <li>To facilitate voting sessions and record attendance</li>
-                                <li>To generate aggregate voting results and statistics</li>
-                                <li>To maintain meeting archives and historical records</li>
-                                <li>To improve the platform and ensure system security</li>
+                                <li>Для автентифікації та підтвердження вашої особи як члена Ради студентів</li>
+                                <li>Для проведення сесій голосування та фіксації відвідуваності</li>
+                                <li>Для створення узагальнених результатів голосування та статистики</li>
+                                <li>Для ведення архівів засідань та історичних записів</li>
+                                <li>Для покращення платформи та забезпечення безпеки системи</li>
                             </ul>
                         </div>
                     </article>
@@ -133,17 +133,17 @@ function PrivacyPolicyPage({ user }) {
                             <span className="infoDocsCard__icon">
                                 <HeaderIcon type="lock" />
                             </span>
-                            <h2 className="infoDocsCard__header-title">Vote Anonymity</h2>
+                            <h2 className="infoDocsCard__header-title">Анонімність голосування</h2>
                         </div>
                         <div className="infoDocsCard__body">
                             <p className="infoDocsBlock__text">
-                                We take vote privacy seriously. Your individual voting choices are kept confidential:
+                                Ми серйозно ставимося до конфіденційності голосування. Ваші індивідуальні вибори під час голосування залишаються конфіденційними:
                             </p>
                             <ul className="infoDocsList infoDocsList--check">
-                                <li>Votes are anonymized immediately upon submission</li>
-                                <li>Only aggregate results are displayed publicly</li>
-                                <li>Individual voting records are encrypted and secure</li>
-                                <li>Administrators cannot view individual vote choices</li>
+                                <li>Голоси анонімізуються одразу після подання</li>
+                                <li>Публічно відображаються лише узагальнені результати</li>
+                                <li>Індивідуальні записи голосування зашифровані та захищені</li>
+                                <li>Адміністратори не можуть переглядати індивідуальні вибори голосування</li>
                             </ul>
                         </div>
                     </article>
@@ -153,17 +153,17 @@ function PrivacyPolicyPage({ user }) {
                             <span className="infoDocsCard__icon">
                                 <HeaderIcon type="share" />
                             </span>
-                            <h2 className="infoDocsCard__header-title">Data Sharing and Disclosure</h2>
+                            <h2 className="infoDocsCard__header-title">Передача та розкриття даних</h2>
                         </div>
                         <div className="infoDocsCard__body">
                             <p className="infoDocsBlock__text">
-                                We do not sell, trade, or rent your personal information to third parties. Your data may only be
-                                shared:
+                                Ми не продаємо, не обмінюємо та не передаємо в оренду вашу особисту інформацію третім сторонам. Ваші дані можуть бути
+                                передані лише:
                             </p>
                             <ul className="infoDocsList">
-                                <li>With university administration when required by policy</li>
-                                <li>When mandated by law or legal proceedings</li>
-                                <li>To protect the rights, property, or safety of users</li>
+                                <li>Адміністрації університету, коли це вимагається політикою</li>
+                                <li>Коли це вимагається законом або судовими процедурами</li>
+                                <li>Для захисту прав, власності або безпеки користувачів</li>
                             </ul>
                         </div>
                     </article>
@@ -173,15 +173,15 @@ function PrivacyPolicyPage({ user }) {
                             <span className="infoDocsCard__icon">
                                 <HeaderIcon type="info" />
                             </span>
-                            <h2 className="infoDocsCard__header-title">Your Rights</h2>
+                            <h2 className="infoDocsCard__header-title">Ваші права</h2>
                         </div>
                         <div className="infoDocsCard__body">
-                            <p className="infoDocsBlock__text">You have the right to:</p>
+                            <p className="infoDocsBlock__text">Ви маєте право:</p>
                             <ul className="infoDocsList">
-                                <li>Access your personal information</li>
-                                <li>Request correction of inaccurate data</li>
-                                <li>View your voting history and attendance records</li>
-                                <li>Request data deletion (subject to legal requirements)</li>
+                                <li>Отримати доступ до своєї особистої інформації</li>
+                                <li>Попросити виправити неточні дані</li>
+                                <li>Переглядати свою історію голосування та записи відвідуваності</li>
+                                <li>Попросити видалення даних, з урахуванням законодавчих вимог</li>
                             </ul>
                         </div>
                     </article>
@@ -189,10 +189,10 @@ function PrivacyPolicyPage({ user }) {
                     <article className="infoDocsCard">
                         <div className="infoDocsCard__body">
                             <div className="infoDocsBlock">
-                                <h3 className="infoDocsBlock__title">Contact Us</h3>
+                                <h3 className="infoDocsBlock__title">Зв’язатися з нами</h3>
                                 <p className="infoDocsContact">
-                                    If you have any questions or concerns about this Privacy Policy or how we handle your data,
-                                    please contact the Student Council administration at{" "}
+                                    Якщо у вас є запитання або занепокоєння щодо цієї Політики конфіденційності або того, як ми обробляємо ваші дані,
+                                    будь ласка, зверніться до адміністрації Ради студентів за адресою{" "}
                                     <a href="mailto:council@university.edu">council@university.edu</a>
                                 </p>
                             </div>
