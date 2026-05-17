@@ -8,7 +8,6 @@ function adminHome({ user }) {
         <div>
             <Header
                 name={userName}
-                avatar="/images/avatar.svg"
             />
             <AdminMain />
         </div>
