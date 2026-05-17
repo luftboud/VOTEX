@@ -93,7 +93,7 @@ function App() {
 
                 <Route
                     path="/archive"
-                    element={<ArchivePage />}
+                    element={<ArchivePage user={user} />}
                 />
 
                 <Route

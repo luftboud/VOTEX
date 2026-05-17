@@ -4,8 +4,10 @@ import MeetingsArchive from "../../components/MeetingsArchive/MeetingsArchive";
 function ArchivePage({ user }) {
 	return (
 		<div>
-			<Header />
-			<MeetingsArchive />
+			<Header
+				name={user?.name ?? null}
+			/>
+			<MeetingsArchive user={user}/>
 		</div>
 	);
 }
