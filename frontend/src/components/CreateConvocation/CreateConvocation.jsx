@@ -1,15 +1,57 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CreateConvocation.scss";
+import LoadArchiveButton from "../LoadArchiveButton/LoadArchiveButton";
 
 function isValidYearRange(value) {
 	const m = value.trim().match(/^(\d{4})-(\d{4})$/);
 	if (!m) return false;
+
 	const y1 = Number(m[1]);
 	const y2 = Number(m[2]);
+
 	if (y2 !== y1 + 1) return false;
+
 	const currentYear = new Date().getFullYear();
 	return y1 >= 2000 && y1 <= currentYear + 5;
+}
+
+function Confirm({ open, onCancel, onConfirm, submitting }) {
+	if (!open) return null;
+
+	return (
+		<div className="vmodal">
+			<div className="vmodal__box">
+				<p className="vmodal__question">
+					Цю дію неможливо скасувати.
+					Усі архівні засідання та зареєстровані користувачі будуть остаточно видалені.
+					Перед продовженням ви можете завантажити архів засідань.
+				</p>
+
+				<div className="vmodal__actions">
+					<button
+						type="button"
+						className="vbtn vbtn--ghost"
+						onClick={onCancel}
+						disabled={submitting}
+					>
+						Скасувати
+					</button>
+
+					<LoadArchiveButton />
+
+					<button
+						type="button"
+						className="vbtn vbtn--primary"
+						onClick={onConfirm}
+						disabled={submitting}
+					>
+						{submitting ? "Створення..." : "Продовжити"}
+					</button>
+				</div>
+			</div>
+		</div>
+	);
 }
 
 function CreateConvocation() {
@@ -20,12 +62,22 @@ function CreateConvocation() {
 	const [descr, setDescr] = useState("");
 	const [submitting, setSubmitting] = useState(false);
 	const [error, setError] = useState("");
+	const [confirmOpen, setConfirmOpen] = useState(false);
 
 	const yearInvalid = year.trim() !== "" && !isValidYearRange(year);
 	const isValid = name.trim() !== "" && isValidYearRange(year);
 
-	async function handleSubmit(event) {
+	function handleSubmit(event) {
 		event.preventDefault();
+
+		if (!isValid || submitting) {
+			return;
+		}
+
+		setConfirmOpen(true);
+	}
+
+	async function createConvocation() {
 		if (!isValid || submitting) {
 			return;
 		}
@@ -38,7 +90,11 @@ function CreateConvocation() {
 				method: "POST",
 				credentials: "include",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ name: name.trim(), year: year.trim(), descr: descr.trim() || null }),
+				body: JSON.stringify({
+					name: name.trim(),
+					year: year.trim(),
+					descr: descr.trim() || null,
+				}),
 			});
 
 			if (!response.ok) {
@@ -51,6 +107,7 @@ function CreateConvocation() {
 		} catch (err) {
 			setError(err.message);
 			setSubmitting(false);
+			setConfirmOpen(false);
 		}
 	}
 
@@ -68,6 +125,7 @@ function CreateConvocation() {
 							Назва скликання
 							<span className="createConvocation__required">*</span>
 						</label>
+
 						<input
 							id="convocation-name"
 							className="createConvocation__input"
@@ -84,6 +142,7 @@ function CreateConvocation() {
 							Академічний рік
 							<span className="createConvocation__required">*</span>
 						</label>
+
 						<input
 							id="convocation-year"
 							className="createConvocation__input"
@@ -93,6 +152,7 @@ function CreateConvocation() {
 							placeholder="Напр.: 2025-2026"
 							required
 						/>
+
 						{yearInvalid && (
 							<p className="createConvocation__error">
 								Введіть рік у форматі YYYY-YYYY з послідовними роками (напр.: 2026-2027).
@@ -104,6 +164,7 @@ function CreateConvocation() {
 						<label className="createConvocation__label" htmlFor="convocation-descr">
 							Опис (за бажанням)
 						</label>
+
 						<textarea
 							id="convocation-descr"
 							className="createConvocation__textarea"
@@ -129,6 +190,7 @@ function CreateConvocation() {
 						>
 							Скасувати
 						</button>
+
 						<button
 							type="submit"
 							className="createConvocation__button createConvocation__button--primary"
@@ -138,6 +200,13 @@ function CreateConvocation() {
 						</button>
 					</div>
 				</form>
+
+				<Confirm
+					open={confirmOpen}
+					onCancel={() => setConfirmOpen(false)}
+					onConfirm={createConvocation}
+					submitting={submitting}
+				/>
 			</div>
 		</main>
 	);
