@@ -253,14 +253,14 @@ app.post("/api/representatives", async (req, res) => {
         }
 
         const newRep = {
-            name,
+            name: name,
             avatar: avatar || "",
             kernel: false,
             email: trimmedEmail,
             token: "",
             google_sub: "",
-            faculty,
-            major,
+            faculty: faculty,
+            major: major,
             year: String(year),
         };
 
