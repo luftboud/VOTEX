@@ -4,7 +4,7 @@
   justify-content: center;
   flex-direction: column;
 
-  &_title {
+  &-title {
     color: #1E2939;
     text-align: center;
     font-size: 32px;
@@ -14,19 +14,32 @@
     letter-spacing: 0.369px;
     margin: 0 0 8px;
   }
-  &_subtitle {
-    font-weight: 400;
-    color: #4A5565;
-    font-size: 16px;
-    font-style: normal;
-    line-height: 24px; /* 150% */
-    letter-spacing: -0.312px;
-    margin: 0 0 48px;
-  }
+
   &_button {
     padding: 32px;
     background: #FFFFFF;
     border-radius: 16px;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.10), 0 4px 6px -4px rgba(0, 0, 0, 0.10);
+  }
+
+  &__descr {
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
+    align-items: center;
+    margin: 0 0 16px;
+
+    &-subtitle {
+      color: #4A5565;
+      font-size: 16px;
+      font-style: normal;
+      line-height: 24px;
+      margin: 0;
+
+      &-link {
+        color: #2563EB;
+        cursor: pointer;
+      }
+    }
   }
 }

@@ -401,7 +401,6 @@ app.post("/api/createMeeting", requireAdmin, async (req, res) => {
     })
 })
 
-
 function getParticipantFromSession(req) {
     return {
         userId: req.session.user.id.toString(),
@@ -631,6 +630,15 @@ app.post("/api/meetings/:id/vote", requireAuth, async (req, res) => {
         return res.status(500).json({ message: "Failed to record vote" });
     }
 });
+
+app.get("/api/user_collection", requireAuth, async (req, res) => {
+    const users = getUsersCollection();
+    const usersCount = await users.countDocuments({
+        kernel: { $ne: true }
+    });
+
+    return res.status(200).json({ count: usersCount })
+})
 
 async function startServer() {
     try {

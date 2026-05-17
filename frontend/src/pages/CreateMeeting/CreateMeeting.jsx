@@ -100,7 +100,7 @@ function CreateMeeting({ user }) {
         }
 
         fetchActiveMeeting();
-    })
+    }, [])
 
     const userName = user?.name
     return (

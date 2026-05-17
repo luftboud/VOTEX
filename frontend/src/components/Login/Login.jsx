@@ -1,5 +1,5 @@
 import "./Login.scss";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import GoogleLoginButton from "./GoogleLoginButton";
 
 function Login({ onAuthSuccess }) {
@@ -17,8 +17,12 @@ function Login({ onAuthSuccess }) {
 
     return (
         <div className="Login">
-            <h1 className="Login_title">Система голосування</h1>
-            <h2 className="Login_subtitle">Ради студентів УКУ</h2>
+            <h1 className="Login-title">Система голосування</h1>
+            <div className="Login__descr">
+                <h2 className="Login__descr-subtitle">Ради студентів УКУ</h2>
+                <span className="Login__descr-subtitle">|</span>
+                <Link className="Login__descr-subtitle-link" to="/archive">Архів</Link>
+            </div>
             <GoogleLoginButton onLoginSuccess={handleLoginSuccess} />
         </div>
     );

@@ -1,21 +1,43 @@
 import "./MeetingRoom.scss";
+import {useEffect, useState} from "react";
 
 function MeetingRoom({ meeting_code, members, setActiveMeeting }) {
+    const [starting, setStarting] = useState(false);
+    const [quorum, setQuorum] = useState(0);
+
     async function handleSubmit(e) {
         e.preventDefault();
+        setStarting(true);
 
         const request = await fetch(`${import.meta.env.VITE_API_URL}/api/activateMeeting`,
             {
                 credentials: "include",
             });
 
+        const json = await request.json();
         if (!request.ok) {
-            const json = await request.json();
+            setStarting(false);
             console.log(json.message);
         }
 
         setActiveMeeting(json.meeting);
     }
+
+    useEffect(() => {
+        async function loadMeetings() {
+            const users_request = await fetch(`${import.meta.env.VITE_API_URL}/api/user_collection`,
+                {
+                    credentials: "include",
+                });
+
+            const users_data = await users_request.json();
+
+            setQuorum(Math.ceil(users_data.count / 2) + 1);
+        }
+
+        loadMeetings();
+    }, [])
+
 
     return (
         <div className="system-layout">
@@ -50,8 +72,13 @@ function MeetingRoom({ meeting_code, members, setActiveMeeting }) {
             </div>
 
             <form className="system-layout__form" onSubmit={handleSubmit}>
-                <button type="submit" className="system-layout__form-btn">Почати засідання</button>
-                <p>Почніть засідання, коли всі присутні доєднаються</p>
+                <button type="submit" className="system-layout__form-btn" disabled={members.length < quorum || starting}>
+                    {starting ? "Запускається..." : "Почати засідання"}
+                </button>
+                <p>Почніть засідання, коли всі присутні доєднаються.</p>
+                {members.length < quorum && (
+                    <p>Ви не можете почати засідання поки кворум не досягнено.</p>
+                )}
             </form>
         </div>
     );

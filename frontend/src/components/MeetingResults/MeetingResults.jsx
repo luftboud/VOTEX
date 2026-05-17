@@ -20,8 +20,6 @@ function getVotesWord(count) {
 }
 
 function MeetingResults({ meeting }) {
-    const first_meet = meeting.agenda[0];
-    const all_participants = first_meet.yes.length + first_meet.no.length + first_meet.abstained.length;
     return (
         <main className="meetingResults">
             <section className="meetingResults__header">
@@ -37,7 +35,7 @@ function MeetingResults({ meeting }) {
                 </article>
                 <article className="meetingResults__summary-card">
                     <p className="meetingResults__summary-label">Явка</p>
-                    <p className="meetingResults__summary-value">{all_participants}</p>
+                    <p className="meetingResults__summary-value">{meeting.present.length}</p>
                 </article>
                 <article className="meetingResults__summary-card">
                     <p className="meetingResults__summary-label">Питання</p>
@@ -48,10 +46,9 @@ function MeetingResults({ meeting }) {
             <section className="meetingResults__questions">
                 {meeting.agenda.map((question) => {
 
-                    const all_votes = question.yes.length + question.no.length + question.abstained.length;
-                    const yes_percent = Math.round(question.yes.length * 100 / all_votes);
-                    const no_percent = Math.round(question.no.length * 100 / all_votes);
-                    const abstained_percent = Math.round(question.abstained.length * 100 / all_votes);
+                    let yes_percent = Math.round(question.yes.length * 100 / meeting.present.length);
+                    let no_percent = Math.round(question.no.length * 100 / meeting.present.length);
+                    let abstained_percent = Math.round(question.abstained.length * 100 / meeting.present.length);
 
                     return (
                     <article key={question.item_id} className="meetingResults__question">
