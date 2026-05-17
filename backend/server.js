@@ -164,24 +164,36 @@ app.get("/api/meetings", async (req, res) => {
     return res.status(200).json({ meetings });
 });
 
-app.get("/api/activateMeeting", requireAdmin, async (req, res) => {
-    const raw_meetings = getMeetingsCollection();
-    const result = await raw_meetings.updateOne(
-        { status: "Scheduled" },
-        {
-            $set: {
-                status: "Active",
-                code: null
+app.patch("/api/activateMeeting", requireAdmin, async (req, res) => {
+    try {
+        const raw_meetings = getMeetingsCollection();
+
+        const result = await raw_meetings.findOneAndUpdate(
+            { status: "Scheduled" },
+            {
+                $set: {
+                    status: "Active",
+                    code: null
+                }
+            },
+            {
+                returnDocument: "after"
             }
+        );
+
+        if (!result) {
+            return res.status(404).json({ message: "Scheduled meeting not found" });
         }
-    );
 
-    if (result.matchedCount === 0) {
-        return res.status(404).json({ message: "Scheduled meeting not found" });
+        return res.status(200).json({
+            message: "Meeting activated successfully",
+            meeting: result
+        });
+    } catch (error) {
+        console.error("Activate meeting error:", error);
+        return res.status(500).json({ message: "Failed to activate meeting" });
     }
-
-    return res.status(200);
-})
+});
 
 app.get("/api/meetings/active", async (req, res) => {
     try {

@@ -6,7 +6,6 @@ import ActiveMeetingPage from "../ActiveMeetingPage/ActiveMeetingPage";
 
 function CreateMeeting({ user }) {
     async function handleSubmit(e) {
-        console.log("handleSubmit");
         e.preventDefault();
 
         const meeting = {
