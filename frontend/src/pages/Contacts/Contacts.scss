@@ -1,0 +1,23 @@
+.contacts {
+  display: flex;
+  flex: 1;
+  background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+  flex-direction: column;
+
+  &__container {
+    padding: 30px 24px;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: 600;
+  }
+  &__name {
+    font-size: 20px;
+    font-weight: 600;
+  }
+  &__link {
+    display: block;
+    color: #0a0a0a;
+  }
+}

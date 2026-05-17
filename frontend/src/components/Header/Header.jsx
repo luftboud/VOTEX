@@ -13,7 +13,7 @@ function Header({ name }) {
                 >
                     <img className="header__logo-container-img" src="/images/ucu.svg" alt="Student council" />
                 </button>
-                <a className="header__logo-container-link" href="#">
+                <a className="header__logo-container-link" href="https://www.instagram.com/stcouncilucu?igsh=MWkwYzU3MGRieXhkMw==" target="_blank" rel="noopener noreferrer">
                     <img className="header__logo-container-img" src="/images/student_council.svg" alt="UCU" />
                 </a>
             </div>

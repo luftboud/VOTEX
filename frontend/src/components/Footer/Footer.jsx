@@ -8,7 +8,7 @@ function Footer() {
             <span className="footer__span">|</span>
             <Link className="footer__link" to="/privacy-policy">Політика конфідеційності</Link>
             <span className="footer__span">|</span>
-            <Link className="footer__link" to="#">Служба підтримки</Link>
+            <Link className="footer__link" to="/contacts">Служба підтримки</Link>
         </footer>
     );
 }

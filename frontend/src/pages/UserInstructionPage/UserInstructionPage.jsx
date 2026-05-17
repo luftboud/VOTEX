@@ -50,11 +50,11 @@ function HeaderIcon({ type }) {
 }
 
 function UserInstructionPage({ user }) {
-    const userName = user?.name || user?.firstName || "John Doe";
+    const userName = user?.name || null;
 
     return (
         <main className="infoDocsPage">
-            <Header name={userName} avatar="/images/avatar.svg"/>
+            <Header name={userName}/>
 
             <section className="infoDocsPage__content">
                 <header className="infoDocsPage__heading">
