@@ -1,7 +1,7 @@
 import "./Header.scss";
 import {useNavigate} from "react-router-dom";
 
-function Header({ name, avatar }) {
+function Header({ name }) {
     const navigate = useNavigate();
     return (
         <header className="header">
@@ -22,10 +22,6 @@ function Header({ name, avatar }) {
                     <p className="header__user-info-name">
                         Ласкаво просимо, {name}
                     </p>
-                )}
-
-                {avatar && (
-                    <img className="header__user-info-img" src={avatar} alt="Avatar" />
                 )}
             </div>
         </header>
