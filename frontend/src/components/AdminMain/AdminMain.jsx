@@ -1,20 +1,6 @@
 import "./AdminMain.scss";
 import { useNavigate } from "react-router-dom";
-
-const recentMeetings = [
-	{
-		id: "meeting-1",
-		title: "Budget Allocation Discussion",
-		date: "15/03/2026",
-		participants: "24 participants",
-	},
-	{
-		id: "meeting-2",
-		title: "Spring Festival Planning",
-		date: "20/03/2026",
-		participants: "28 participants",
-	},
-];
+import {useEffect, useState} from "react";
 
 const settingsActions = [
 	{
@@ -33,6 +19,24 @@ const settingsActions = [
 
 function AdminMain() {
 	const navigate = useNavigate();
+
+	let [meetings, setMeetings] = useState([]);
+
+	useEffect(() => {
+		async function fetchMeetings() {
+			try {
+				let response = await fetch(`${import.meta.env.VITE_API_URL}/api/meetings`);
+				let data = await response.json();
+				setMeetings(data.meetings);
+			} catch (error) {
+				console.log(error);
+				setMeetings([]);
+			}
+		}
+
+		fetchMeetings();
+	}, [])
+
 	return (
 		<main className="adminMain">
 			<section className="adminMain__quick-actions">
@@ -80,14 +84,14 @@ function AdminMain() {
 					</header>
 
 					<div className="adminMain__meeting-list">
-						{recentMeetings.map((meeting) => (
-							<article key={meeting.id} className="adminMain__meeting-card">
-								<h4 className="adminMain__meeting-title">{meeting.title}</h4>
-								<p className="adminMain__meeting-meta">
-									<span>{meeting.date}</span>
-									<span className="adminMain__meeting-divider">•</span>
-									<span>{meeting.participants}</span>
-								</p>
+						{meetings
+							.filter(meeting => meeting.status === "Closed")
+							.sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
+							.slice(0, 2)
+							.map(meeting => (
+							<article className="adminMain__meeting-card">
+								<h4 className="adminMain__meeting-title">{meeting.name}</h4>
+								<p className="adminMain__meeting-meta">{meeting.datetime.split("T")[0]}</p>
 							</article>
 						))}
 					</div>
