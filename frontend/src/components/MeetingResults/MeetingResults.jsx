@@ -27,6 +27,7 @@ function MeetingResults({ meeting }) {
             <section className="meetingResults__header">
                 <h1 className="meetingResults__title">{meeting.name}</h1>
                 <p className="meetingResults__subtitle">Результати засідання</p>
+                <a className="meetingResults__link" href={meeting.protocol_link} target="_blank">Відкрити протокол засідання</a>
             </section>
 
             <section className="meetingResults__summary">
