@@ -6,7 +6,7 @@ function Footer() {
         <footer className="footer">
             <Link className="footer__link" to="/user-instruction">Інструкція користувача</Link>
             <span className="footer__span">|</span>
-            <Link className="footer__link" to="#">Політика конфідеційності</Link>
+            <Link className="footer__link" to="/privacy-policy">Політика конфідеційності</Link>
             <span className="footer__span">|</span>
             <Link className="footer__link" to="#">Служба підтримки</Link>
         </footer>
