@@ -117,7 +117,7 @@ function AdminMain() {
 							</div>
 						</button>
 						<a key="student-council" className="adminMain__settings-card" type="button"
-								href="https://elect-rep-ucu.netlify.app">
+								href="https://elect-rep-ucu.netlify.app" target="_blank">
 							<UsersOutlineIcon />
 							<div>
 								<h4 className="adminMain__settings-title">Вибори в Раду студентів</h4>
