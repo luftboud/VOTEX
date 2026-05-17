@@ -644,7 +644,7 @@ app.post("/api/meetings/:id/vote", requireAuth, async (req, res) => {
     }
 });
 
-app.get("/api/user_collection", requireAuth, async (req, res) => {
+app.get("/api/user_collection", requireAdmin, async (req, res) => {
     const users = getUsersCollection();
     const usersCount = await users.countDocuments({
         kernel: { $ne: true }
@@ -653,7 +653,7 @@ app.get("/api/user_collection", requireAuth, async (req, res) => {
     return res.status(200).json({ count: usersCount })
 })
 
-app.post("/api/convocations", async (req, res) => {
+app.post("/api/convocations", requireAdmin, async (req, res) => {
     try {
         const { name, year } = req.body;
 
@@ -690,7 +690,7 @@ app.post("/api/convocations", async (req, res) => {
     }
 });
 
-app.get("/api/convocations/current", async (req, res) => {
+app.get("/api/convocations/current", requireAdmin, async (req, res) => {
     try {
         const convocationsCollection = getConvocationsCollection();
         const current = await convocationsCollection.findOne({ isActive: true });
@@ -706,7 +706,7 @@ app.get("/api/convocations/current", async (req, res) => {
     }
 });
 
-app.get("/api/convocations/:id", async (req, res) => {
+app.get("/api/convocations/:id", requireAdmin, async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -728,7 +728,7 @@ app.get("/api/convocations/:id", async (req, res) => {
     }
 });
 
-app.get("/api/representatives", async (req, res) => {
+app.get("/api/representatives", requireAdmin, async (req, res) => {
     try {
         const usersCollection = getUsersCollection();
         const representatives = await usersCollection
@@ -742,7 +742,7 @@ app.get("/api/representatives", async (req, res) => {
     }
 });
 
-app.post("/api/representatives", async (req, res) => {
+app.post("/api/representatives", requireAdmin, async (req, res) => {
     try {
         const { name, email, avatar, faculty, major, year } = req.body;
 
@@ -788,7 +788,7 @@ app.post("/api/representatives", async (req, res) => {
     }
 });
 
-app.delete("/api/representatives/:id", async (req, res) => {
+app.delete("/api/representatives/:id", requireAdmin, async (req, res) => {
     try {
         const { id } = req.params;
 
