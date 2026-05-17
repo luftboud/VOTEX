@@ -2,6 +2,7 @@ import CreateMeetingForm from "../../components/CreateMeetingForm/CreateMeetingF
 import Header from "../../components/Header/Header";
 import MeetingRoom from "../../components/MeetingRoom/MeetingRoom";
 import {useEffect, useState} from "react";
+import ActiveMeetingPage from "../ActiveMeetingPage/ActiveMeetingPage";
 
 function CreateMeeting({ user }) {
     async function handleSubmit(e) {
@@ -52,10 +53,11 @@ function CreateMeeting({ user }) {
     ]);
 
     const [scheduledMeeting, setScheduled] = useState(null);
+    const [activeMeeting, setActiveMeeting] = useState(null);
     const [page, setPage] = useState("form");
 
     useEffect(() => {
-        async function fetchMeetings() {
+        async function fetchScheduledMeetings() {
             const request = await fetch(`${import.meta.env.VITE_API_URL}/api/isScheduledMeetings`, {
                 credentials: "include",
             });
@@ -69,19 +71,36 @@ function CreateMeeting({ user }) {
             setScheduled(data.meeting);
         }
 
-        fetchMeetings();
+        fetchScheduledMeetings();
 
         if (page === "form") {
             return;
         }
 
         const intervalId = setInterval(() => {
-            fetchMeetings();
+            fetchScheduledMeetings();
         }, 2500);
 
         return () => clearInterval(intervalId);
 
     }, [page])
+
+    useEffect(() => {
+        async function fetchActiveMeeting() {
+            const request = await fetch(`${import.meta.env.VITE_API_URL}/api/meetings/active`, {
+                credentials: "include",
+            });
+            if (request.status === 404) {
+                setActiveMeeting(null);
+                return;
+            }
+
+            const data = await request.json();
+            setActiveMeeting(data.meeting);
+        }
+
+        fetchActiveMeeting();
+    })
 
     const userName = user?.name
     return (
@@ -89,7 +108,15 @@ function CreateMeeting({ user }) {
             <Header
                 name={userName}
             />
-            {scheduledMeeting === null ? (
+            {activeMeeting !== null ? (
+                <ActiveMeetingPage />
+            ) : scheduledMeeting !== null ? (
+                <MeetingRoom
+                    meeting_code={scheduledMeeting.code}
+                    members={scheduledMeeting.present}
+                    setActiveMeeting={setActiveMeeting}
+                />
+            ) : (
                 <form method="POST" onSubmit={handleSubmit}>
                     <CreateMeetingForm
                         meetingInfo={meetingInfo}
@@ -98,12 +125,6 @@ function CreateMeeting({ user }) {
                         setQuestions={setQuestions}
                     />
                 </form>
-            ) : (
-                <MeetingRoom
-                    meeting_id={scheduledMeeting._id}
-                    meeting_code={scheduledMeeting.code}
-                    members={scheduledMeeting.present}
-                />
             )}
         </div>
     );

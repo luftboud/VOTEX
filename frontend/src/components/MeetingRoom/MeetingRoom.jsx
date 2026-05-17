@@ -1,17 +1,20 @@
 import "./MeetingRoom.scss";
 
-function MeetingRoom({ meeting_code, members }) {
+function MeetingRoom({ meeting_code, members, setActiveMeeting }) {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        const request = await fetch(`${import.meta.env.VITE_API_URL}/api/activateMeeting`);
+        const request = await fetch(`${import.meta.env.VITE_API_URL}/api/activateMeeting`,
+            {
+                credentials: "include",
+            });
 
         if (!request.ok) {
             const json = await request.json();
             console.log(json.message);
         }
 
-        // navigate()
+        setActiveMeeting(json.meeting);
     }
 
     return (

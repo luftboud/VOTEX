@@ -39,7 +39,7 @@ function AdminMain() {
 				<button
 					className="adminMain__action-card"
 					type="button"
-					onClick={() => navigate('/create-meeting')}
+					onClick={() => navigate('/meeting')}
 				>
 					<div className={`adminMain__action-icon adminMain__action-icon--blue`}>
 						<PlusIcon />

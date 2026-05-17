@@ -141,6 +141,25 @@ app.get("/api/meetings", async (req, res) => {
     return res.status(200).json({ meetings });
 });
 
+app.get("/api/activateMeeting", requireAdmin, async (req, res) => {
+    const raw_meetings = getMeetingsCollection();
+    const result = await raw_meetings.updateOne(
+        { status: "Scheduled" },
+        {
+            $set: {
+                status: "Active",
+                code: null
+            }
+        }
+    );
+
+    if (result.matchedCount === 0) {
+        return res.status(404).json({ message: "Scheduled meeting not found" });
+    }
+
+    return res.status(200);
+})
+
 app.get("/api/meetings/active", async (req, res) => {
     try {
         const raw_meetings = getMeetingsCollection();

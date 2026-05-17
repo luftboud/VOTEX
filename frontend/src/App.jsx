@@ -93,7 +93,7 @@ function App() {
                 />
 
                 <Route
-                    path="/create-meeting"
+                    path="/meeting"
                     element={// isAdmin ?
                     (
                         <CreateMeeting user={user} />
