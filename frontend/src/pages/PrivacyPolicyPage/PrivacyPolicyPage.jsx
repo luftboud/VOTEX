@@ -1,4 +1,4 @@
-import HelpCenterHeader from "../../components/HelpCenterHeader/HelpCenterHeader";
+import Header from "../../components/Header/Header";
 import "../InformationPages/InformationPages.scss";
 
 function HeaderIcon({ type }) {
@@ -50,7 +50,7 @@ function PrivacyPolicyPage({ user }) {
 
     return (
         <main className="infoDocsPage infoDocsPage--privacy">
-            <HelpCenterHeader userName={userName} variant="compact" />
+            <Header name={userName} avatar="/images/avatar.svg"/>
 
             <section className="infoDocsPage__content">
                 <header className="infoDocsPage__heading">

@@ -209,9 +209,18 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 16px;
-        line-height: 1;
         flex-shrink: 0;
+
+        svg {
+            width: 20px;
+            height: 20px;
+            display: block;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.66667;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
     }
 
     &__content {
@@ -237,17 +246,17 @@
 
     &--for .votingOption__icon {
         background: #dcfce7;
-        color: #15803d;
+        color: #00a63e;
     }
 
     &--against .votingOption__icon {
         background: #ffe2e2;
-        color: #dc2626;
+        color: #e7000b;
     }
 
     &--abstain .votingOption__icon {
         background: #f3f4f6;
-        color: #4b5563;
+        color: #4a5565;
     }
 }
 
