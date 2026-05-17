@@ -295,6 +295,17 @@ app.patch("/api/meetings/:id/close", requireAdmin, async (req, res) => {
     }
 });
 
+app.get("/api/isScheduledMeetings", requireAdmin, async (req, res) => {
+    const raw_meetings = getMeetingsCollection();
+    const meeting = await raw_meetings.findOne({ status: "Scheduled" });
+
+    if (!meeting) {
+        return res.status(404).json({ message: "Active meeting not found" });
+    }
+
+    return res.status(200).json({ meeting });
+})
+
 app.post("/api/createMeeting", requireAdmin, async (req, res) => {
 
     const collection = getMeetingsCollection();

@@ -21,7 +21,8 @@ function CreateMeeting({ user }) {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(meeting)
+            body: JSON.stringify(meeting),
+            credentials: "include",
         });
 
         const data = await response.json();
@@ -54,7 +55,9 @@ function CreateMeeting({ user }) {
 
     useEffect(() => {
         async function fetchMeetings() {
-            const request = await fetch(`${import.meta.env.VITE_API_URL}/api/isScheduledMeetings`);
+            const request = await fetch(`${import.meta.env.VITE_API_URL}/api/isScheduledMeetings`, {
+                credentials: "include",
+            });
             if (request.status === 404) {
                 setScheduled(null);
                 return;
