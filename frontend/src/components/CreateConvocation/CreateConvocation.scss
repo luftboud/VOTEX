@@ -180,3 +180,55 @@
 		}
 	}
 }
+
+.vmodal {
+	position: fixed;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.38);
+	animation: fadeIn 160ms ease;
+
+	&__box {
+		background: white;
+		padding: 22px;
+		border-radius: 10px;
+		max-width: 420px;
+		width: 100%;
+		box-shadow: 0 10px 30px rgba(2, 6, 23, 0.2);
+	}
+
+	&__question {
+		font-size: 16px;
+		margin: 8px 0;
+	}
+
+	&__actions {
+		display: flex;
+		flex-direction: row;
+		gap: 10px;
+		justify-content: center;
+	}
+}
+
+.vbtn {
+	border-radius: 8px;
+	background: #01246F;
+	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.10), 0 4px 6px -4px rgba(0, 0, 0, 0.10);
+	padding: 8px 16px;
+	color: #FFF;
+	text-align: center;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 18px;
+	letter-spacing: -0.439px;
+	border-color: transparent;
+	margin-bottom: 10px;
+
+	&--ghost {
+		background: #FFF;
+		color: #000;
+	}
+}

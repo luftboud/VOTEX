@@ -399,7 +399,6 @@ app.post("/api/createMeeting", requireAdmin, async (req, res) => {
     const meeting = {
         _id: new ObjectId(),
         name: title.trim(),
-        term_id: new ObjectId(),
         datetime: new Date(),
         status: "Scheduled",
         code: code,

@@ -2,6 +2,7 @@ import {useEffect, useMemo, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import "./MeetingsArchive.scss";
 import ArchiveMeetingUnit from "../ArchiveMeetingUnit/ArchiveMeetingUnit";
+import LoadArchiveButton from "../LoadArchiveButton/LoadArchiveButton";
 
 function normalizeSearchValue(value) {
 	return value
@@ -43,7 +44,7 @@ function matchesSearch(meeting, query) {
 	});
 }
 
-function MeetingsArchive() {
+function MeetingsArchive({user}) {
 	const navigate = useNavigate();
 
 	const [meetings, setMeetings] = useState([]);
@@ -74,7 +75,9 @@ function MeetingsArchive() {
 		<main className="meetingsArchive">
 			<h1 className="meetingsArchive__title">Архів засідань</h1>
 			<p className="meetingsArchive__subtitle">Перегляньте результати минулих засідань</p>
-
+			{user?.kernel === true && (
+				<LoadArchiveButton/>
+			)}
 			<div className="meetingsArchive__search">
 				<svg
 					className="meetingsArchive__search-icon"
