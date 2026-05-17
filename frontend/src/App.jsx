@@ -6,6 +6,7 @@ import AdminHome from "./pages/AdminHome/AdminHome";
 import ArchivePage from "./pages/ArchivePage/ArchivePage";
 import MeetingResultsPage from "./pages/MeetingResultsPage/MeetingResultsPage";
 import { Navigate, Route, Routes } from "react-router-dom";
+import MeetingLivePage from "./pages/MeetingLivePage/MeetingLivePage";
 import CreateMeeting from "./pages/CreateMeeting/CreateMeeting";
 import ActiveMeetingPage from "./pages/ActiveMeetingPage/ActiveMeetingPage";
 import Header from "./components/Header/Header";
@@ -108,6 +109,12 @@ function App() {
                     path="/archive/:meetingId"
                     element={<MeetingResultsPage />}
                 />
+
+                <Route
+                    path="/meeting/:meetingId"
+                    element={<MeetingLivePage />}
+                />
+
             </Routes>
 
             <Footer />

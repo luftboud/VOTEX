@@ -3,18 +3,18 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const client = new MongoClient(process.env.MONGO_URL);
-
+let client;
 let db;
-let usersCollection;
-let meetingsCollection;
 
 export async function connectDB() {
+    if (!process.env.MONGO_URL) {
+        throw new Error("MONGO_URL is not configured. Set MONGO_URL in .env to connect to MongoDB.");
+    }
+
     try {
+        client = new MongoClient(process.env.MONGO_URL);
         await client.connect();
         db = client.db(process.env.MONGO_DB_NAME);
-        usersCollection = db.collection("users");
-        meetingsCollection = db.collection("meetings");
         console.log("Connected to MongoDB");
     } catch (error) {
         console.error("MongoDB connection error:", error);
@@ -22,23 +22,16 @@ export async function connectDB() {
     }
 }
 
-// export function getDB() {
-//     if (!db) {
-//         throw new Error("Database not initialized. Call connectDB() first.");
-//     }
-//     return db;
-// }
-
 export function getUsersCollection() {
-    if (!usersCollection) {
-        throw new Error("Collection not initialized. Call connectDB() first.");
+    if (!db) {
+        throw new Error("Database not initialized. Call connectDB() first.");
     }
-    return usersCollection;
+    return db.collection("users");
 }
 
 export function getMeetingsCollection() {
-    if (!meetingsCollection) {
-        throw new Error("Collection not initialized. Call connectDB() first.");
+    if (!db) {
+        throw new Error("Database not initialized. Call connectDB() first.");
     }
-    return meetingsCollection;
+    return db.collection("meetings");
 }

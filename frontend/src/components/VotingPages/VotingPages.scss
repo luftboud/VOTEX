@@ -1,0 +1,66 @@
+.vpage {
+  padding: 30px;
+}
+
+.vpage--center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 160px);
+}
+
+.vcard {
+  background: #fff;
+  border-radius: 14px;
+  padding: 32px;
+  box-shadow: 0 18px 30px rgba(16,24,40,0.08);
+  text-align: center;
+  max-width: 840px;
+}
+
+.vcard__icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+.vcard__icon svg { width: 56px; height: 56px; }
+
+.vcard__title { margin: 6px 0 8px; font-size: 22px; color: #111827; font-weight: 700; }
+.vcard__text { margin: 0 0 12px; color: #6B7280; font-size: 16px; }
+.vcard__button { margin-top: 14px; padding: 12px 20px; border-radius: 10px; background: #1e40af; color: #fff; border: none; cursor: pointer; }
+
+.vcard--error .vcard__icon svg { color: #ef4444; }
+.vcard--success .vcard__icon svg { color: #10b981; }
+
+.vchoices { display:flex; gap:18px; justify-content:center; margin-top:22px; }
+.vchoice { padding: 14px 36px; border-radius: 12px; font-weight:700; border:none; box-shadow: 0 8px 18px rgba(16,24,40,0.06); cursor:pointer; font-size:16px; }
+.vchoice--yes { background:#10b981; color:white; }
+.vchoice--no { background:#ef4444; color:white; }
+.vchoice--abs { background:#374151; color:white; }
+
+/* spinner */
+@keyframes v-spin { from { transform: rotate(0deg);} to { transform: rotate(360deg);} }
+.vspinner { width: 64px; height: 64px; display:inline-block; }
+.vspinner circle { stroke: #3b82f6; stroke-linecap: round; stroke-width: 4; fill: none; stroke-dasharray: 150; stroke-dashoffset: 40; }
+.vspinner { animation: v-spin 1.6s linear infinite; }
+
+/* modal */
+.vmodal { position: fixed; inset:0; display:flex; align-items:center; justify-content:center; background: rgba(0,0,0,0.38); animation: fadeIn 160ms ease; }
+.vmodal__box { background:white; padding:22px; border-radius:10px; max-width:420px; width:100%; box-shadow: 0 10px 30px rgba(2,6,23,0.2); }
+.vmodal__question { font-weight:600; margin:8px 0; }
+.vmodal__actions { display:flex; gap:10px; justify-content:flex-end; }
+.vbtn { padding:8px 12px; border-radius:8px; border:1px solid transparent; cursor:pointer; }
+.vbtn--primary { background:#1e40af; color:white; border-color:#1e40af; }
+.vbtn--ghost { background:white; border-color:#d1d5db; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-6px);} to { opacity: 1; transform: translateY(0);} }
+
+.vcard__actions { display:flex; gap:12px; justify-content:center; margin-top:12px; }
+
+@media (max-width: 760px) {
+  .vcard { padding: 20px; max-width: 92%; }
+  .vcard__title { font-size: 20px; }
+  .vcard__text { font-size: 14px; }
+  .vchoice { padding: 12px 20px; }
+}
+

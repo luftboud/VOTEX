@@ -87,10 +87,12 @@ app.post("/api/auth/google", async (req, res) => {
         }
 
         req.session.user = {
-            id: user._id,
+            id: user._id.toString(),
             email: user.email,
             kernel: user.kernel,
             name: user.name || name,
+            major: user.major || null,
+            year: user.year || null,
         };
 
         return res.status(200).json({
@@ -118,6 +120,14 @@ function requireAdmin(req, res, next) {
 
     if (!req.session.user.kernel) {
         return res.status(403).json({ message: "Admin access required" });
+    }
+
+    next();
+}
+
+function requireAuth(req, res, next) {
+    if (!req.session.user) {
+        return res.status(401).json({ message: "Not authenticated" });
     }
 
     next();
@@ -325,6 +335,18 @@ app.get("/api/isScheduledMeetings", requireAdmin, async (req, res) => {
     return res.status(200).json({ meeting });
 })
 
+async function generateUniqueMeetingCode(collection) {
+    let code;
+    let exists = true;
+
+    while (exists) {
+        code = Math.floor(Math.random() * 900000) + 100000;
+        exists = await collection.findOne({ code });
+    }
+
+    return code;
+}
+
 app.post("/api/createMeeting", requireAdmin, async (req, res) => {
 
     const collection = getMeetingsCollection();
@@ -347,13 +369,15 @@ app.post("/api/createMeeting", requireAdmin, async (req, res) => {
         return res.status(400).json({ message: "Questions cannot be empty" });
     }
 
+    const code = await generateUniqueMeetingCode(collection);
+
     const meeting = {
         _id: new ObjectId(),
         name: title.trim(),
         term_id: new ObjectId(),
         datetime: new Date(),
         status: "Scheduled",
-        code: Math.floor(Math.random() * 900000) + 100000,
+        code: code,
         present: [],
         agenda: normalizedQuestions.map((text, index) => ({
             item_id: index + 1,
@@ -377,6 +401,236 @@ app.post("/api/createMeeting", requireAdmin, async (req, res) => {
     })
 })
 
+
+function getParticipantFromSession(req) {
+    return {
+        userId: req.session.user.id.toString(),
+        name: req.session.user.name,
+        email: req.session.user.email,
+        major: req.session.user.major || null,
+        year: req.session.user.year || null,
+    };
+}
+
+app.post("/api/meetings/join-by-code", requireAuth, async (req, res) => {
+    try {
+        const { code } = req.body;
+
+        const numericCode = Number(code);
+
+        if (!Number.isInteger(numericCode)) {
+            return res.status(400).json({ message: "Invalid meeting code" });
+        }
+
+        const meetings = getMeetingsCollection();
+
+        const meeting = await meetings.findOne({
+            code: numericCode,
+            status: "Scheduled",
+        });
+
+        if (!meeting) {
+            return res.status(404).json({
+                message: "Scheduled meeting with this code not found",
+            });
+        }
+
+        const participant = getParticipantFromSession(req);
+
+        await meetings.updateOne(
+            {
+                _id: meeting._id,
+                status: "Scheduled",
+                "present.userId": { $ne: participant.userId },
+            },
+            {
+                $push: {
+                    present: participant,
+                },
+            }
+        );
+
+        const updatedMeeting = await meetings.findOne({ _id: meeting._id });
+
+        return res.status(200).json({
+            message: "Joined meeting",
+            meetingId: updatedMeeting._id,
+            meeting: updatedMeeting,
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Failed to join meeting" });
+    }
+});
+
+app.get("/api/meetings/:id/live", requireAuth, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid meeting id" });
+        }
+
+        const meetings = getMeetingsCollection();
+
+        const meeting = await meetings.findOne({
+            _id: new ObjectId(id),
+        });
+
+        if (!meeting) {
+            return res.status(404).json({ message: "Meeting not found" });
+        }
+
+        const userId = req.session.user.id.toString();
+
+        const isPresent = meeting.present?.some(
+            participant => participant.userId === userId
+        );
+
+        if (!isPresent) {
+            return res.status(403).json({
+                message: "You are not present in this meeting",
+            });
+        }
+
+        if (meeting.status === "Scheduled") {
+            return res.status(200).json({
+                state: "waiting",
+                meeting,
+                currentQuestion: null,
+            });
+        }
+
+        if (meeting.status === "Closed") {
+            return res.status(200).json({
+                state: "finished",
+                meeting,
+                currentQuestion: null,
+            });
+        }
+
+        if (meeting.status === "Active") {
+            const currentQuestion = meeting.agenda.find(
+                question => question.item_id === meeting.current
+            );
+
+            if (!currentQuestion) {
+                return res.status(200).json({
+                    state: "waiting",
+                    meeting,
+                    currentQuestion: null,
+                });
+            }
+
+            const alreadyVoted =
+                currentQuestion.yes?.some(v => v.userId === userId) ||
+                currentQuestion.no?.some(v => v.userId === userId) ||
+                currentQuestion.abstained?.some(v => v.userId === userId);
+
+            return res.status(200).json({
+                state: alreadyVoted ? "vote_recorded" : "voting",
+                meeting,
+                currentQuestion: {
+                    id: currentQuestion.item_id,
+                    title: currentQuestion.item_name,
+                },
+            });
+        }
+
+        return res.status(400).json({ message: "Unknown meeting status" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Failed to fetch meeting state" });
+    }
+});
+
+app.post("/api/meetings/:id/vote", requireAuth, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { questionId, choice } = req.body;
+
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid meeting id" });
+        }
+
+        const allowedChoices = ["yes", "no", "abstained"];
+
+        if (!allowedChoices.includes(choice)) {
+            return res.status(400).json({ message: "Invalid vote choice" });
+        }
+
+        const meetings = getMeetingsCollection();
+
+        const meeting = await meetings.findOne({
+            _id: new ObjectId(id),
+            status: "Active",
+        });
+
+        if (!meeting) {
+            return res.status(404).json({ message: "Active meeting not found" });
+        }
+
+        const userId = req.session.user.id.toString();
+
+        const isPresent = meeting.present?.some(
+            participant => participant.userId === userId
+        );
+
+        if (!isPresent) {
+            return res.status(403).json({
+                message: "You are not present in this meeting",
+            });
+        }
+
+        if (String(meeting.current) !== String(questionId)) {
+            return res.status(400).json({
+                message: "This question is not currently active",
+            });
+        }
+
+        const question = meeting.agenda.find(
+            item => String(item.item_id) === String(questionId)
+        );
+
+        if (!question) {
+            return res.status(404).json({ message: "Question not found" });
+        }
+
+        const alreadyVoted =
+            question.yes?.some(v => v.userId === userId) ||
+            question.no?.some(v => v.userId === userId) ||
+            question.abstained?.some(v => v.userId === userId);
+
+        if (alreadyVoted) {
+            return res.status(409).json({
+                message: "You have already voted for this question",
+            });
+        }
+
+        const participant = getParticipantFromSession(req);
+        const field = `agenda.$.${choice}`;
+
+        await meetings.updateOne(
+            {
+                _id: new ObjectId(id),
+                status: "Active",
+                "agenda.item_id": Number(questionId),
+            },
+            {
+                $push: {
+                    [field]: participant,
+                },
+            }
+        );
+
+        return res.status(200).json({
+            message: "Vote recorded",
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Failed to record vote" });
+    }
+});
 
 async function startServer() {
     try {
