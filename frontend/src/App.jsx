@@ -13,6 +13,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import MeetingLivePage from "./pages/MeetingLivePage/MeetingLivePage";
 import CreateMeeting from "./pages/CreateMeeting/CreateMeeting";
 import Contacts from "./pages/Contacts/Contacts";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -139,6 +140,7 @@ function App() {
                     path="/contacts"
                     element={<Contacts user={user}/>}
                 />
+                <Route path="*" element={<NotFoundPage user={user} />} />
             </Routes>
             </main>
             <Footer />

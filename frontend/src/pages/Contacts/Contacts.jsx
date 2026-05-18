@@ -1,10 +1,9 @@
 import "./Contacts.scss"
 import Header from "../../components/Header/Header";
 function Contacts({user}) {
-    const userName = user?.name || null;
     return (
         <div className="contacts">
-            <Header user={name} />
+            <Header user={user?.name || null} />
             <div className="contacts__container">
                 <h1 className="contacts__title">
                     Для узгодження технічних питань звертайтесь до розробниці сайту:
