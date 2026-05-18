@@ -12,14 +12,11 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage/PrivacyPolicyPage";
 import { Navigate, Route, Routes } from "react-router-dom";
 import MeetingLivePage from "./pages/MeetingLivePage/MeetingLivePage";
 import CreateMeeting from "./pages/CreateMeeting/CreateMeeting";
-import ActiveMeetingPage from "./pages/ActiveMeetingPage/ActiveMeetingPage";
-import Header from "./components/Header/Header";
 import Contacts from "./pages/Contacts/Contacts";
 
 function App() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    console.log("GOOGLE CLIENT ID:", import.meta.env.VITE_GOOGLE_CLIENT_ID);
     useEffect(() => {
         async function checkAuth() {
             try {
