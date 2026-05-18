@@ -836,17 +836,21 @@ async function backfillActiveConvocation() {
     }
 }
 
-async function startServer() {
+async function init() {
     try {
         await connectDB();
         await backfillActiveConvocation();
-
-        app.listen(PORT, () => {
-            console.log(`Server running on http://localhost:${PORT}`);
-        });
     } catch (error) {
-        console.error("Failed to start server:", error);
+        console.error("Failed to initialize server:", error);
     }
 }
 
-startServer();
+await init();
+
+if (process.env.NODE_ENV !== "production") {
+    app.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+    });
+}
+
+export default app;
