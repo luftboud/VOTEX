@@ -3,7 +3,7 @@ import Header from "../../components/Header/Header";
 import MeetingResults from "../../components/MeetingResults/MeetingResults";
 import { useEffect, useState } from "react";
 
-function MeetingResultsPage() {
+function MeetingResultsPage({user}) {
     const { meetingId } = useParams();
     let [meeting, setMeeting] = useState(null);
     let [rendering, setRendering] = useState(true);
@@ -43,7 +43,7 @@ function MeetingResultsPage() {
 
     return (
         <div>
-            <Header/>
+            <Header name={user?.name ?? null}/>
             <MeetingResults meeting={meeting} />
         </div>
     );

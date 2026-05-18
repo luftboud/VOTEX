@@ -46,9 +46,9 @@
 
 /* modal */
 .vmodal { position: fixed; inset:0; display:flex; align-items:center; justify-content:center; background: rgba(0,0,0,0.38); animation: fadeIn 160ms ease; }
-.vmodal__box { background:white; padding:22px; border-radius:10px; max-width:420px; width:100%; box-shadow: 0 10px 30px rgba(2,6,23,0.2); }
+.vmodal__box { background:white; padding:22px; margin: 0 8px 0; border-radius:10px; max-width:420px; width:100%; box-shadow: 0 10px 30px rgba(2,6,23,0.2); }
 .vmodal__question { font-weight:600; margin:8px 0; }
-.vmodal__actions { display:flex; gap:10px; justify-content:flex-end; }
+.vmodal__actions { display:flex; gap: 16px; justify-content:center; }
 .vbtn { padding:8px 12px; border-radius:8px; border:1px solid transparent; cursor:pointer; }
 .vbtn--primary { background:#1e40af; color:white; border-color:#1e40af; }
 .vbtn--ghost { background:white; border-color:#d1d5db; }
@@ -61,6 +61,6 @@
   .vcard { padding: 20px; max-width: 92%; }
   .vcard__title { font-size: 20px; }
   .vcard__text { font-size: 14px; }
-  .vchoice { padding: 12px 20px; }
+  .vchoice { padding: 12px 20px; font-size: 12px}
 }
 

@@ -20,18 +20,18 @@ function Confirm({ open, onCancel, onConfirm, submitting }) {
 	if (!open) return null;
 
 	return (
-		<div className="vmodal">
-			<div className="vmodal__box">
-				<p className="vmodal__question">
+		<div className="createConvocation-modal">
+			<div className="createConvocation-modal__box">
+				<p className="createConvocation-modal__question">
 					Цю дію неможливо скасувати.
 					Усі архівні засідання та зареєстровані користувачі будуть остаточно видалені.
 					Перед продовженням ви можете завантажити архів засідань.
 				</p>
 
-				<div className="vmodal__actions">
+				<div className="createConvocation-modal__actions">
 					<button
 						type="button"
-						className="vbtn vbtn--ghost"
+						className="createConvocation-btn createConvocation-btn--ghost"
 						onClick={onCancel}
 						disabled={submitting}
 					>
@@ -42,7 +42,7 @@ function Confirm({ open, onCancel, onConfirm, submitting }) {
 
 					<button
 						type="button"
-						className="vbtn vbtn--primary"
+						className="createConvocation-btn createConvocation-btn--primary"
 						onClick={onConfirm}
 						disabled={submitting}
 					>

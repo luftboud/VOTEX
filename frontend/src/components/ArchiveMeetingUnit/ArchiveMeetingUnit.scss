@@ -2,18 +2,52 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 24px;
+
+  width: 100%;
+  box-sizing: border-box;
+
   padding: 25px;
   border-radius: 15px;
   border: 1px solid #E5E7EB;
 
+  &-content {
+    min-width: 0;
+    flex: 1;
+  }
+
+  &-title {
+    word-break: normal;
+    overflow-wrap: break-word;
+    line-height: 1.2;
+  }
+
   &-see-more-btn {
+    flex-shrink: 0;
     background: none;
     border: none;
     color: #155DFC;
     text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
   }
 
   &-see-more-btn:hover {
     color: #01246F;
+  }
+}
+
+@media (max-width: 600px) {
+  .archiveMeetingUnit__card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 24px 28px;
+
+    &-see-more-btn {
+      align-self: flex-start;
+      font-size: 16px;
+      white-space: normal;
+    }
   }
 }

@@ -2,6 +2,7 @@
   display: flex;
   gap: 32px;
   justify-content: center;
+  align-items: center;
   padding: 25px 50px;
 
   border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -10,16 +11,32 @@
     text-decoration: none;
     font-size: 14px;
     color: #4a5565;
+    transition: color 0.2s ease;
   }
 
   &__link:hover {
-    text-decoration: none;
-    font-size: 14px;
     color: #01246F;
   }
 
   &__span {
     font-weight: 300;
-    opacity: 10%;
+    opacity: 0.1;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer {
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px 16px;
+    text-align: center;
+
+    &__link {
+      font-size: 13px;
+    }
+
+    &__span {
+      display: none;
+    }
   }
 }

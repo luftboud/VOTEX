@@ -106,7 +106,7 @@ function App() {
 
                 <Route
                     path="/archive/:meetingId"
-                    element={<MeetingResultsPage />}
+                    element={<MeetingResultsPage user={user} />}
                 />
 
                 <Route
