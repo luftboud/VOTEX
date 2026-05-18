@@ -136,10 +136,18 @@ app.post("/api/auth/google", async (req, res) => {
             year: user.year || null,
         };
 
-        return res.status(200).json({
-            message: "Login successful",
-            user: req.session.user,
+        req.session.save((err) => {
+            if (err) {
+                console.error("Session save error:", err);
+                return res.status(500).json({ message: "Failed to save session" });
+            }
+
+            return res.status(200).json({
+                message: "Login successful",
+                user: req.session.user,
+            });
         });
+        
     } catch (error) {
         console.error("Google auth error:", error);
         return res.status(500).json({ message: "Authentication failed" });
