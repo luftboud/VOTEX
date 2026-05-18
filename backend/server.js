@@ -8,6 +8,9 @@ import {connectDB, getConvocationsCollection, getMeetingsCollection, getUsersCol
 
 dotenv.config();
 
+console.log("FRONTEND_URL =", process.env.FRONTEND_URL);
+console.log("NODE_ENV =", process.env.NODE_ENV);
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 

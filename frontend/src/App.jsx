@@ -17,8 +17,6 @@ import Contacts from "./pages/Contacts/Contacts";
 function App() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    console.log("FRONTEND_URL =", process.env.FRONTEND_URL);
-    console.log("NODE_ENV =", process.env.NODE_ENV);
     useEffect(() => {
         async function checkAuth() {
             try {
