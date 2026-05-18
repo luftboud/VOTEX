@@ -46,8 +46,6 @@ app.use(cors({
 
 app.use(express.json());
 
-console.log(process.env.MONGO_URI);
-
 app.set("trust proxy", 1);
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -55,7 +53,7 @@ app.use(session({
     saveUninitialized: false,
     proxy: true,
     store: MongoStore.create({
-        mongoUrl: process.env.MONGO_URI,
+        mongoUrl: process.env.MONGO_URL,
         collectionName: "sessions",
         ttl: 24 * 60 * 60,
     }),
