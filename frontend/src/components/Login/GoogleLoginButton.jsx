@@ -45,8 +45,6 @@ function GoogleLoginButton({ onLoginSuccess }) {
 
             const data = await res.json();
 
-            console.log("Backend login response:", data);
-
             if (!res.ok) {
                 console.error("Login failed:", data);
                 return;

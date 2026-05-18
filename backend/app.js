@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import { OAuth2Client } from "google-auth-library";
 import { ObjectId } from "mongodb";
 import {connectDB, getConvocationsCollection, getMeetingsCollection, getUsersCollection} from "./db.js";
+import MongoStore from "connect-mongo";
 
 dotenv.config();
 
@@ -45,14 +46,22 @@ app.use(cors({
 
 app.use(express.json());
 
+app.set("trust proxy", 1);
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    proxy: true,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGO_URI,
+        collectionName: "sessions",
+        ttl: 24 * 60 * 60,
+    }),
     cookie: {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        maxAge: 24 * 60 * 60 * 1000,
     },
 }));
 
@@ -171,7 +180,11 @@ app.post("/api/logout", (req, res) => {
             return res.status(500).json({ message: "Logout failed" });
         }
 
-        res.clearCookie("connect.sid");
+        res.clearCookie("connect.sid", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        });
         return res.status(200).json({ message: "Logged out" });
     });
 });

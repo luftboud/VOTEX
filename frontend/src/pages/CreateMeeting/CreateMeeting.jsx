@@ -66,7 +66,6 @@ function CreateMeeting({ user }) {
             }
 
             const data = await request.json();
-            console.log(data);
             setScheduled(data.meeting);
         }
 

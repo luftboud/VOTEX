@@ -6,8 +6,6 @@ function Login({ onAuthSuccess }) {
     const navigate = useNavigate();
 
     function handleLoginSuccess(user) {
-        console.log("Logged in user:", user);
-
         if (onAuthSuccess) {
             onAuthSuccess(user);
         }
