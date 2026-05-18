@@ -59,7 +59,7 @@ function MeetingRoom({ meeting_code, members, setActiveMeeting }) {
                     return;
                 }
 
-                setQuorum(Math.ceil(users_data.count / 2) + 1);
+                setQuorum(Math.floor(users_data.count / 2) + 1);
             } catch (error) {
                 console.error("Load users error:", error);
                 setError("Не вдалося завантажити дані для кворуму.");
