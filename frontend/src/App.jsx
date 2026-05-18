@@ -52,9 +52,6 @@ function App() {
         <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
             <main className="main">
             <Routes>
-                {/*
-                логіку шляхів -- треба розкоментувати потім
-                */}
                 <Route
                     path="/login"
                     element={
@@ -70,10 +67,9 @@ function App() {
                     element={
                         !user ? (
                             <Navigate to="/login" replace />
-                        ) : //isAdmin ? (
-                            //<Navigate to="/admin" replace />
-                        //) :
-                            (
+                        ) : isAdmin ? (
+                            <Navigate to="/admin" replace />
+                        ) : (
                             <UserHome user={user} />
                         )
                     }
