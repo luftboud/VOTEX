@@ -46,6 +46,8 @@ app.use(cors({
 
 app.use(express.json());
 
+console.log(process.env.MONGO_URI);
+
 app.set("trust proxy", 1);
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -147,7 +149,7 @@ app.post("/api/auth/google", async (req, res) => {
                 user: req.session.user,
             });
         });
-        
+
     } catch (error) {
         console.error("Google auth error:", error);
         return res.status(500).json({ message: "Authentication failed" });
