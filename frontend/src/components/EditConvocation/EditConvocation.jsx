@@ -377,6 +377,13 @@ function EditConvocation() {
 						const faculty = FACULTIES[facultyKey];
 						const max = getFacultyMax(facultyKey);
 						const reps = grouped[facultyKey] ?? { bachelor: [], master: [] };
+						const visibleDegrees = DEGREES.filter(
+							(degree) => max[degree] > 0 || reps[degree].length > 0,
+						);
+						const limitParts = [
+							max.bachelor > 0 ? `${max.bachelor} бакалаврів` : null,
+							max.master > 0 ? `${max.master} магістрів` : null,
+						].filter(Boolean);
 
 						return (
 							<article
@@ -391,11 +398,11 @@ function EditConvocation() {
 								<header className="editConvocation__sectionHeader">
 									<h3 className="editConvocation__sectionTitle">{faculty.name}</h3>
 									<p className="editConvocation__sectionMeta">
-										Максимум: {max.bachelor} бакалаврів, {max.master} магістрів
+										Максимум: {limitParts.join(", ")}
 									</p>
 								</header>
 								<div className="editConvocation__sectionBody">
-									{DEGREES.map((degree) => (
+									{visibleDegrees.map((degree) => (
 										<DegreeGroup
 											key={degree}
 											degree={degree}

@@ -78,6 +78,18 @@ export const FACULTIES = {
 			{ key: "theology-master", name: "Богослов'я (магістратура)", degree: "master" },
 		],
 	},
+	"business-school": {
+		name: "Бізнес-школа",
+		short: "Бізнес-школа",
+		palette: { border: "#5eead4", background: "#f0fdfa", heading: "#115e59" },
+		programs: [
+			{ key: "marketing-management", name: "Менеджмент маркетингової діяльності", degree: "master" },
+			{ key: "innovation-entrepreneurship", name: "Інновації та підприємництво", degree: "master" },
+			{ key: "impact-organizations", name: "Управління організаціями, які впливають", degree: "master" },
+			{ key: "business-administration", name: "Бізнес адміністрування", degree: "master" },
+			{ key: "technology-management", name: "Управління технологіями", degree: "master" },
+		],
+	},
 };
 
 export const FACULTY_ORDER = [
@@ -87,6 +99,7 @@ export const FACULTY_ORDER = [
 	"health-sciences",
 	"humanities",
 	"philosophy-theology",
+	"business-school",
 ];
 
 export const PROGRAMS = Object.fromEntries(
