@@ -4,7 +4,7 @@ import session from "express-session";
 import dotenv from "dotenv";
 import { OAuth2Client } from "google-auth-library";
 import { ObjectId } from "mongodb";
-import {connectDB, getConvocationsCollection, getMeetingsCollection, getUsersCollection} from "./db.js";
+import {connectDB, getConvocationsCollection, getMeetingsCollection, getMongoClientPromise, getUsersCollection} from "./db.js";
 import MongoStore from "connect-mongo";
 
 dotenv.config();
@@ -53,7 +53,8 @@ app.use(session({
     saveUninitialized: false,
     proxy: true,
     store: MongoStore.create({
-        mongoUrl: process.env.MONGO_URL,
+        clientPromise: getMongoClientPromise(),
+        dbName: process.env.MONGO_DB_NAME,
         collectionName: "sessions",
         ttl: 24 * 60 * 60,
     }),
@@ -230,7 +231,6 @@ app.patch("/api/activateMeeting", requireAdmin, async (req, res) => {
             {
                 $set: {
                     status: "Active",
-                    code: null
                 }
             },
             {
@@ -504,10 +504,17 @@ app.post("/api/meetings/join-by-code", requireAuth, async (req, res) => {
 
         const meetings = getMeetingsCollection();
 
-        const meeting = await meetings.findOne({
+        let meeting = await meetings.findOne({
             code: numericCode,
-            status: "Scheduled",
+            status: { $in: ["Scheduled", "Active"] },
         });
+
+        if (!meeting) {
+            meeting = await meetings.findOne({
+                status: "Active",
+                code: null,
+            });
+        }
 
         if (!meeting) {
             return res.status(404).json({
@@ -520,7 +527,7 @@ app.post("/api/meetings/join-by-code", requireAuth, async (req, res) => {
         await meetings.updateOne(
             {
                 _id: meeting._id,
-                status: "Scheduled",
+                status: { $in: ["Scheduled", "Active"] },
                 "present.userId": { $ne: participant.userId },
             },
             {

@@ -35,7 +35,6 @@ function CreateMeeting({ user }) {
                 present: data.present,
             }));
 
-            setPage("waiting");
         }
     }
 
@@ -53,35 +52,39 @@ function CreateMeeting({ user }) {
 
     const [scheduledMeeting, setScheduled] = useState(null);
     const [activeMeeting, setActiveMeeting] = useState(null);
-    const [page, setPage] = useState("form");
 
     useEffect(() => {
+        let cancelled = false;
+
         async function fetchScheduledMeetings() {
             const request = await fetch(`${import.meta.env.VITE_API_URL}/api/isScheduledMeetings`, {
                 credentials: "include",
             });
+            if (cancelled) {
+                return;
+            }
             if (request.status === 404) {
                 setScheduled(null);
                 return;
             }
 
             const data = await request.json();
-            setScheduled(data.meeting);
+            if (!cancelled) {
+                setScheduled(data.meeting);
+            }
         }
 
         fetchScheduledMeetings();
-
-        if (page === "form") {
-            return;
-        }
 
         const intervalId = setInterval(() => {
             fetchScheduledMeetings();
         }, 2500);
 
-        return () => clearInterval(intervalId);
-
-    }, [page])
+        return () => {
+            cancelled = true;
+            clearInterval(intervalId);
+        };
+    }, [])
 
     useEffect(() => {
         async function fetchActiveMeeting() {
