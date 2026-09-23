@@ -74,5 +74,11 @@
       flex-direction: column;
       gap: 16px;
     }
+
+    &-empty {
+      margin: 16px 0 0;
+      color: #6B7280;
+      font-size: 16px;
+    }
   }
 }

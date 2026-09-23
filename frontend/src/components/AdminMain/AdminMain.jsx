@@ -87,16 +87,20 @@ function AdminMain() {
 					</header>
 
 					<div className="adminMain__meeting-list">
-						{meetings
-							.filter(meeting => meeting.status === "Closed")
-							.sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
-							.slice(0, 2)
-							.map(meeting => (
-							<article className="adminMain__meeting-card">
-								<h4 className="adminMain__meeting-title">{meeting.name}</h4>
-								<p className="adminMain__meeting-meta">{meeting.datetime.split("T")[0]}</p>
-							</article>
-						))}
+						{meetings.filter(meeting => meeting.status === "Closed").length === 0 ? (
+							<p className="adminMain__empty">Поки що тут пусто</p>
+						) : (
+							meetings
+								.filter(meeting => meeting.status === "Closed")
+								.sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
+								.slice(0, 2)
+								.map(meeting => (
+								<article className="adminMain__meeting-card" key={meeting._id}>
+									<h4 className="adminMain__meeting-title">{meeting.name}</h4>
+									<p className="adminMain__meeting-meta">{meeting.datetime.split("T")[0]}</p>
+								</article>
+							))
+						)}
 					</div>
 				</article>
 

@@ -130,18 +130,22 @@ function UserMain() {
                 </div>
 
                 <div className="userMain__container-meeting-archive-cardholder">
-                    {meetings
-                        .filter(meeting => meeting.status === "Closed")
-                        .sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
-                        .slice(0, 3)
-                        .map(meeting => (
-                            <ArchiveMeetingUnit
-                                key={meeting._id}
-                                id={meeting._id}
-                                name={meeting.name}
-                                date={meeting.datetime.split("T")[0]}
-                            />
-                        ))}
+                    {meetings.filter(meeting => meeting.status === "Closed").length === 0 ? (
+                        <p className="userMain__container-meeting-archive-empty">Поки що тут пусто</p>
+                    ) : (
+                        meetings
+                            .filter(meeting => meeting.status === "Closed")
+                            .sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
+                            .slice(0, 3)
+                            .map(meeting => (
+                                <ArchiveMeetingUnit
+                                    key={meeting._id}
+                                    id={meeting._id}
+                                    name={meeting.name}
+                                    date={meeting.datetime.split("T")[0]}
+                                />
+                            ))
+                    )}
                 </div>
             </div>
         </div>

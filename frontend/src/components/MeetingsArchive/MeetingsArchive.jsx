@@ -65,11 +65,13 @@ function MeetingsArchive({user}) {
 		fetchMeetings();
 	}, [])
 
+	const closedMeetings = useMemo(() => {
+		return meetings.filter(meeting => meeting.status === "Closed");
+	}, [meetings]);
+
 	const filteredMeetings = useMemo(() => {
-		return meetings
-			.filter(meeting => meeting.status === "Closed")
-			.filter(meeting => matchesSearch(meeting, search));
-	}, [meetings, search]);
+		return closedMeetings.filter(meeting => matchesSearch(meeting, search));
+	}, [closedMeetings, search]);
 
 	return (
 		<main className="meetingsArchive">
@@ -114,15 +116,22 @@ function MeetingsArchive({user}) {
 			</div>
 
 			<div className="meetingsArchive__list">
-				{filteredMeetings
-					.sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
-					.map((meeting) => (
-						<ArchiveMeetingUnit
-							id={meeting._id}
-							name={meeting.name}
-							date={meeting.datetime.split("T")[0]}
-						/>
-				))}
+				{closedMeetings.length === 0 ? (
+					<p className="meetingsArchive__empty">Поки що тут пусто</p>
+				) : filteredMeetings.length === 0 ? (
+					<p className="meetingsArchive__empty">Нічого не знайдено</p>
+				) : (
+					filteredMeetings
+						.sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
+						.map((meeting) => (
+							<ArchiveMeetingUnit
+								key={meeting._id}
+								id={meeting._id}
+								name={meeting.name}
+								date={meeting.datetime.split("T")[0]}
+							/>
+						))
+				)}
 			</div>
 		</main>
 	);

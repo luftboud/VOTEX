@@ -61,6 +61,12 @@
 		gap: 12px;
 	}
 
+	&__empty {
+		margin: 8px 0 0;
+		color: #6B7280;
+		font-size: 16px;
+	}
+
 	&__item {
 		display: flex;
 		justify-content: space-between;
