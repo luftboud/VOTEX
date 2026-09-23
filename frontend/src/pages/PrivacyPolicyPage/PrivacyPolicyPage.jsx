@@ -47,11 +47,9 @@ function HeaderIcon({ type }) {
 }
 
 function PrivacyPolicyPage({ user }) {
-    const userName = user?.name || null;
-
     return (
         <main className="infoDocsPage infoDocsPage--privacy">
-            <Header name={userName}/>
+            <Header user={user} />
 
             <section className="infoDocsPage__content">
                 <header className="infoDocsPage__heading">

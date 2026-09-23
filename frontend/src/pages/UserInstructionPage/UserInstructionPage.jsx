@@ -50,11 +50,9 @@ function HeaderIcon({ type }) {
 }
 
 function UserInstructionPage({ user }) {
-    const userName = user?.name || null;
-
     return (
         <main className="infoDocsPage">
-            <Header name={userName}/>
+            <Header user={user} />
 
             <section className="infoDocsPage__content">
                 <header className="infoDocsPage__heading">

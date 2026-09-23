@@ -4,7 +4,7 @@ import Header from "../../components/Header/Header";
 function Contacts({ user }) {
 	return (
 		<div className="contacts">
-			<Header user={user?.name || null} />
+			<Header user={user} />
 			<main className="contacts__main">
 				<header className="contacts__heading">
 					<p className="contacts__eyebrow">Підтримка</p>

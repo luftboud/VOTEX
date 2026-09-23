@@ -283,7 +283,7 @@ function EditConvocation() {
 								type="url"
 								value={form.avatar}
 								onChange={(event) => updateForm({ avatar: event.target.value })}
-								placeholder="https://drive.google.com/uc?export=view&id=..."
+								placeholder="https://drive.google.com/file/d/..."
 							/>
 						</div>
 

@@ -100,12 +100,9 @@ function CreateMeeting({ user }) {
         fetchActiveMeeting();
     }, [])
 
-    const userName = user?.name
     return (
         <div>
-            <Header
-                name={userName}
-            />
+            <Header user={user} />
             {activeMeeting !== null ? (
                 <ActiveMeetingPage />
             ) : scheduledMeeting !== null ? (

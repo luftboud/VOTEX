@@ -132,6 +132,7 @@ app.post("/api/auth/google", async (req, res) => {
             email: user.email,
             kernel: user.kernel,
             name: user.name || name,
+            avatar: user.avatar || "",
             major: user.major || null,
             year: user.year || null,
         };
@@ -154,9 +155,25 @@ app.post("/api/auth/google", async (req, res) => {
     }
 });
 
-app.get("/api/me", (req, res) => {
+app.get("/api/me", async (req, res) => {
     if (!req.session.user) {
         return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    try {
+        const dbUser = await findUserByEmail(req.session.user.email);
+        if (dbUser) {
+            req.session.user = {
+                ...req.session.user,
+                name: dbUser.name || req.session.user.name,
+                kernel: Boolean(dbUser.kernel),
+                avatar: dbUser.avatar || "",
+                major: dbUser.major ?? req.session.user.major ?? null,
+                year: dbUser.year ?? req.session.user.year ?? null,
+            };
+        }
+    } catch (error) {
+        console.error("Failed to refresh session user:", error);
     }
 
     return res.status(200).json({ user: req.session.user });

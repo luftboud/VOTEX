@@ -7,7 +7,7 @@ function NotFoundPage({user}) {
 
     return (
         <div>
-            <Header name={user?.name || null}/>
+            <Header user={user} />
             <main className="notFound">
                 <section className="notFound__card">
                     <p className="notFound__code">404</p>

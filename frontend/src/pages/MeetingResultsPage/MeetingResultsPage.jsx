@@ -43,7 +43,7 @@ function MeetingResultsPage({user}) {
 
     return (
         <div>
-            <Header name={user?.name ?? null}/>
+            <Header user={user} />
             <MeetingResults meeting={meeting} />
         </div>
     );
