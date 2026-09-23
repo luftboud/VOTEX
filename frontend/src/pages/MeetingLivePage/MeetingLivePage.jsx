@@ -5,6 +5,7 @@ import WaitingForReps from "../../components/VotingPages/WaitingForReps";
 import VotingPage from "../../components/VotingPages/VotingPage";
 import VoteRecorded from "../../components/VotingPages/VoteRecorded";
 import MeetingFinished from "../../components/VotingPages/MeetingFinished";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 function MeetingLivePage() {
     const { meetingId } = useParams();
@@ -116,7 +117,7 @@ function MeetingLivePage() {
     }
 
     if (liveState.loading) {
-        return <div>Loading...</div>;
+        return <LoadingPage />;
     }
 
     if (liveState.state === "not_found") {

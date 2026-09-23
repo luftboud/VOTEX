@@ -13,6 +13,7 @@ import {
 	getProgramsByFacultyAndDegree,
 	getYearOptions,
 } from "../../constants/faculties.js";
+import LoadingPage from "../../pages/LoadingPage/LoadingPage";
 import "./EditConvocation.scss";
 
 const API = import.meta.env.VITE_API_URL;
@@ -218,7 +219,7 @@ function EditConvocation() {
 	}
 
 	if (loading) {
-		return <div className="editConvocation__loading">Завантаження...</div>;
+		return <LoadingPage />;
 	}
 
 	if (notFound) {

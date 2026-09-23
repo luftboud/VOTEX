@@ -1,0 +1,33 @@
+.loadingPage {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+
+  &__cat {
+    width: min(220px, 58vw);
+    height: auto;
+    transform-origin: center center;
+    transition: transform 0.25s ease-in-out;
+  }
+
+  &__label {
+    margin: 0;
+    color: #01246F;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loadingPage__cat {
+    transition: none;
+  }
+}

@@ -8,6 +8,7 @@ import VoteStats from "../../components/VoteStats/VoteStats";
 import VotingControls from "../../components/VotingControls/VotingControls";
 import MeetingFinished from "../../components/MeetingFinished/MeetingFinished";
 
+import LoadingPage from "../LoadingPage/LoadingPage";
 import "./ActiveMeetingPage.scss"
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -38,7 +39,7 @@ function ActiveMeetingPage() {
     }, []);
 
     if (!meeting) {
-        return <p>Завантаження...</p>;
+        return <LoadingPage />;
     }
 
     const questions = meeting.agenda;

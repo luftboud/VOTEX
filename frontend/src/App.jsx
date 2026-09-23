@@ -14,6 +14,7 @@ import MeetingLivePage from "./pages/MeetingLivePage/MeetingLivePage";
 import CreateMeeting from "./pages/CreateMeeting/CreateMeeting";
 import Contacts from "./pages/Contacts/Contacts";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import LoadingPage from "./pages/LoadingPage/LoadingPage";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -45,7 +46,7 @@ function App() {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <LoadingPage />;
     }
     const isAdmin = user?.kernel;
 

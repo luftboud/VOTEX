@@ -1,6 +1,7 @@
 import { Navigate, useParams } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import MeetingResults from "../../components/MeetingResults/MeetingResults";
+import LoadingPage from "../LoadingPage/LoadingPage";
 import { useEffect, useState } from "react";
 
 function MeetingResultsPage({user}) {
@@ -34,7 +35,7 @@ function MeetingResultsPage({user}) {
     }, [meetingId]);
 
     if (rendering) {
-        return <div>Вантажиться...</div>;
+        return <LoadingPage />;
     }
 
     if (not_found) {
