@@ -154,11 +154,10 @@ function UserInstructionPage({ user }) {
                             </div>
 
                             <div className="infoDocsBlock">
-                                <h3 className="infoDocsBlock__title">Керування членами</h3>
+                                <h3 className="infoDocsBlock__title">Керування скликаннями</h3>
                                 <ul className="infoDocsList infoDocsList--plain">
                                     <li>Створюйте нове скликання для кожного академічного року</li>
                                     <li>Додавайте членів за електронною поштою</li>
-                                    <li>Призначайте ролі: Президент, Секретар тощо</li>
                                     <li>Видаляйте або оновлюйте членів за потреби</li>
                                 </ul>
                             </div>

@@ -56,7 +56,7 @@ function PrivacyPolicyPage({ user }) {
             <section className="infoDocsPage__content">
                 <header className="infoDocsPage__heading">
                     <h1 className="infoDocsPage__title">Політика конфіденційності</h1>
-                    <p className="infoDocsPage__subtitle">Востаннє оновлено: 29 березня 2026</p>
+                    <p className="infoDocsPage__subtitle">Востаннє оновлено: 23 вересня 2026</p>
                 </header>
 
                 <div className="infoDocsPage__cards">
@@ -88,7 +88,7 @@ function PrivacyPolicyPage({ user }) {
                                 <ul className="infoDocsList infoDocsList--plain">
                                     <li>Ім’я та електронна пошта через Google-автентифікацію</li>
                                     <li>Належність до університету</li>
-                                    <li>Роль у Раді студентів та факультет</li>
+                                    <li>Факультет та програма</li>
                                 </ul>
                             </div>
                             <div className="infoDocsBlock">
@@ -97,14 +97,6 @@ function PrivacyPolicyPage({ user }) {
                                     <li>Записи відвідуваності засідань</li>
                                     <li>Подані голоси, анонімізовані</li>
                                     <li>Часові позначки дій голосування</li>
-                                </ul>
-                            </div>
-                            <div className="infoDocsBlock">
-                                <h3 className="infoDocsBlock__title">Технічна інформація</h3>
-                                <ul className="infoDocsList infoDocsList--plain">
-                                    <li>IP-адреса та інформація про пристрій</li>
-                                    <li>Тип і версія браузера</li>
-                                    <li>Часові позначки доступу</li>
                                 </ul>
                             </div>
                         </div>
@@ -123,7 +115,6 @@ function PrivacyPolicyPage({ user }) {
                                 <li>Для проведення сесій голосування та фіксації відвідуваності</li>
                                 <li>Для створення узагальнених результатів голосування та статистики</li>
                                 <li>Для ведення архівів засідань та історичних записів</li>
-                                <li>Для покращення платформи та забезпечення безпеки системи</li>
                             </ul>
                         </div>
                     </article>
@@ -163,7 +154,6 @@ function PrivacyPolicyPage({ user }) {
                             <ul className="infoDocsList">
                                 <li>Адміністрації університету, коли це вимагається політикою</li>
                                 <li>Коли це вимагається законом або судовими процедурами</li>
-                                <li>Для захисту прав, власності або безпеки користувачів</li>
                             </ul>
                         </div>
                     </article>
@@ -180,7 +170,7 @@ function PrivacyPolicyPage({ user }) {
                             <ul className="infoDocsList">
                                 <li>Отримати доступ до своєї особистої інформації</li>
                                 <li>Попросити виправити неточні дані</li>
-                                <li>Переглядати свою історію голосування та записи відвідуваності</li>
+                                <li>Переглядати історію голосувань</li>
                                 <li>Попросити видалення даних, з урахуванням законодавчих вимог</li>
                             </ul>
                         </div>
