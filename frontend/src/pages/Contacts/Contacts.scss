@@ -3,6 +3,13 @@
 	flex: 1;
 	flex-direction: column;
 	background: #f9fafb;
+	box-sizing: border-box;
+
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
 
 	&__main {
 		width: 100%;
@@ -205,14 +212,18 @@
 	}
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
 	.contacts {
 		&__main {
-			padding: 28px 12px 40px;
+			padding: 24px 16px 36px;
+		}
+
+		&__heading {
+			margin-bottom: 20px;
 		}
 
 		&__title {
-			font-size: 24px;
+			font-size: 26px;
 			line-height: 32px;
 		}
 
@@ -224,10 +235,58 @@
 		&__card,
 		&__hint {
 			padding: 16px;
+			border-radius: 12px;
+		}
+
+		&__person {
+			gap: 12px;
+			padding-bottom: 16px;
+		}
+
+		&__avatar {
+			width: 48px;
+			height: 48px;
+			font-size: 16px;
+		}
+
+		&__name {
+			font-size: 18px;
+			line-height: 24px;
+		}
+
+		&__role {
+			font-size: 14px;
+			line-height: 20px;
 		}
 
 		&__actions {
 			grid-template-columns: 1fr;
+			gap: 10px;
+			margin-top: 16px;
+		}
+
+		&__action {
+			padding: 12px 14px;
+		}
+
+		&__actionValue {
+			white-space: normal;
+			overflow-wrap: anywhere;
+		}
+
+		&__hintTitle {
+			font-size: 15px;
+			line-height: 22px;
+		}
+
+		&__list li {
+			font-size: 14px;
+			line-height: 22px;
+		}
+
+		&__note {
+			font-size: 13px;
+			line-height: 20px;
 		}
 	}
 }
